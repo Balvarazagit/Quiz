@@ -27,7 +27,10 @@ app.use("/api/results", require("./routes/results"));
 app.use("/api/admin", require("./routes/admin"));
 
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URI, { 
+    // useNewUrlParser: true, 
+    // useUnifiedTopology: true 
+  })
   .then(() => {
     console.log("✅ MongoDB Connected");
     server.listen(process.env.PORT || 5000, () =>
