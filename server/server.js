@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
+// require("dotenv").config();
 
 const http = require("http");
 const { Server } = require("socket.io");
@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -29,14 +29,20 @@ app.get("/", (req, res) => {
   res.send("✅ Backend is Live!");
 });
 
+if (!process.env.MONGO_URI) {
+  console.error("❌ MONGO_URI is missing! Check Render environment variables.");
+  process.exit(1);
+}
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB Connected");
     server.listen(process.env.PORT || 5000, () =>
-      console.log(`🚀 Server running on port ${process.env.PORT}`)
+      console.log(`🚀 Server running on port ${process.env.PORT || 5000}`)
     );
-  })
-  .catch((err) => console.log(err));
+  })  
+  .catch((err) => { console.error("❌ MongoDB Connection Error:", err)
+    process.exit(1)});
 
 const rooms = {};
 
