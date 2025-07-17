@@ -25,6 +25,9 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/quiz", require("./routes/quiz"));
 app.use("/api/results", require("./routes/results"));
 app.use("/api/admin", require("./routes/admin"));
+app.get("/", (req, res) => {
+  res.send("✅ Backend is Live!");
+});
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
