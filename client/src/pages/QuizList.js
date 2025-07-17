@@ -6,7 +6,7 @@ function QuizList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/quiz/all')
+    fetch(`${process.env.REACT_APP_API_URL}/api/quiz/all`)
       .then(res => res.json())
       .then(data => setQuizzes(data))
       .catch(err => console.error(err));

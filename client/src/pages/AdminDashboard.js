@@ -21,7 +21,7 @@ function AdminDashboard() {
     if (searchPIN) query.append('pin', searchPIN);
     if (filter) query.append('filter', filter);
 
-    fetch(`http://localhost:5000/api/results/all?${query.toString()}`)
+    fetch(`${process.env.REACT_APP_API_URL}/api/results/all?${query.toString()}`)
       .then((res) => res.json())
       .then(setResults)
       .catch(console.error);

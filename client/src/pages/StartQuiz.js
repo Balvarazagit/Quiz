@@ -10,7 +10,7 @@ function StartQuiz() {
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/quiz/${id}`)
+    fetch(`https://quiz-backend-nrd7.onrender.com/api/quiz/${id}`)
       .then(res => res.json())
       .then(data => setQuiz(data));
   }, [id]);
