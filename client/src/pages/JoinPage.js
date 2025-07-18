@@ -7,7 +7,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'; // if using react-router
 
-const socket = io('http://localhost:5000');
+const socket = io('https://quiz-backend-nrd7.onrender.com', {
+  transports: ['websocket'],
+});
   
 function JoinPage() {
   const [pin, setPin] = useState('');
