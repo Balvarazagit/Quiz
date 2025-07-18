@@ -19,7 +19,11 @@ const Quiz = require("./models/Quiz");
 const QuizResult = require("./models/QuizResult"); // ✅ Import QuizResult
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+  {
+    origin:'*',
+  }
+));
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/quiz", require("./routes/quiz"));
