@@ -11,6 +11,9 @@ import StartQuiz from './pages/StartQuiz';
 import HostPage from './pages/HostPage';
 import JoinPage from './pages/JoinPage';
 import AdminDashboard from './pages/AdminDashboard';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -23,9 +26,18 @@ function App() {
         <Route path="/create-quiz" element={<CreateQuiz />} />
         <Route path="/quiz-list" element={<QuizList />} />
         <Route path="/start/:id" element={<StartQuiz />} />
-        <Route path="/host" element={<HostPage />} />
+        <Route
+          path="/host"
+          element={ 
+            <ProtectedRoute>
+              <HostPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/admindashboard" element={<AdminDashboard/>} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
     </Router>
     <ToastContainer position="top-center" autoClose={2000} />

@@ -47,6 +47,9 @@ const [showPassword, setShowPassword] = useState(false);
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
           </div>
+          <p className="forgot-password">
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </p>
       <button type="submit">Login</button>
       <p>Don't have an account? <Link to="/">Register here</Link></p>   
     </form>

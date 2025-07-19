@@ -88,3 +88,57 @@
   font-size: 18px;
   color: #555;
 }
+
+.auth-wrapper .forgot-password {
+  margin: 0px 0px 10px 0px;
+  text-align: right;
+}
+
+.forgot-password a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+/* Existing styles remain unchanged */
+
+.back-login-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 12px;
+}
+
+.back-login-btn:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Toastify overrides */
+.Toastify__toast {
+  font-size: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.Toastify__toast--success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.Toastify__toast--error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Eye icon hover effect */
+.eye-icon:hover {
+  color: #3b82f6;
+  transition: color 0.2s ease-in-out;
+}

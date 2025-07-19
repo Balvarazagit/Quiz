@@ -204,6 +204,7 @@ if (scoreboard && scoreboard.length > 0) {
               className="w-full mb-3 px-4 py-2 border rounded-md"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
             <input
               type="text"
