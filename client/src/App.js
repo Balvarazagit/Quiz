@@ -14,15 +14,23 @@ import AdminDashboard from './pages/AdminDashboard';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import ProtectedRoute from './components/ProtectedRoute';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
     <>
     <Router>
       <Routes>
-        <Route path="/" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
         <Route path="/create-quiz" element={<CreateQuiz />} />
         <Route path="/quiz-list" element={<QuizList />} />
         <Route path="/start/:id" element={<StartQuiz />} />
@@ -38,6 +46,7 @@ function App() {
         <Route path="/admindashboard" element={<AdminDashboard/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
     <ToastContainer position="top-center" autoClose={2000} />
