@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const socket = io('https://quiz-backend-nrd7.onrender.com', {
+const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
 });
 

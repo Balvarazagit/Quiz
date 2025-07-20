@@ -38,4 +38,18 @@ router.get('/all', async (req, res) => {
   }
 });
 
+// 🗑️ DELETE results by quizId
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleted = await QuizResult.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ message: "Result not found" });
+
+    res.json({ message: "Deleted successfully", deleted });
+  } catch (error) {
+    console.error("❌ Delete failed:", error);
+    res.status(500).json({ message: "Delete failed" });
+  }
+});
+
 module.exports = router;

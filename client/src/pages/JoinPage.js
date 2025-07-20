@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'; // if using react-router
 
-const socket = io('https://quiz-backend-nrd7.onrender.com', {
+const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
 });
   
@@ -22,12 +22,12 @@ function JoinPage() {
   const [scoreboard, setScoreboard] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(30);
   const [width, height] = useWindowSize();
   const [showAnswer, setShowAnswer] = useState(false);
-  const [players, setPlayers] = useState([]);
-  const [questionNumber, setQuestionNumber] = useState(1);
-  const [isQuizOver, setIsQuizOver] = useState(false);
+  // const [players, setPlayers] = useState([]);
+  // const [questionNumber, setQuestionNumber] = useState(1);
+  // const [isQuizOver, setIsQuizOver] = useState(false);
   const [questionStartTime, setQuestionStartTime] = useState(null);
   const [myScore, setMyScore] = useState(0); // 🆕 track own score
   const [answerTime, setAnswerTime] = useState(null);
@@ -37,8 +37,14 @@ function JoinPage() {
 
 
   const joinQuiz = () => {
-    socket.emit('join-quiz', { pin, name });
-  };
+
+  if (!name.trim()) {
+    toast.error("⚠️ Please enter your name!");
+    return;
+  }
+
+  socket.emit("join-quiz", { pin, name });
+};
 
   const answerQuestion = (selectedOption) => {
     setSelectedAnswer(selectedOption);
@@ -47,7 +53,7 @@ function JoinPage() {
     setAnswerTime(now); // 🆕 Store time of answering
 
     const timeTaken = (now - questionStartTime) / 1000;
-    const maxTime = 10;
+    const maxTime = 30;
     const baseScore = 1000;
     const score = Math.max(0, Math.round(baseScore * ((maxTime - timeTaken) / maxTime)));
 
@@ -102,7 +108,7 @@ useEffect(() => {
   setSelectedAnswer(null);
   setCorrectAnswer(data.correct);
 
-  const remaining = data.timeLeft ?? 10;
+  const remaining = data.timeLeft ?? 30;
   setTimeLeft(remaining);
 
   setShowAnswer(remaining === 0); // ✅ If time is over, show answer immediately
@@ -156,7 +162,7 @@ useEffect(() => {
     if (showAnswer && selectedAnswer && correctAnswer) {
       const isCorrect = selectedAnswer === correctAnswer;
       const timeTaken = (answerTime - questionStartTime) / 1000;
-      const maxTime = 10;
+      const maxTime = 30;
       const baseScore = 1000;
       const earned = Math.max(0, Math.round(baseScore * ((maxTime - timeTaken) / maxTime)));
 
@@ -203,7 +209,7 @@ if (scoreboard && scoreboard.length > 0) {
               placeholder="Enter Name"
               className="w-full mb-3 px-4 py-2 border rounded-md"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {setName(e.target.value); setError("");}}
               required
             />
             <input
@@ -271,7 +277,7 @@ if (scoreboard && scoreboard.length > 0) {
   <div
     className="h-full bg-blue-500 transition-all duration-1000"
     style={{
-      width: `${(timeLeft / 10) * 100}%`
+      width: `${(timeLeft / 30) * 100}%`
     }}
   ></div>
 </div>

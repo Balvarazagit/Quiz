@@ -66,7 +66,7 @@ router.post("/forgot-password", async (req, res) => {
     const resetLink = `${process.env.FRONTEND_URI}/reset-password/${token}`;
 
     await transporter.sendMail({
-      from: `"Quiz App" <balvaraza2@gmail.com>`,
+      from: `"Quiz App" ${process.env.EMAIL}`,
       to: email,
       subject: "Reset your password",
       html: `<p>Click the link to reset your password:</p><a href="${resetLink}">${resetLink}</a>`,
@@ -107,6 +107,18 @@ router.post("/reset-password/:token", async (req, res) => {
   await user.save();
 
   res.json({ message: "Password reset successful" });
+});
+
+// DELETE a user by ID
+router.delete('/users/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    await User.findByIdAndDelete(userId);
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to delete user' });
+  }
 });
 
 module.exports = router;

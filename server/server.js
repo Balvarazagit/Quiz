@@ -32,6 +32,7 @@ app.use("/api/admin", require("./routes/admin"));
 app.get("/", (req, res) => {
   res.send("✅ Backend is Live!");
 });
+app.use('/api/users', require('./routes/users'));
 
 if (!process.env.MONGO_URI) {
   console.error("❌ MONGO_URI is missing! Check Render environment variables.");
@@ -77,6 +78,10 @@ socket.on("join-quiz", ({ pin, name }) => {
     return;
   }
 
+   if (!name || name.trim().length === 0) {
+    socket.emit("error-pin", { message: "Name is required" });
+    return;
+  }
   // Join socket room
   socket.join(pin);
 
@@ -96,7 +101,7 @@ if (room.quizStarted && room.quiz) {
   if (currentQ) {
     const questionStart = room.questionStartTime || Date.now();
     const elapsed = Math.floor((Date.now() - questionStart) / 1000);
-    const remaining = Math.max(0, 10 - elapsed); // ⏱️ assuming 10s per question
+    const remaining = Math.max(0, 30 - elapsed); // ⏱️ assuming 30s per question
 
     io.to(socket.id).emit("receive-question", {
       question: currentQ.question,
@@ -191,7 +196,7 @@ socket.on("start-quiz", async ({ pin }) => {
 
     setTimeout(() => {
       io.to(room.host).emit("auto-next");
-    }, 10000);
+    }, 30000);
   } catch (err) {
     console.log("❌ Error in next-question:", err.message);
   }

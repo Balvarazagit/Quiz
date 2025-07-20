@@ -9,6 +9,7 @@ function CreateQuiz() {
   const [questions, setQuestions] = useState([
     { question: '', options: ['', '', '', ''], correct: '' }
   ]);
+  const [loading, setLoading] = useState(false); // 🆕 Loading state
   const navigate = useNavigate();
 
   const handleAddQuestion = () => {
@@ -51,6 +52,7 @@ function CreateQuiz() {
     }
 
     const token = localStorage.getItem('token');
+    setLoading(true); // 🆕 Start loading
 
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/create`, {
@@ -79,6 +81,8 @@ function CreateQuiz() {
       }
     } catch (err) {
       toast.error('⚠️ Something went wrong!');
+    } finally {
+      setLoading(false); // 🆕 Stop loading
     }
   };
 
@@ -133,8 +137,8 @@ function CreateQuiz() {
         <button type="button" onClick={handleAddQuestion} className="add-btn">
           + Add Another Question
         </button>
-        <button type="submit" onClick={handleSubmit} className="submit-btn">
-          ✅ Submit Quiz
+        <button type="submit" onClick={handleSubmit} className="submit-btn" disabled={loading}>
+          {loading ? <span className="spinner"></span> : '✅ Submit Quiz'}
         </button>
       </div>
     </div>

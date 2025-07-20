@@ -1,4 +1,3 @@
-// client/src/pages/Login.js
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../pages/styles/auth.css';
@@ -7,51 +6,67 @@ import { toast } from 'react-toastify';
 
 function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
+    setLoading(true);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
 
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      toast.success('Login successful');
-      navigate('/dashboard');
-    } else {
-      toast.error(data.message || 'Login failed');
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        toast.success('Login successful');
+        navigate('/dashboard');
+      } else {
+        toast.error(data.message || 'Login failed');
+      }
+    } catch (err) {
+      toast.error('Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <form className="auth-wrapper" onSubmit={handleSubmit}>
       <h2>Login</h2>
-      <input type="email" name="email" placeholder="Email Address" onChange={handleChange} required />
-          <div className="password-field">
-              <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  placeholder="Password"
-                  onChange={handleChange}
-                  required
-              />
-              <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
-          </div>
-          <p className="forgot-password">
-            <Link to="/forgot-password">Forgot Password?</Link>
-          </p>
-      <button type="submit">Login</button>
-      <p>Don't have an account? <Link to="/">Register here</Link></p>   
+      <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        onChange={handleChange}
+        required
+      />
+      <div className="password-field">
+        <input
+          type={showPassword ? 'text' : 'password'}
+          name="password"
+          placeholder="Password"
+          onChange={handleChange}
+          required
+        />
+        <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
+      </div>
+      <p className="forgot-password">
+        <Link to="/forgot-password">Forgot Password?</Link>
+      </p>
+      <button type="submit" disabled={loading}>
+        {loading ? <span className="spinner"></span> : 'Login'}
+      </button>
+      <p>Don't have an account? <Link to="/">Register here</Link></p>
     </form>
   );
 }

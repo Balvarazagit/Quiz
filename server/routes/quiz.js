@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Quiz = require('../models/Quiz');
 const auth = require('../middleware/auth');
+const User = require('../models/User');
+
 
 // ✅ [POST] Create a new quiz
 router.post('/create', auth, async (req, res) => {
@@ -63,5 +65,39 @@ router.get('/by-user/me', auth, async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch user quizzes' });
   }
 });
+
+// GET /api/quizzes/admin/all
+router.get('/admin/all', async (req, res) => {
+  try {
+    const quizzes = await Quiz.find()
+      .populate('createdBy', 'name email') // Get name & email of creator
+      .sort({ createdAt: -1 });
+
+    const formatted = quizzes.map(q => ({
+      _id: q._id,
+      title: q.title,
+      host: q.createdBy,
+      createdAt: q.createdAt
+    }));
+
+    res.json(formatted);
+  } catch (err) {
+    console.error("Error fetching quizzes:", err);
+    res.status(500).json({ message: 'Failed to fetch quizzes' });
+  }
+});
+
+// DELETE a quiz by ID
+router.delete('/:quizId', async (req, res) => {
+  const { quizId } = req.params;
+  try {
+    await Quiz.findByIdAndDelete(quizId);
+    res.json({ message: 'Quiz deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to delete quiz' });
+  }
+});
+
 
 module.exports = router;
