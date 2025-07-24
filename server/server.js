@@ -50,6 +50,7 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1)});
 
 const rooms = {};
+const answerTracker = {}; 
 
 io.on("connection", (socket) => {
   console.log("🟢 Socket connected:", socket.id);
@@ -68,7 +69,6 @@ io.on("connection", (socket) => {
 
     socket.join(pin);
     socket.emit("quiz-hosted", { pin });
-    console.log("🎯 Host started quiz with PIN:", pin, "Quiz ID:", quizId);
   });
 
 socket.on("join-quiz", ({ pin, name }) => {
@@ -111,15 +111,10 @@ if (room.quizStarted && room.quiz) {
       timeLeft: remaining
     });
 
-    console.log(`✅ Sent live question to ${name} with ${remaining}s left`);
   }
 }
-
-
-  console.log(`🟢 ${name} joined quiz ${pin}`);
 });
   
-
 socket.on("start-quiz", async ({ pin }) => {
   const room = rooms[pin];
   if (!room) return;
@@ -139,7 +134,9 @@ socket.on("start-quiz", async ({ pin }) => {
       question: firstQuestion.question,
       options: firstQuestion.options,
       correct: firstQuestion.correct,
-      startTime: room.questionStartTime
+      startTime: room.questionStartTime,
+      index: room.currentQuestionIndex, 
+      total: quiz.questions.length,
     });
 
     io.to(pin).emit("quiz-started");
@@ -185,13 +182,17 @@ socket.on("start-quiz", async ({ pin }) => {
       return;
     }
 
-    room.questionStartTime = Date.now(); // 🕓 reset for new question
+    room.questionStartTime = Date.now();
+    answerTracker[pin] = {};
+     // 🕓 reset for new question
 
     io.to(pin).emit("receive-question", {
       question: nextQ.question,
       options: nextQ.options,
       correct: nextQ.correct,
-      startTime: room.questionStartTime
+      startTime: room.questionStartTime,
+      index: room.currentQuestionIndex, 
+      total: quiz.questions.length,
     });
 
     setTimeout(() => {
@@ -203,37 +204,51 @@ socket.on("start-quiz", async ({ pin }) => {
 });
 
 
-  socket.on("submit-answer", ({ pin, name, answer, score }) => {
-    const room = rooms[pin];
-    if (!room || !room.quiz) return;
+ socket.on("submit-answer", ({ pin, name, answer, score }) => {
+  const room = rooms[pin];
+  if (!room || !room.quiz) return;
 
-    const index = room.currentQuestionIndex;
-    const question = room.quiz.questions[index];
-    if (!question) return;
+  const index = room.currentQuestionIndex;
+  const question = room.quiz.questions[index];
+  if (!question) return;
 
-    const correctAnswer = question.correct;
+  const correctAnswer = question.correct;
 
-    if (!room.scores) room.scores = {};
-    if (!room.streaks) room.streaks = {};
+  if (!room.scores) room.scores = {};
+  if (!room.streaks) room.streaks = {};
 
-    if (answer === correctAnswer) {
-      room.scores[name] = (room.scores[name] || 0) + (score || 0);
-      room.streaks[name] = (room.streaks[name] || 0) + 1;
-    } else {
-      room.streaks[name] = 0;
-    }
+  if (answer === correctAnswer) {
+    room.scores[name] = (room.scores[name] || 0) + (score || 0);
+    room.streaks[name] = (room.streaks[name] || 0) + 1;
+  } else {
+    room.streaks[name] = 0;
+  }
 
-    console.log(`[ANSWER] ${name} => ${answer} | +${score} pts | Total: ${room.scores[name]} | Streak: ${room.streaks[name]}`);
+  // ✅ TRACK OPTION COUNTS FOR GRAPH
+  if (!answerTracker[pin]) answerTracker[pin] = {};
+  if (!answerTracker[pin][answer]) answerTracker[pin][answer] = 0;
+  answerTracker[pin][answer] += 1;
 
-    // 🔁 Live scoreboard update
-    const scoreboard = room.players.map(p => ({
-      name: p.name,
-      score: room.scores[p.name] || 0,
-      streak: room.streaks[p.name] || 0,
-    })).sort((a, b) => b.score - a.score);
+  // ✅ CALCULATE totalAnswers
+  const totalAnswers = Object.values(answerTracker[pin]).reduce((sum, val) => sum + val, 0);
+  const stats = {
+    totalAnswers,
+    ...answerTracker[pin],
+  };
 
-    io.to(pin).emit("scoreboard-update", scoreboard);
-  });
+  io.to(pin).emit("answer-stats", stats); // 📊 For host chart
+  io.to(pin).emit("answer-submitted", { name, answer }); // 🧑‍🎓 For host list
+
+  // ✅ Live scoreboard update
+  const scoreboard = room.players.map(p => ({
+    name: p.name,
+    score: room.scores[p.name] || 0,
+    streak: room.streaks[p.name] || 0,
+  })).sort((a, b) => b.score - a.score);
+
+  io.to(pin).emit("scoreboard-update", scoreboard);
+});
+
 
   socket.on("send-question", ({ pin, question }) => {
     io.to(pin).emit("receive-question", question);
@@ -262,7 +277,6 @@ socket.on("start-quiz", async ({ pin }) => {
   // ✅ Update player list on host side
   io.to(pin).emit("player-joined", { players: room.players });
 
-  console.log(`❌ Player ${playerId} (${player?.name}) was kicked from quiz ${pin}`);
 });
 
 

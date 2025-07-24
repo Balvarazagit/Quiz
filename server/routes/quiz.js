@@ -58,7 +58,7 @@ router.get('/:id', async (req, res) => {
 // ✅ [OPTIONAL] Get all quizzes created by logged-in user
 router.get('/by-user/me', auth, async (req, res) => {
   try {
-    const quizzes = await Quiz.find({ createdBy: req.user.id }).select('title _id createdAt');
+    const quizzes = await Quiz.find({ createdBy: req.user.id }).select('title _id createdAt questions');
     res.json(quizzes);
   } catch (err) {
     console.error('❌ Fetch user quizzes error:', err);

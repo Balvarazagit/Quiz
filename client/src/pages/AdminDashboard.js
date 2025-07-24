@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import AdminLogin from './AdminLogin';
+import { 
+  FiSearch, 
+  FiCalendar, 
+  FiTrash2, 
+  FiAward, 
+  FiStar,
+  FiChevronDown,
+  FiFilter,
+  FiX
+} from 'react-icons/fi';
+import '../pages/styles/AdminDashboard.css'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FILTER_OPTIONS = [
   { label: 'All Time', value: 'all' },
@@ -7,7 +20,7 @@ const FILTER_OPTIONS = [
   { label: 'Last 7 Days', value: 'last7' },
   { label: 'This Month', value: 'month' },
 ];
-const TABS = ['Users', 'Quiz Results', 'Quizzes'];
+const TABS = ['Users', 'Quiz Results', 'Quizzes'];  
 
 function AdminDashboard() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -19,7 +32,17 @@ function AdminDashboard() {
   const [filter, setFilter] = useState('all');
   const [userSearch, setUserSearch] = useState('');
   const [quizSearch, setQuizSearch] = useState('');
-  const [quizSortBy, setQuizSortBy] = useState('date'); // 'date' or 'name'
+  const [quizSortBy, setQuizSortBy] = useState('date');
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Results Fetch
   useEffect(() => {
@@ -63,10 +86,10 @@ function AdminDashboard() {
         method: 'DELETE',
       });
       const data = await res.json();
-      alert(data.message || 'Deleted');
+      toast.success(data.message || 'Deleted');
       setResults(prev => prev.filter(r => r._id !== id));
     } catch (e) {
-      alert('Error deleting result.');
+      toast.error('Error deleting result.');
       console.error(e);
     }
   };
@@ -82,7 +105,6 @@ function AdminDashboard() {
   const filteredQuizzes = quizzes
     .filter((q) => {
       const search = quizSearch.toLowerCase();
-
       return (
         q._id.toLowerCase().includes(search) ||
         q.title.toLowerCase().includes(search) ||
@@ -108,15 +130,11 @@ function AdminDashboard() {
         method: 'DELETE',
       });
       const data = await res.json();
-      alert(data.message);
-
-      // Refetch quizzes after deletion
-      const updated = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/admin/all`)
-        .then(res => res.json());
-      setQuizzes(updated);
+      toast.success(data.message);
+      setQuizzes(prev => prev.filter(q => q._id !== quizId));
     } catch (err) {
-      console.error("❌ Error deleting quiz:", err);
-      alert("Failed to delete quiz");
+      console.error("Error deleting quiz:", err);
+      toast.error("Failed to delete quiz");
     }
   };
 
@@ -131,219 +149,411 @@ function AdminDashboard() {
       const data = await res.json();
 
       if (res.ok) {
-        alert(data.message);
-        // Remove user from local state
-        setUsers((prev) => prev.filter((user) => user._id !== userId));
+        toast.success(data.message);
+        setUsers(prev => prev.filter(user => user._id !== userId));
       } else {
-        alert('Failed to delete user');
+        toast.error('Failed to delete user');
       }
     } catch (err) {
       console.error(err);
-      alert('Error deleting user');
+      toast.error('Error deleting user');
     }
   };
 
-
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-5xl mx-auto bg-white shadow-xl rounded-lg p-6">
-        <h1 className="text-2xl font-bold text-indigo-700 mb-6">📊 Admin Dashboard</h1>
+    <div className="admin-dashboard">
+      <div className="dashboard-glass">
+        {/* Header */}
+        <div className="dashboard-header">
+          <h1>
+            <span className="header-icon">🌱</span>
+            Quiz Admin Portal
+          </h1>
+          <div className="header-accent"></div>
+        </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-6 border-b">
+        <div className="dashboard-tabs">
           {TABS.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`py-2 px-4 text-sm font-medium ${activeTab === tab
-                  ? 'border-b-2 border-indigo-600 text-indigo-700'
-                  : 'text-gray-500'
-                }`}
+              className={`tab-btn ${activeTab === tab ? 'active' : ''}`}
             >
               {tab}
+              {activeTab === tab && <span className="tab-underline"></span>}
             </button>
           ))}
         </div>
 
-        {/* === USERS === */}
+        {/* Users Tab */}
         {activeTab === 'Users' && (
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Registered Users</h2>
-
-            {users.length === 0 ? (
-              <p className="text-gray-500 text-center">No users found.</p>
+          <div className="tab-content">
+            <div className="search-box">
+              <input
+                type="text"
+                placeholder="🔍 Search users..."
+                value={userSearch}
+                onChange={(e) => setUserSearch(e.target.value)}
+              />
+            </div>
+            
+            {filteredUsers.length === 0 ? (
+              <div className="empty-state">
+                <img src="/empty-users.svg" alt="No users" />
+                <p>No users found</p>
+              </div>
             ) : (
-              <div className="overflow-x-auto rounded-md shadow border">
-                <table className="min-w-full text-sm">
-                  <thead className="bg-indigo-100 text-indigo-900 text-left">
-                    <tr>
-                      <th className="p-3">User ID</th>
-                      <th className="p-3">Name</th>
-                      <th className="p-3">Email</th>
-                      <th className="p-3 text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {users.map((user) => (
-                      <tr key={user._id} className="even:bg-gray-50 hover:bg-indigo-50 border-t">
-                        <td className="p-3 text-gray-600">{user._id}</td>
-                        <td className="p-3">{user.name}</td>
-                        <td className="p-3">{user.email}</td>
-                        <td className="p-3 text-center">
-                          <button
-                            onClick={() => handleDeleteUser(user._id)}
-                            className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-xs transition"
-                          >
-                            🗑 Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="user-cards">
+                {filteredUsers.map(user => (
+                  <div key={user._id} className="user-card">
+                    <div className="user-avatar">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="user-details">
+                      <h3>{user.name}</h3>
+                      <p>{user.email}</p>
+                      <div className="user-id">{isMobile ? `${user._id}` : user._id}</div>
+                    </div>
+                    <button 
+                      onClick={() => handleDeleteUser(user._id)}
+                      className="delete-btn"
+                    >
+                      {isMobile ? '🗑️' : '🗑️ Delete'}
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </div>
         )}
 
-
-
-        {/* === QUIZ RESULTS === */}
+        {/* Quiz Results Tab */}
         {activeTab === 'Quiz Results' && (
-          <div>
-            {/* Filters */}
-            <div className="flex flex-wrap gap-3 mb-4">
-              <input
-                type="text"
-                placeholder="Search by PIN"
-                value={searchPIN}
-                onChange={(e) => setSearchPIN(e.target.value)}
-                className="border px-3 py-2 rounded-md w-52"
-              />
-              <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                className="border px-3 py-2 rounded-md"
-              >
-                {FILTER_OPTIONS.map((f) => (
-                  <option key={f.value} value={f.value}>
-                    {f.label}
-                  </option>
-                ))}
-              </select>
+          <div className="results-tab">
+            <div className="results-header">
+              <div className="search-filter">
+                <div className="search-bar">
+                  <FiSearch className="search-icon" />
+                  <input
+                    type="text"
+                    placeholder="Search by PIN..."
+                    value={searchPIN}
+                    onChange={(e) => setSearchPIN(e.target.value)}
+                  />
+                </div>
+                {isMobile ? (
+                  <>
+                    <button 
+                      className="mobile-filter-btn"
+                      onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
+                    >
+                      <FiFilter /> Filters
+                    </button>
+                    {mobileFilterOpen && (
+                      <div className="mobile-filter-dropdown">
+                        <div className="filter-header">
+                          <h4>Filter Options</h4>
+                          <button onClick={() => setMobileFilterOpen(false)}>
+                            <FiX />
+                          </button>
+                        </div>
+                        {FILTER_OPTIONS.map((f) => (
+                          <button
+                            key={f.value}
+                            className={`filter-option ${filter === f.value ? 'active' : ''}`}
+                            onClick={() => {
+                              setFilter(f.value);
+                              setMobileFilterOpen(false);
+                            }}
+                          >
+                            {f.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <select
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="time-filter"
+                  >
+                    {FILTER_OPTIONS.map((f) => (
+                      <option key={f.value} value={f.value}>{f.label}</option>
+                    ))}
+                  </select>
+                )}
+              </div>
+              <div className="stats-card">
+                <div className="stat-item">
+                  <span className="stat-value">{results.length}</span>
+                  <span className="stat-label">Results</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-value">
+                    {results.reduce((acc, curr) => acc + curr.players.length, 0)}
+                  </span>
+                  <span className="stat-label">Participants</span>
+                </div>
+              </div>
             </div>
 
             {results.length === 0 ? (
-              <p className="text-gray-500">No quiz results found.</p>
+              <div className="empty-results">
+                <div className="empty-state">
+                  <svg
+                    viewBox="0 0 400 300"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ maxWidth: '100%' }}
+                  >
+                    <style>
+                      {`
+            @keyframes float {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-10px); }
+            }
+            @keyframes pulse {
+              0%, 100% { opacity: 1; }
+              50% { opacity: 0.7; }
+            }
+            @keyframes rotate {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+            .magnifier {
+              animation: float 3s ease-in-out infinite;
+            }
+            .glass {
+              animation: pulse 2s ease infinite;
+            }
+            .search-line {
+              stroke-dasharray: 100;
+              stroke-dashoffset: 100;
+              animation: dash 1.5s linear infinite;
+            }
+            @keyframes dash {
+              to { stroke-dashoffset: 0; }
+            }
+            .confetti {
+              opacity: 0;
+            }
+            .confetti:nth-child(1) { animation: fall 3s ease-in infinite; }
+            .confetti:nth-child(2) { animation: fall 3s ease-in 0.5s infinite; }
+            .confetti:nth-child(3) { animation: fall 3s ease-in 1s infinite; }
+            .confetti:nth-child(4) { animation: fall 3s ease-in 1.5s infinite; }
+            .confetti:nth-child(5) { animation: fall 3s ease-in 2s infinite; }
+            @keyframes fall {
+              0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+              20% { opacity: 1; }
+              100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
+            }
+          `}
+                    </style>
+
+                    {/* Background */}
+                    <rect width="400" height="300" fill="#f8f9fa" rx="10" />
+
+                    {/* Magnifier with animation */}
+                    <g className="magnifier" transform="translate(150, 80)">
+                      <circle className="glass" cx="50" cy="50" r="40" fill="none" stroke="#6c757d" strokeWidth="4" strokeDasharray="5,5" />
+                      <path d="M90 90 L120 120" stroke="#6c757d" strokeWidth="4" strokeLinecap="round" className="search-line" />
+                      <circle cx="50" cy="50" r="30" fill="none" stroke="#6c757d" strokeWidth="2" />
+                      <path d="M50 30 A20 20 0 0 1 50 70 A20 20 0 0 1 50 30 Z" fill="#e9ecef" />
+                    </g>
+
+                    {/* Confetti animation */}
+                    <rect className="confetti" x="50" y="-20" width="15" height="15" fill="#ff6b6b" rx="3" />
+                    <rect className="confetti" x="100" y="-20" width="15" height="15" fill="#4ecdc4" rx="3" transform="rotate(45)" />
+                    <rect className="confetti" x="200" y="-20" width="15" height="15" fill="#ffe66d" rx="3" />
+                    <rect className="confetti" x="250" y="-20" width="15" height="15" fill="#a5d8ff" rx="3" transform="rotate(30)" />
+                    <rect className="confetti" x="300" y="-20" width="15" height="15" fill="#b2f2bb" rx="3" transform="rotate(60)" />
+
+                    {/* Text */}
+                    <text x="200" y="180" fontFamily="Arial, sans-serif" fontSize="24" fontWeight="bold" textAnchor="middle" fill="#495057">
+                      No Results Found
+                    </text>
+
+                    {/* Modern decorative elements */}
+                    <circle cx="50" cy="50" r="5" fill="#ff6b6b" opacity="0.7">
+                      <animate attributeName="r" values="5;8;5" dur="4s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="350" cy="250" r="7" fill="#4ecdc4" opacity="0.7">
+                      <animate attributeName="r" values="7;10;7" dur="3s" repeatCount="indefinite" />
+                    </circle>
+                  </svg>
+                </div>
+                <p>Try adjusting your search or time filter</p>
+              </div>
             ) : (
-              results.map((result, i) => (
-                <div
-                  key={i}
-                  className="mb-6 p-5 rounded-lg bg-gradient-to-br from-blue-50 to-purple-50 border border-gray-200 shadow-md"
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="text-sm text-gray-700 font-semibold">Quiz PIN: {result.pin}</div>
-                    <div className="text-xs text-gray-500">
-                      {new Date(result.date).toLocaleString()}
+              <div className="results-grid">
+                {results.map((result) => (
+                  <div key={result._id} className="result-card">
+                    <div className="card-header">
+                      <div className="quiz-meta">
+                        <span className="quiz-pin">PIN: {result.pin}</span>
+                        <span className="quiz-date">
+                          <FiCalendar /> {new Date(result.date).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <button 
+                        onClick={() => handleDeleteResults(result._id)}
+                        className="delete-btn"
+                      >
+                        <FiTrash2 />
+                      </button>
+                    </div>
+
+                    <div className="player-leaderboard">
+                      <div className="leaderboard-header">
+                        <span>Rank</span>
+                        <span>Player</span>
+                        <span>Score</span>
+                      </div>
+                      {result.players.slice(0, isMobile ? 3 : undefined).map((player, idx) => (
+                        <div 
+                          key={idx} 
+                          className={`player-row ${idx < 3 ? 'podium-' + (idx + 1) : ''}`}
+                        >
+                          <span className="player-rank">
+                            {idx === 0 ? <FiAward className="gold" /> : 
+                            idx === 1 ? <FiAward className="silver" /> : 
+                            idx === 2 ? <FiAward className="bronze" /> : `#${idx + 1}`}
+                          </span>
+                          <span className="player-name">
+                            {player.name}
+                            {idx < 3 && <span className="podium-badge">Top {idx + 1}</span>}
+                          </span>
+                          <span className="player-score">
+                            {player.score} <FiStar className="score-icon" />
+                          </span>
+                        </div>
+                      ))}
+                      {isMobile && result.players.length > 3 && (
+                        <div className="mobile-show-more">
+                          + {result.players.length - 3} more players
+                        </div>
+                      )}
                     </div>
                   </div>
-
-                  <div className="bg-white rounded-md overflow-hidden">
-                    <table className="min-w-full text-sm table-auto border-collapse">
-                      <thead>
-                        <tr className="bg-indigo-100 text-indigo-800">
-                          <th className="py-2 px-4 text-left">#</th>
-                          <th className="py-2 px-4 text-left">Player</th>
-                          <th className="py-2 px-4 text-right">Score</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {result.players.map((p, idx) => (
-                          <tr
-                            key={idx}
-                            className={`${idx === 0 ? 'bg-yellow-100' : 'hover:bg-gray-50'
-                              } border-b`}
-                          >
-                            <td className="py-2 px-4">{idx + 1}</td>
-                            <td className="py-2 px-4">{p.name}</td>
-                            <td className="py-2 px-4 text-right font-bold text-indigo-600">
-                              {p.score} pts
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <button
-                    onClick={() => handleDeleteResults(result._id)}
-                    className="mt-2 text-red-500 text-sm hover:underline"
-                  >
-                    🗑 Delete Result
-                  </button>
-                </div>
-              ))
-            )}
-          </div>
-        )}
-
-
-        {/* === QUIZZES === */}
-        {activeTab === 'Quizzes' && (
-          <div>
-            {/* Search and Sort */}
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="🔍 Search quizzes..."
-                className="px-4 py-2 border rounded-md w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
-                value={quizSearch}
-                onChange={(e) => setQuizSearch(e.target.value)}
-              />
-            </div>
-
-            {/* Table */}
-            {quizzes.length === 0 ? (
-              <p className="text-gray-500 text-center">No quizzes found.</p>
-            ) : (
-              <div className="overflow-x-auto rounded-md shadow-md border">
-                <table className="min-w-full text-sm">
-                  <thead className="bg-indigo-100 text-indigo-900 text-left">
-                    <tr>
-                      <th className="p-3">Quiz ID</th>
-                      <th className="p-3">Title</th>
-                      <th className="p-3">Host Name</th>
-                      <th className="p-3">Host Email</th>
-                      <th className="p-3">Created On</th>
-                      <th className="p-3 text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredQuizzes.map((quiz) => (
-                      <tr key={quiz._id} className="even:bg-gray-50 hover:bg-indigo-50 border-t">
-                        <td className="p-3 text-gray-600">{quiz._id}</td>
-                        <td className="p-3 font-medium">{quiz.title}</td>
-                        <td className="p-3">{quiz.host?.name || 'N/A'}</td>
-                        <td className="p-3">{quiz.host?.email || 'N/A'}</td>
-                        <td className="p-3 text-gray-500">{new Date(quiz.createdAt).toLocaleDateString()}</td>
-                        <td className="p-3 text-center">
-                          <button
-                            onClick={() => handleDeleteQuiz(quiz._id)}
-                            className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-xs transition"
-                          >
-                            🗑 Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                ))}
               </div>
             )}
           </div>
         )}
 
+        {/* Quizzes Tab */}
+        {activeTab === 'Quizzes' && (
+          <div className="quizzes-tab">
+            <div className="quizzes-header">
+              <div className="header-content">
+                <h2 className="section-title">
+                  <span className="title-icon">🧩</span>
+                  Quiz Management
+                </h2>
+                <p className="section-subtitle">View and manage all created quizzes</p>
+              </div>
+              
+              <div className="controls">
+                <div className="search-container glassmorphism">
+                  <div className="search-icon">🔍</div>
+                  <input
+                    type="text"
+                    placeholder="Search by title, ID or host..."
+                    value={quizSearch}
+                    onChange={(e) => setQuizSearch(e.target.value)}
+                    className="search-input"
+                  />
+                  <div className="search-underline"></div>
+                </div>
+                
+                <div className="sort-tabs glassmorphism">
+                  <button
+                    onClick={() => setQuizSortBy('date')}
+                    className={`sort-tab ${quizSortBy === 'date' ? 'active' : ''}`}
+                  >
+                    <span className="tab-icon">🕒</span>
+                    {!isMobile && <span className="tab-label">Newest First</span>}
+                  </button>
+                  <button
+                    onClick={() => setQuizSortBy('name')}
+                    className={`sort-tab ${quizSortBy === 'name' ? 'active' : ''}`}
+                  >
+                    <span className="tab-icon">🔠</span>
+                    {!isMobile && <span className="tab-label">A-Z</span>}
+                  </button>
+                </div>
+              </div>
+            </div>
 
+            {filteredQuizzes.length === 0 ? (
+              <div className="empty-state glassmorphism">
+                <div className="empty-illustration">
+                  <div className="puzzle-piece">🧩</div>
+                  <div className="magnifying-glass">🔍</div>
+                </div>
+                <h3>No quizzes match your search</h3>
+                <p>Try different keywords or create a new quiz</p>
+                <button 
+                  onClick={() => { setQuizSearch(''); setQuizSortBy('date'); }}
+                  className="reset-btn neon-hover"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            ) : (
+              <div className="quiz-cards-container">
+                {filteredQuizzes.map(quiz => (
+                  <div key={quiz._id} className="quiz-card glassmorphism">
+                    <div className="card-header">
+                      <div className="quiz-title-wrapper">
+                        <h3 className="quiz-title">{quiz.title}</h3>
+                      </div>
+                      <div className="quiz-id-wrapper">
+                        {!isMobile ? <span className="id-label">ID:</span> : ''}
+                        <span className="quiz-id" title={quiz._id}>
+                          {isMobile ? `${quiz._id}` : quiz._id}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="card-body">
+                      <div className="info-row">
+                        <span className="info-label">Host:</span>
+                        <div className="host-info">
+                          <span className="host-name">{quiz.host?.name || "System"}</span>
+                            <span className="host-email">{quiz.host?.email || ""}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="info-row">
+                        <span className="info-label">Created:</span>
+                        <div className="date-info">
+                          <span className="create-date">
+                            {new Date(quiz.createdAt).toLocaleDateString()}
+                          </span>
+                            <span className="create-time">
+                              {new Date(quiz.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                            </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="card-footer">
+                      <button 
+                        onClick={() => handleDeleteQuiz(quiz._id)}
+                        className="delete-btn slide-hover"
+                      >
+                        <span className="btn-icon">🗑️</span>
+                        {!isMobile && <span className="btn-text">Delete Quiz</span>}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

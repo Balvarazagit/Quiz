@@ -15,6 +15,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
+import Myquizzes from './pages/Myquizzes';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
           <Route
             path="/dashboard"
@@ -46,6 +48,7 @@ function App() {
         <Route path="/admindashboard" element={<AdminDashboard/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/my-quizzes" element={<Myquizzes/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

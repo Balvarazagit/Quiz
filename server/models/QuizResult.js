@@ -9,7 +9,7 @@ const quizResultSchema = new mongoose.Schema({
     {
       name: String,
       score: Number,
-      streak: Number
+      streak: Number  
     }
   ],
 });
