@@ -1,0 +1,247 @@
+:root {
+  --primary: #4CAF50;
+  --primary-light: #81C784;
+  --primary-dark: #388E3C;
+  --secondary: #FFC107;
+  --dark: #263238;
+  --light: #ECEFF1;
+  --gray: #757575;
+  --light-gray: #EEEEEE;
+  --transition: all 0.3s ease;
+}
+
+/* Footer Base Styles */
+.footer {
+  background-color: var(--dark);
+  color: white;
+  padding: 4rem 0 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2.5rem;
+}
+
+.footer-section {
+  margin-bottom: 2rem;
+}
+
+/* About Section */
+.footer-about {
+  max-width: 300px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.25rem;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+  color: var(--primary-light);
+}
+
+.footer-description {
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  color: var(--light-gray);
+  font-size: 0.95rem;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.social-icon {
+  color: var(--light-gray);
+  font-size: 1.3rem;
+  transition: var(--transition);
+}
+
+.social-icon:hover {
+  color: var(--primary-light);
+  transform: translateY(-3px);
+}
+
+/* Section Titles */
+.footer-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: white;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--primary);
+  border-radius: 3px;
+}
+
+/* Links Section */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.85rem;
+}
+
+.footer-link {
+  color: var(--light-gray);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: var(--transition);
+  display: inline-block;
+}
+
+.footer-link:hover {
+  color: var(--primary-light);
+  transform: translateX(5px);
+}
+
+/* Contact Section */
+.footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-contact li {
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: var(--light-gray);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.contact-icon {
+  color: var(--primary-light);
+  font-size: 1.1rem;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+}
+
+.footer-bottom-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: var(--light-gray);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-legal a {
+  color: var(--light-gray);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.footer-legal a:hover {
+  color: var(--primary-light);
+}
+
+.divider {
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .footer-container {
+    gap: 2rem;
+  }
+  
+  .footer-section {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 0 0;
+  }
+  
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+  
+  .footer-about {
+    grid-column: 1 / -1;
+    max-width: 100%;
+  }
+  
+  .footer-bottom-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .footer-title {
+    margin-bottom: 1.25rem;
+  }
+  
+  .footer-links li {
+    margin-bottom: 0.75rem;
+  }
+  
+  .footer-contact li {
+    margin-bottom: 1rem;
+  }
+  
+  .footer-bottom {
+    margin-top: 2rem;
+  }
+}

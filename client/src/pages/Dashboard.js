@@ -70,7 +70,7 @@ function Dashboard() {
             <span className="hamburger-line"></span>
             <span className="hamburger-line"></span>
           </button>
-          <div className="mobile-logo">🧩 QuizHandler</div>
+          <div className="mobile-logo">🧩 QuizMaster</div>
           <div className="mobile-user-avatar">
             {user?.name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
@@ -80,7 +80,7 @@ function Dashboard() {
       {/* Sidebar */}
       <aside className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <div className="logo">🧩 QuizHandler</div>
+          <div className="logo">🧩 QuizMaster</div>
           <div className="user-info">
             <div className="user-avatar">{user?.name?.charAt(0)?.toUpperCase() || 'U'}</div>
             <div className="user-details">

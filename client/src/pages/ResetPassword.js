@@ -80,10 +80,10 @@ function ResetPassword() {
         <form onSubmit={handleSubmit}>
           <div className="quiz-input-group">
             <label htmlFor="password">
-              <FaLock className="input-icon" />
+              <FaLock className="reset-input-icon" />
               <span>New Password</span>
             </label>
-            <div className="quiz-password-input">
+            <div className="quiz-reset-password-input">
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
@@ -115,10 +115,10 @@ function ResetPassword() {
 
           <div className="quiz-input-group">
             <label htmlFor="confirmPassword">
-              <FaCheck className="input-icon" />
+              <FaCheck className="reset-input-icon" />
               <span>Confirm Password</span>
             </label>
-            <div className="quiz-password-input">
+            <div className="quiz-reset-password-input">
               <input
                 type={showConfirm ? "text" : "password"}
                 id="confirmPassword"

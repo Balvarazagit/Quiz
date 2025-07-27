@@ -6,8 +6,6 @@ import Dashboard from './pages/Dashboard';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateQuiz from './pages/CreateQuiz';
-import QuizList from './pages/QuizList';
-import StartQuiz from './pages/StartQuiz';
 import HostPage from './pages/HostPage';
 import JoinPage from './pages/JoinPage';
 import AdminDashboard from './pages/AdminDashboard';
@@ -16,13 +14,17 @@ import ResetPassword from './pages/ResetPassword';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
 import Myquizzes from './pages/Myquizzes';
+import Analytics from './pages/Analytics';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
     <>
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
           <Route
@@ -34,8 +36,6 @@ function App() {
             }
           />
         <Route path="/create-quiz" element={<CreateQuiz />} />
-        <Route path="/quiz-list" element={<QuizList />} />
-        <Route path="/start/:id" element={<StartQuiz />} />
         <Route
           path="/host"
           element={ 
@@ -50,6 +50,9 @@ function App() {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/my-quizzes" element={<Myquizzes/>} />
         <Route path="*" element={<NotFound />} />
+        <Route path='/analytics' element={<Analytics/>} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
     <ToastContainer position="top-center" autoClose={2000} />

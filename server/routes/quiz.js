@@ -42,18 +42,18 @@ router.get('/all', async (req, res) => {
 });
 
 // ✅ [GET] Fetch quiz by ID (used when starting/joining)
-router.get('/:id', async (req, res) => {
-  try {
-    const quiz = await Quiz.findById(req.params.id);
-    if (!quiz) {
-      return res.status(404).json({ message: 'Quiz not found' });
-    }
-    res.json(quiz);
-  } catch (err) {
-    console.error('❌ Fetch quiz by ID error:', err);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+// router.get('/:id', async (req, res) => {
+//   try {
+//     const quiz = await Quiz.findById(req.params.id);
+//     if (!quiz) {
+//       return res.status(404).json({ message: 'Quiz not found' });
+//     }
+//     res.json(quiz);
+//   } catch (err) {
+//     console.error('❌ Fetch quiz by ID error:', err);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
 
 // ✅ [OPTIONAL] Get all quizzes created by logged-in user
 router.get('/by-user/me', auth, async (req, res) => {
@@ -98,6 +98,41 @@ router.delete('/:quizId', async (req, res) => {
     res.status(500).json({ message: 'Failed to delete quiz' });
   }
 });
+
+// ⚠️ Specific first
+router.get('/my-analytics', auth, async (req, res) => {
+  try {
+    const quizzes = await Quiz.find({ createdBy: req.user.id }) // ✅ FIXED
+      .select('title plays');
+
+    const formatted = quizzes.map(q => ({
+      title: q.title,
+      plays: q.plays || 0
+    }));
+
+    res.json(formatted);
+  } catch (err) {
+    console.error('❌ Analytics error:', err.message);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ✅ Then keep dynamic ID route LAST
+router.get('/:id', async (req, res) => {
+  try {
+    const quiz = await Quiz.findById(req.params.id);
+    if (!quiz) {
+      return res.status(404).json({ message: 'Quiz not found' });
+    }
+    res.json(quiz);
+  } catch (err) {
+    console.error('❌ Fetch quiz by ID error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
 
 
 module.exports = router;

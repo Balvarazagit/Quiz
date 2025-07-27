@@ -59,7 +59,7 @@ function ForgotPassword() {
         <form onSubmit={handleSubmit}>
           <div className="quiz-input-group">
             <label htmlFor="email">
-              <FaEnvelope className="input-icon" />
+              <FaEnvelope className="forgot-input-icon" />
               <span>Email Address</span>
             </label>
             <input

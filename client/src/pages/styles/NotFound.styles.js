@@ -7,7 +7,7 @@ export const Quiz404Container = styled(motion.div)`
   justify-content: center;
   min-height: 100vh;
   padding: 2rem;
-  background: #f8f9fa;
+  background: #f5f9f5; /* Light green background */
   font-family: 'Inter', sans-serif;
 `;
 
@@ -21,7 +21,7 @@ export const QuizContent = styled.div`
   background: white;
   padding: 3rem;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px rgba(76, 175, 80, 0.1); /* Green tinted shadow */
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -46,13 +46,13 @@ export const QuizVisual = styled.div`
 export const QuizBubble = styled(motion.div)`
   width: 150px;
   height: 150px;
-  background: #4f46e5;
+  background: #4CAF50; /* Primary green */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 10px 20px rgba(76, 175, 80, 0.2);
 
   @media (min-width: 768px) {
     width: 180px;
@@ -64,7 +64,7 @@ export const QuizPencil = styled(motion.div)`
   position: absolute;
   width: 80px;
   height: 10px;
-  background: #f59e0b;
+  background: #8BC34A; /* Light green */
   border-radius: 4px;
   top: 20%;
   right: 10%;
@@ -74,7 +74,7 @@ export const QuizPencil = styled(motion.div)`
     position: absolute;
     width: 15px;
     height: 10px;
-    background: #ef4444;
+    background: #CDDC39; /* Lime accent */
     right: -15px;
     border-radius: 0 4px 4px 0;
   }
@@ -84,7 +84,7 @@ export const QuizDoodle = styled(motion.div)`
   position: absolute;
   width: 60px;
   height: 60px;
-  border: 3px dashed #10b981;
+  border: 3px dashed #81C784; /* Light green border */
   border-radius: 50%;
   bottom: 10%;
   left: 10%;
@@ -98,13 +98,13 @@ export const QuizText = styled.div`
   h1 {
     font-size: 2rem;
     font-weight: 700;
-    color: #1f2937;
+    color: #2E7D32; /* Dark green */
     margin-bottom: 1.5rem;
   }
 
   p {
     font-size: 1.1rem;
-    color: #6b7280;
+    color: #689F38; /* Medium green */
     margin-bottom: 2rem;
     line-height: 1.6;
   }
@@ -138,20 +138,20 @@ export const QuizOption = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: ${props => props.correct ? 'none' : '1px solid #e5e7eb'};
-  background: ${props => props.correct ? '#4f46e5' : 'white'};
-  color: ${props => props.correct ? 'white' : '#4f46e5'};
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: ${props => props.correct ? 'none' : '1px solid #C8E6C9'}; /* Light green border */
+  background: ${props => props.correct ? '#4CAF50' : 'white'};
+  color: ${props => props.correct ? 'white' : '#2E7D32'};
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.1);
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background: ${props => props.correct ? '#4338ca' : '#f5f3ff'};
+    box-shadow: 0 4px 6px rgba(76, 175, 80, 0.15);
+    background: ${props => props.correct ? '#388E3C' : '#E8F5E9'}; /* Darker green on hover */
   }
 `;
 
 export const QuizHint = styled.div`
   margin-top: 2rem;
-  color: #9ca3af;
+  color: #81C784; /* Light green text */
   font-style: italic;
 `;

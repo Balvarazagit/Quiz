@@ -197,7 +197,7 @@ function JoinPage() {
                 <div className="form-group">
                   <label className="input-label">Your Name</label>
                   <div className="input-container">
-                    <svg className="input-icon" viewBox="0 0 24 24">
+                    <svg className="input-icon-join" viewBox="0 0 24 24">
                       <path fill="#81C784" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                     </svg>
                     <input
@@ -213,7 +213,7 @@ function JoinPage() {
                 <div className="form-group">
                   <label className="input-label">Game PIN</label>
                   <div className="input-container">
-                    <svg className="input-icon" viewBox="0 0 24 24">
+                    <svg className="input-icon-join" viewBox="0 0 24 24">
                       <path fill="#81C784" d="M17 10h-4V8.86c1.72-.45 3-2 3-3.86h-2c0 1.1-.9 2-2 2s-2-.9-2-2H6c0 1.86 1.28 3.41 3 3.86V10H7c-1.1 0-2 .9-2 2v9h14v-9c0-1.1-.9-2-2-2zm-5 3c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
                     </svg>
                     <input
@@ -295,7 +295,7 @@ function JoinPage() {
                 {/* Question Section */}
                 <div className="question-section">
                   <div className="question-meta">
-                    <span className="question-tag">Question</span>
+                    <span className="question-tag">Question {questionIndex} of {totalQuestions}</span>
                     <div className="time-remaining">
                       <svg className="timer-icon" viewBox="0 0 24 24">
                         <path fill="#4CAF50" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
@@ -304,9 +304,7 @@ function JoinPage() {
                       <span>{timeLeft}s</span>
                     </div>
                   </div>
-                  <h4 style={{ color: "#999", marginBottom: "0.5rem" }}>
-                    Question {questionIndex} of {totalQuestions}
-                  </h4>
+                  
                   <h3 className="question-text">{currentQuestion.question}</h3>
                   
                   {/* Progress Bar */}

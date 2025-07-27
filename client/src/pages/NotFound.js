@@ -14,7 +14,7 @@ import {
   QuizOptions,
   QuizOption,
   QuizHint,
-} from '../pages/styles/NotFound.styles'; // 🔄 styles moved here
+} from '../pages/styles/NotFound.styles';
 
 const QuizNotFound = () => {
   const navigate = useNavigate();

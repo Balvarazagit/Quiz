@@ -55,7 +55,7 @@ function Register() {
         <form onSubmit={handleSubmit}>
           <div className="quiz-form-group">
             <label htmlFor="name">
-              <FaUser className="input-icon" />
+              <FaUser className="register-input-icon" />
               <span>Full Name</span>
             </label>
             <input 
@@ -70,7 +70,7 @@ function Register() {
           
           <div className="quiz-form-group">
             <label htmlFor="email">
-              <FaEnvelope className="input-icon" />
+              <FaEnvelope className="register-input-icon" />
               <span>Email Address</span>
             </label>
             <input 
@@ -85,10 +85,10 @@ function Register() {
           
           <div className="quiz-form-group">
             <label htmlFor="password">
-              <FaLock className="input-icon" />
+              <FaLock className="register-input-icon" />
               <span>Password</span>
             </label>
-            <div className="quiz-password-input">
+            <div className="quiz-register-password-input">
               <input
                 type={showPassword ? 'text' : 'password'}
                 id="password"

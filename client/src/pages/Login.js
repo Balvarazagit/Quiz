@@ -57,7 +57,7 @@ function Login() {
         <form className="quiz-login-form" onSubmit={handleSubmit}>
           <div className="quiz-form-group">
             <label htmlFor="email">
-              <FaUser className="input-icon" />
+              <FaUser className="login-input-icon" />
               <span>Email Address</span>
             </label>
             <input
@@ -73,7 +73,7 @@ function Login() {
           
           <div className="quiz-form-group">
             <label htmlFor="password">
-              <FaLock className="input-icon" />
+              <FaLock className="login-input-icon" />
               <span>Password</span>
             </label>
             <div className="quiz-password-field">

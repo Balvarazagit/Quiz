@@ -121,6 +121,7 @@ socket.on("start-quiz", async ({ pin }) => {
 
   try {
     const quiz = await Quiz.findById(room.quizId);
+    
     if (!quiz) return;
 
     room.quiz = quiz;
@@ -149,18 +150,27 @@ socket.on("start-quiz", async ({ pin }) => {
 
 
   socket.on("next-question", async ({ pin }) => {
+      console.log("📥 next-question triggered:", pin); // <- Yeh hona hi chahiye
+
   const room = rooms[pin];
   if (!room) return;
 
   try {
     const quiz = await Quiz.findById(room.quizId);
+     console.log("📚 Loaded quiz:", quiz.title);
     if (!quiz) return;
 
     room.quiz = quiz;
     room.currentQuestionIndex += 1;
     const nextQ = quiz.questions[room.currentQuestionIndex];
+console.log("📌 Reached next-question handler");
+console.log("👉 Current index:", room.currentQuestionIndex);
+console.log("🧠 Quiz total questions:", quiz.questions.length);
+    console.log("🔍 nextQ:", nextQ);
 
     if (!nextQ) {
+        console.log("✅ All questions finished. Saving result & analytics...");
+              console.log("✅ All questions complete. Ending quiz.");
       const scoreboard = room.players.map(player => {
         const name = player.name;
         return {
@@ -176,6 +186,32 @@ socket.on("start-quiz", async ({ pin }) => {
         players: scoreboard,
         date: new Date()
       });
+
+      // ✅ Update quiz analytics (plays count and players list)
+      try {
+        const quiz = await Quiz.findById(room.quizId);
+
+        if (quiz) {
+          quiz.plays = (quiz.plays || 0) + 1;
+console.log("📊 Final scoreboard before saving:", scoreboard);
+console.log("🎯 Updating plays to:", quiz.plays);
+
+          // Append to players array (if defined in your quiz schema)
+          scoreboard.forEach(({ name, score }) => {
+            quiz.players.push({ name, score }); // your schema should support this
+          });
+
+          // Optional: recalculate avgScore
+          const totalScores = quiz.players.reduce((sum, p) => sum + p.score, 0);
+          quiz.avgScore = totalScores / quiz.players.length;
+
+          await quiz.save();
+          console.log("🎯 Quiz updated with players:", quiz.players);
+        }
+      } catch (err) {
+        console.log("❌ Failed to update quiz analytics:", err.message);
+      }
+
 
       scoreboard.sort((a, b) => b.score - a.score);
       io.to(pin).emit("quiz-ended", scoreboard);

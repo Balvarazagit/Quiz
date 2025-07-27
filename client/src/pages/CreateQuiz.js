@@ -113,9 +113,23 @@
       }
     };
 
+    const handleGoBack = () => {
+    navigate(-1); // Goes back to previous page
+  };
+
     return (
     <div className="quiz-creator-container">
       <div className="quiz-creator-card">
+        <button 
+          onClick={handleGoBack}
+          className="back-button"
+          aria-label="Go back"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          Back
+        </button>
         <h1 className="quiz-creator-title">Create New Quiz</h1>
         
         <div className="quiz-title-section">
@@ -131,10 +145,10 @@
         <div className="questions-container">
           {questions.map((q, qIndex) => (
             <div key={qIndex} className="question-card">
-              <div className="question-header">
-                <div className="question-number-container">
-                  <span className="question-number-badge">{qIndex + 1}</span>
-                  <h3 className="question-number">Question</h3>
+              <div className="question-create-header">
+                <div className="question-number-create-container">
+                  <span className="question-number-create-badge">{qIndex + 1}</span>
+                  <h3 className="question-number-create">Question</h3>
                 </div>
                 <button 
                   type="button" 

@@ -11,7 +11,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(270deg, #d0eaff, #f0f8ff, #e0f3ff);
+  background: linear-gradient(270deg, #e0f7e0, #f0fff0, #e8f5e9);
   background-size: 600% 600%;
   animation: gradientMove 10s ease infinite;
   min-height: 100vh;

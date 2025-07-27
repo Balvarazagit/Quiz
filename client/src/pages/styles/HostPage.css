@@ -251,12 +251,12 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.question-header {
+.question-host-header {
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
 }
 
-.question-number {
+.question-number-host {
   display: block;
   font-size: 0.875rem;
   color: #666;

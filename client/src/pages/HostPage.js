@@ -215,8 +215,8 @@ function HostPage() {
                 {currentQuestion && (
                   <div className="question-display-container">
                     <div className="question-display">
-                      <div className="question-header">
-                        <span className="question-number">Question {questionNumber}</span>
+                      <div className="question-host-header">
+                        <span className="question-number-host">Question {questionNumber}</span>
                         <h3 className="question-text">{currentQuestion.question}</h3>
                       </div>
 

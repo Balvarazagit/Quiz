@@ -32,6 +32,43 @@
   border: 1px solid rgba(72, 187, 120, 0.2);
 }
 
+/* Back Button Styles */
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #4CAF50;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+  transform: translateX(-2px);
+}
+
+.back-button svg {
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover svg {
+  transform: translateX(-3px);
+}
+
+/* Adjust the title position to account for back button */
+.quiz-creator-title {
+  margin-top: 10px;
+  padding-top: 30px; /* Add space for back button */
+}
+
 .quiz-creator-title {
   color: var(--text-dark);
   font-size: clamp(1.75rem, 3vw, 2rem);
@@ -102,20 +139,20 @@
   border-color: rgba(72, 187, 120, 0.3);
 }
 
-.question-header {
+.question-create-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
 }
 
-.question-number-container {
+.question-number-create-container {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.question-number-badge {
+.question-number-create-badge {
   background-color: var(--primary-color);
   color: var(--white);
   width: 28px;
@@ -129,7 +166,7 @@
   flex-shrink: 0;
 }
 
-.question-header .question-number {
+.question-create-header .question-number-create {
   color: var(--text-dark);
   font-size: clamp(1.1rem, 1.5vw, 1.25rem);
   font-weight: 600;
@@ -435,11 +472,11 @@
     padding: 1.25rem;
   }
   
-  .question-header {
+  .question-create-header {
     margin-bottom: 1rem;
   }
   
-  .question-number-badge {
+  .question-number-create-badge {
     width: 24px;
     height: 24px;
     font-size: 0.8em;
