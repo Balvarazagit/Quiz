@@ -32,7 +32,7 @@ const Footer = () => {
             <li><Link to="/about" className="footer-link">About Us</Link></li>
             <li><Link to="/contact" className="footer-link">Contact</Link></li>
             <li><Link to="/features" className="footer-link">Features</Link></li>
-            <li><Link to="/quiz" className="footer-link">Take a Quiz</Link></li>
+            <li><Link to="/host" className="footer-link">Take a Quiz</Link></li>
           </ul>
         </div>
 
@@ -52,15 +52,15 @@ const Footer = () => {
           <ul className="footer-contact">
             <li>
               <FaEnvelope className="contact-icon" />
-              <span>support@QuizMaster.com</span>
+              <span>balvaraza2@gmail.com</span>
             </li>
             <li>
               <FaPhone className="contact-icon" />
-              <span>+1 (555) 123-4567</span>
+              <span>+91 7698528935</span>
             </li>
             <li>
               <FaMapMarkerAlt className="contact-icon" />
-              <span>123 Education St, Learning City</span>
+              <span>Anjumane Hussainiya Sardariya Hostel And PG,Juhapura, Ahmedabad, Gujarat 380055</span>
             </li>
           </ul>
         </div>

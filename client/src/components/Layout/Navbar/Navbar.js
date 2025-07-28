@@ -32,7 +32,7 @@ const Navbar = () => {
           <NavLink to="/" currentPath={location.pathname}>Home</NavLink>
           <NavLink to="/about" currentPath={location.pathname}>About</NavLink>
           <NavLink to="/contact" currentPath={location.pathname}>Contact</NavLink>
-          <Link to="/login" className="navbar-cta pulse-effect">
+          <Link to="/host" className="navbar-cta pulse-effect">
             Start Quizzing
           </Link>
         </div>  

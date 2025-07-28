@@ -154,7 +154,7 @@ const ContactPage = () => {
                 <div className="info-icon">📍</div>
                 <div>
                   <h3>Our Location</h3>
-                  <p>123 Education Street, Learning City, 10101</p>
+                  <p>Anjumane Hussainiya Sardariya Hostel And PG, Javed Park, Society, opp. Prachina Society Road, Royal Nawab Society, Juhapura, Ahmedabad, Gujarat 380055</p>
                 </div>
               </div>
               
@@ -162,7 +162,7 @@ const ContactPage = () => {
                 <div className="info-icon">📧</div>
                 <div>
                   <h3>Email Us</h3>
-                  <p>hello@QuizMaster.com</p>
+                  <p>balvaraza2@gmail.com</p>
                   <p>support@QuizMaster.com</p>
                 </div>
               </div>
@@ -171,7 +171,7 @@ const ContactPage = () => {
                 <div className="info-icon">📞</div>
                 <div>
                   <h3>Call Us</h3>
-                  <p>+1 (555) 123-4567</p>
+                  <p>+91 7698528935</p>
                   <p>Mon-Fri: 9am-6pm</p>
                 </div>
               </div>
@@ -195,7 +195,7 @@ const ContactPage = () => {
             <div className="map-overlay"></div>
             <iframe 
               title="Our Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215373510518!2d-73.98784492416415!3d40.74844097138991!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3672.974090638804!2d72.5228846109511!3d22.98798021753135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e85585082cb95%3A0x94581940d6ae51d1!2sAnjumane%20Hussainiya%20Sardariya%20Hostel%20And%20PG!5e0!3m2!1sen!2sin!4v1753696064378!5m2!1sen!2sin" 
               allowFullScreen="" 
               loading="lazy"
             ></iframe>
