@@ -55,7 +55,7 @@ function Analytics() {
     <div className="analytics-container">
       <button 
         onClick={handleGoBack}
-        className="back-button"
+        className="back-button-analytics"
         aria-label="Go back"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">

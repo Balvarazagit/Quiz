@@ -33,7 +33,7 @@
 }
 
 /* Back Button Styles */
-.back-button {
+.back-button-createquiz {
   position: absolute;
   top: 20px;
   left: 20px;
@@ -50,16 +50,16 @@
   transition: all 0.3s ease;
 }
 
-.back-button:hover {
+.back-button-createquiz:hover {
   background-color: rgba(76, 175, 80, 0.1);
   transform: translateX(-2px);
 }
 
-.back-button svg {
+.back-button-createquiz svg {
   transition: transform 0.3s ease;
 }
 
-.back-button:hover svg {
+.back-button-createquiz:hover svg {
   transform: translateX(-3px);
 }
 

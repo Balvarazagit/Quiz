@@ -1,6 +1,7 @@
 import React from 'react';
 import './HeroSection.css';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
@@ -21,6 +22,7 @@ const HeroSection = () => {
             Create, share, and analyze quizzes with our AI-powered platform designed for modern educators and learners.
           </p>
           <div className="hero-buttons">
+            <Link to="/login">
             <motion.button 
               className="primary-button"
               whileHover={{ scale: 1.05 }}
@@ -28,6 +30,8 @@ const HeroSection = () => {
             >
               Get Started Free
             </motion.button>
+            </Link>
+            <Link to="/contact">
             <motion.button 
               className="secondary-button"
               whileHover={{ scale: 1.05 }}
@@ -36,6 +40,7 @@ const HeroSection = () => {
               <span className="play-icon">▶</span>
               Watch Demo
             </motion.button>
+            </Link>
           </div>
           <div className="hero-stats">
             <div className="stat-item">

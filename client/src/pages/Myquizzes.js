@@ -61,6 +61,10 @@ function Myquizzes() {
     }
   };
 
+   const handleGoBack = () => {
+    navigate(-1); // Goes back to previous page
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -75,7 +79,7 @@ function Myquizzes() {
       <div className="empty-state">
         <button 
           onClick={handleGoBack}
-          className="back-button"
+          className="back-button-myquizzes"
           aria-label="Go back"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,15 +100,13 @@ function Myquizzes() {
     );
   }
   
- const handleGoBack = () => {
-    navigate(-1); // Goes back to previous page
-  };
+
 
   return (
     <div className="my-quizzes-page">
         <button 
         onClick={handleGoBack}
-        className="back-button"
+        className="back-button-myquizzes"
         aria-label="Go back"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

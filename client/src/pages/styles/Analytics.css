@@ -20,7 +20,7 @@
 }
 
 /* Back Button */
-.back-button {
+.back-button-analytics {
   position: absolute;
   top: 1.5rem;
   left: 1.5rem;
@@ -40,16 +40,16 @@
   z-index: 10;
 }
 
-.back-button:hover {
+.back-button-analytics:hover {
   background-color: rgba(104, 211, 145, 0.1);
   transform: translateX(-2px);
 }
 
-.back-button svg {
+.back-button-analytics svg {
   transition: transform 0.2s ease;
 }
 
-.back-button:hover svg {
+.back-button-analytics:hover svg {
   transform: translateX(-3px);
 }
 
@@ -114,7 +114,7 @@
 }
 
 @media (max-width: 768px) {
-  .back-button {
+  .back-button-analytics {
     top: 1rem;
     left: 1rem;
     font-size: 0.9rem;
@@ -141,11 +141,11 @@
     height: 300px;
   }
 
-  .back-button span {
+  .back-button-analytics span {
     display: none; /* Hide "Back" text on smallest screens */
   }
 
-  .back-button {
+  .back-button-analytics {
     padding: 0.5rem;
   }
 }
