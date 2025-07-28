@@ -22,6 +22,7 @@ function HostPage() {
   const [answerStats, setAnswerStats] = useState({});
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,6 +31,22 @@ function HostPage() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+  if (!currentQuestion) return;
+
+  const interval = setInterval(() => {
+    setTimeLeft(prev => {
+      if (prev <= 1) {
+        clearInterval(interval);
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [currentQuestion]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(pin);
@@ -87,9 +104,12 @@ function HostPage() {
       toast.success("🚀 Quiz started!");
     });
 
-    socket.on("receive-question", (question) => {
-      setCurrentQuestion(question);
+    socket.on("receive-question", (data) => {
+      setCurrentQuestion(data);
       setAnswerStats({});
+      const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
+      const remaining = Math.max(0, 30 - elapsed);
+      setTimeLeft(remaining);
     });
 
     socket.on("answer-stats", (stats) => {
@@ -232,7 +252,7 @@ function HostPage() {
                                 {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
                               </span>
                               <span className="player-name">
-                                {player.name}
+                                {player.name}<span style={{ fontSize: '12px', color: '#999' }}>({player.userId?.slice(0, 6)})</span>
                                 {index < 3 && <span className="winner-badge">Winner</span>}
                               </span>
                               <span className="player-score">
@@ -248,11 +268,13 @@ function HostPage() {
                     {currentQuestion && (
                       <div className="question-display-container">
                         <div className="question-display">
-                          <div className="question-host-header">
-                            <span className="question-number-host">Question {questionNumber}</span>
-                            <h3 className="question-text">{currentQuestion.question}</h3>
-                          </div>
-
+                                <div className="question-host-header">
+                                  {timeLeft !== null && (
+                                    <div className="question-timer">⏳ {timeLeft}s remaining</div>
+                                  )}
+                                  <span className="question-number-host">Question {questionNumber}</span>
+                                  <h3 className="question-text">{currentQuestion.question}</h3>
+                                </div>
                           <div className="options-stats-container">
                             {currentQuestion.options.map((option, index) => {
                               const percentage = getOptionPercentage(option);

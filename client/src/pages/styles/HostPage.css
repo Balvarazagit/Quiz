@@ -748,3 +748,9 @@ input, textarea, select {
 .scoreboard-item.top-1 {
   animation: pulse-gold 2s infinite;
 }
+.question-timer {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #e53935;
+}

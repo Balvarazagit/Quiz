@@ -6,6 +6,7 @@ import { useWindowSize } from '@react-hook/window-size';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import '../pages/styles/JoinPage.css';
+import { v4 as uuidv4 } from 'uuid';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
@@ -33,13 +34,14 @@ function JoinPage() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const navigate = useNavigate();
+  const [userId] = useState(uuidv4()); // ← unique ID per session
 
   const joinQuiz = () => {
     if (!name.trim()) {
       toast.error("⚠️ Please enter your name!");
       return;
     }
-    socket.emit("join-quiz", { pin, name });
+    socket.emit("join-quiz", { pin, name, userId });
   };
 
   const answerQuestion = (selectedOption) => {
@@ -50,7 +52,7 @@ function JoinPage() {
     const maxTime = 30;
     const baseScore = 1000;
     const score = Math.max(0, Math.round(baseScore * ((maxTime - timeTaken) / maxTime)));
-    socket.emit('submit-answer', { pin, name, answer: selectedOption, score });
+    socket.emit('submit-answer', { pin, name, answer: selectedOption, score, userId });
   };
 
   useEffect(() => {
@@ -268,13 +270,28 @@ function JoinPage() {
                 <p className="waiting-message">The quiz will begin shortly</p>
                 
                 <div className="session-info-card">
-                  <div className="info-item">
-                    <span className="info-label">Game PIN</span>
-                    <span className="info-value">{pin}</span>
-                  </div>
-                  <div className="info-item">
-                    <span className="info-label">Player</span>
-                    <span className="info-value">{name}</span>
+                  <div className="info-list">
+                    <div className="info-item">
+                      <div className="info-icon">🔢</div>
+                      <div className="info-content">
+                        <span className="info-label">Game PIN</span>
+                        <span className="info-value">{pin}</span>
+                      </div>
+                    </div>
+                    <div className="info-item">
+                      <div className="info-icon">👤</div>
+                      <div className="info-content">
+                        <span className="info-label">Player</span>
+                        <span className="info-value">{name}</span>
+                      </div>
+                    </div>
+                    <div className="info-item">
+                      <div className="info-icon">🆔</div>
+                      <div className="info-content">
+                        <span className="info-label">ID</span>
+                        <span className="info-value">{userId}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -451,11 +468,17 @@ function JoinPage() {
                       </div>
                       <div className="player-info">
                         <span className="player-name">{player.name}</span>
+                        {player.userId === userId && (
+                          <span className="player-id" style={{ fontSize: '10px', color: '#888' }}>
+                            ID: {player.userId?.slice(0, 6)}
+                          </span>
+                        )}
                         <div className="player-score-container">
                           <span className="player-score">{player.score}</span>
                           <span className="score-label">pts</span>
                         </div>
                       </div>
+
                     </motion.div>
                   ))}
                 </div>

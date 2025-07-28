@@ -71,37 +71,43 @@ io.on("connection", (socket) => {
     socket.emit("quiz-hosted", { pin });
   });
 
-socket.on("join-quiz", ({ pin, name }) => {
+socket.on("join-quiz", ({ pin, name, userId }) => {
   const room = rooms[pin];
   if (!room) {
     socket.emit("error-pin", { message: "Invalid PIN" });
     return;
   }
 
-   if (!name || name.trim().length === 0) {
+  if (!name || name.trim().length === 0) {
     socket.emit("error-pin", { message: "Name is required" });
     return;
   }
+
+  // Prevent duplicate userId from joining again
+  const alreadyJoined = room.players.some(p => p.userId === userId);
+  if (alreadyJoined) {
+    socket.emit("error-pin", { message: "You already joined the quiz." });
+    return;
+  }
+
   // Join socket room
   socket.join(pin);
 
-  // Add player to room
-  const player = { id: socket.id, name };
+  // Add player with unique userId
+  const player = { id: socket.id, userId, name };
   room.players.push(player);
-  room.scores[name] = 0;
-  room.streaks[name] = 0;
+  room.scores[userId] = 0;
+  room.streaks[userId] = 0;
 
-  // Send updated player list to host
+  // Update host
   io.to(pin).emit("player-joined", { players: room.players });
 
-  // If quiz is started, send current question with remaining time
- // ✅ If quiz has started, send current question with accurate remaining time
-if (room.quizStarted && room.quiz) {
-  const currentQ = room.quiz.questions[room.currentQuestionIndex];
-  if (currentQ) {
+  // Send current question if quiz is active
+  if (room.quizStarted && room.quiz) {
+    const currentQ = room.quiz.questions[room.currentQuestionIndex];
     const questionStart = room.questionStartTime || Date.now();
     const elapsed = Math.floor((Date.now() - questionStart) / 1000);
-    const remaining = Math.max(0, 30 - elapsed); // ⏱️ assuming 30s per question
+    const remaining = Math.max(0, 30 - elapsed);
 
     io.to(socket.id).emit("receive-question", {
       question: currentQ.question,
@@ -110,11 +116,9 @@ if (room.quizStarted && room.quiz) {
       startTime: questionStart,
       timeLeft: remaining
     });
-
   }
-}
 });
-  
+
 socket.on("start-quiz", async ({ pin }) => {
   const room = rooms[pin];
   if (!room) return;
@@ -147,8 +151,6 @@ socket.on("start-quiz", async ({ pin }) => {
   }
 });
 
-
-
   socket.on("next-question", async ({ pin }) => {
       console.log("📥 next-question triggered:", pin); // <- Yeh hona hi chahiye
 
@@ -172,11 +174,11 @@ console.log("🧠 Quiz total questions:", quiz.questions.length);
         console.log("✅ All questions finished. Saving result & analytics...");
               console.log("✅ All questions complete. Ending quiz.");
       const scoreboard = room.players.map(player => {
-        const name = player.name;
         return {
-          name,
-          score: room.scores?.[name] || 0,
-          streak: room.streaks?.[name] || 0,
+          name: player.name,
+          userId: player.userId,
+          score: room.scores?.[player.userId] || 0,
+          streak: room.streaks?.[player.userId] || 0,
         };
       });
 
@@ -239,8 +241,7 @@ console.log("🎯 Updating plays to:", quiz.plays);
   }
 });
 
-
- socket.on("submit-answer", ({ pin, name, answer, score }) => {
+ socket.on("submit-answer", ({ pin, userId, name, answer, score }) => {
   const room = rooms[pin];
   if (!room || !room.quiz) return;
 
@@ -254,10 +255,10 @@ console.log("🎯 Updating plays to:", quiz.plays);
   if (!room.streaks) room.streaks = {};
 
   if (answer === correctAnswer) {
-    room.scores[name] = (room.scores[name] || 0) + (score || 0);
-    room.streaks[name] = (room.streaks[name] || 0) + 1;
+    room.scores[userId] = (room.scores[userId] || 0) + (score || 0);
+    room.streaks[userId] = (room.streaks[userId] || 0) + 1;
   } else {
-    room.streaks[name] = 0;
+    room.streaks[userId] = 0;
   }
 
   // ✅ TRACK OPTION COUNTS FOR GRAPH
@@ -278,8 +279,9 @@ console.log("🎯 Updating plays to:", quiz.plays);
   // ✅ Live scoreboard update
   const scoreboard = room.players.map(p => ({
     name: p.name,
-    score: room.scores[p.name] || 0,
-    streak: room.streaks[p.name] || 0,
+    userId: p.userId,
+    score: room.scores[p.userId] || 0,
+    streak: room.streaks[p.userId] || 0,
   })).sort((a, b) => b.score - a.score);
 
   io.to(pin).emit("scoreboard-update", scoreboard);
@@ -302,8 +304,8 @@ console.log("🎯 Updating plays to:", quiz.plays);
 
   // ✅ Remove score and streak safely
   if (player) {
-    delete room.scores[player.name];
-    delete room.streaks[player.name];
+    delete room.scores[player.userId];
+    delete room.streaks[player.userId];
   }
 
   // ✅ Kick the player
