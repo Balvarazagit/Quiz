@@ -22,7 +22,7 @@ const HeroSection = () => {
             Create, share, and analyze quizzes with our AI-powered platform designed for modern educators and learners.
           </p>
           <div className="hero-buttons">
-            <Link to="/host">
+            <Link to="/login">
             <motion.button 
               className="primary-button"
               whileHover={{ scale: 1.05 }}
