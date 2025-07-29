@@ -126,6 +126,12 @@
   color: var(--quiz-primary);
 }
 
+.password-error {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;    
+}
+  
 .password-strength {
   margin-top: 8px;
   display: flex;

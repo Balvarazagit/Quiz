@@ -10,12 +10,36 @@ function Register() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    if (name === 'password') {
+      const isValid = validatePassword(value);
+      if (!isValid) {
+        setPasswordError('Password must be at least 8 characters, include 1 uppercase letter, and 1 special character.');
+      } else {
+        setPasswordError('');
+      }
+    }
+  };
+
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return regex.test(password);
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
+    if (!validatePassword(form.password)) {
+  toast.error('❌ Password must be at least 8 characters, include 1 uppercase and 1 special character.');
+  setLoading(false);
+  return;
+}
+
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
         method: 'POST',
@@ -106,12 +130,22 @@ function Register() {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
+            {passwordError && (
+              <div className="password-error">
+                <span>{passwordError}</span>
+              </div>
+            )}
             <div className="password-strength">
-              <div className={`strength-bar ${form.password.length > 0 ? 'active' : ''} ${form.password.length > 8 ? 'strong' : ''}`}></div>
-              <span>{form.password.length > 8 ? 'Strong password' : form.password.length > 0 ? 'Weak password' : ''}</span>
+              <div className={`strength-bar ${form.password.length > 0 ? 'active' : ''} ${validatePassword(form.password)? 'strong' : ''}`}></div>
+              <span>
+                {form.password.length === 0
+                  ? ''
+                  : validatePassword(form.password)
+                    ? 'Strong password'
+                    : 'Weak password'}
+              </span>
             </div>
           </div>
-
           <motion.button 
             type="submit" 
             className="quiz-register-btn" 

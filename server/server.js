@@ -145,34 +145,25 @@ socket.on("start-quiz", async ({ pin }) => {
     });
 
     io.to(pin).emit("quiz-started");
-    console.log(`🚀 Quiz started in room ${pin}`);
   } catch (err) {
     console.log("❌ Error in start-quiz:", err.message);
   }
 });
 
   socket.on("next-question", async ({ pin }) => {
-      console.log("📥 next-question triggered:", pin); // <- Yeh hona hi chahiye
-
   const room = rooms[pin];
   if (!room) return;
 
   try {
     const quiz = await Quiz.findById(room.quizId);
-     console.log("📚 Loaded quiz:", quiz.title);
     if (!quiz) return;
 
     room.quiz = quiz;
     room.currentQuestionIndex += 1;
     const nextQ = quiz.questions[room.currentQuestionIndex];
-console.log("📌 Reached next-question handler");
-console.log("👉 Current index:", room.currentQuestionIndex);
-console.log("🧠 Quiz total questions:", quiz.questions.length);
-    console.log("🔍 nextQ:", nextQ);
 
     if (!nextQ) {
-        console.log("✅ All questions finished. Saving result & analytics...");
-              console.log("✅ All questions complete. Ending quiz.");
+       
       const scoreboard = room.players.map(player => {
         return {
           name: player.name,
@@ -181,7 +172,6 @@ console.log("🧠 Quiz total questions:", quiz.questions.length);
           streak: room.streaks?.[player.userId] || 0,
         };
       });
-console.log("🧪 Saving scoreboard with userId:", JSON.stringify(scoreboard, null, 2));
 
       await QuizResult.create({
         pin,
@@ -196,8 +186,6 @@ console.log("🧪 Saving scoreboard with userId:", JSON.stringify(scoreboard, nu
 
         if (quiz) {
           quiz.plays = (quiz.plays || 0) + 1;
-console.log("📊 Final scoreboard before saving:", scoreboard);
-console.log("🎯 Updating plays to:", quiz.plays);
 
           // Append to players array (if defined in your quiz schema)
           scoreboard.forEach(({ name, score }) => {
@@ -209,7 +197,6 @@ console.log("🎯 Updating plays to:", quiz.plays);
           quiz.avgScore = totalScores / quiz.players.length;
 
           await quiz.save();
-          console.log("🎯 Quiz updated with players:", quiz.players);
         }
       } catch (err) {
         console.log("❌ Failed to update quiz analytics:", err.message);

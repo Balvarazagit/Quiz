@@ -15,9 +15,20 @@ function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return regex.test(password);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validatePassword(password)) {
+      toast.error("❌ Password must be at least 8 characters, include 1 uppercase and 1 special character.");
+      return;
+    }
 
     if (password !== confirmPassword) {
       toast.error("🔐 Passwords don't match!");
@@ -50,16 +61,14 @@ function ResetPassword() {
 
   // Password strength indicator
   const getPasswordStrength = () => {
-    if (password.length === 0) return 0;
-    if (password.length < 6) return 1;
-    if (password.length < 8) return 2;
-    if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) return 3;
-    return 4;
+    if (!password) return 0;
+    if (!validatePassword(password)) return 1;
+    return 2; // strong
   };
 
   const strength = getPasswordStrength();
-  const strengthText = ["Very Weak", "Weak", "Fair", "Good", "Strong"][strength];
-  const strengthColor = ["#f44336", "#ff9800", "#ffc107", "#4caf50", "#388e3c"][strength];
+  const strengthText = ["", "Weak password", "Strong password"][strength];
+  const strengthColor = ["transparent", "#f44336", "#388e3c"][strength];
 
   return (
     <div className="quiz-reset-container">
@@ -88,10 +97,19 @@ function ResetPassword() {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setPassword(val);
+
+                  if (!validatePassword(val)) {
+                    setPasswordError("Password must be at least 8 characters, include 1 uppercase letter, and 1 special character.");
+                  } else {
+                    setPasswordError('');
+                  }
+                }}
                 placeholder="Enter your new password"
                 required
-                minLength="6"
+                minLength="8"
               />
               <button 
                 type="button" 
@@ -111,8 +129,12 @@ function ResetPassword() {
                 <span style={{ color: strengthColor }}>{strengthText}</span>
               </div>
             )}
+            {passwordError && (
+              <div className="password-error">
+                <span style={{ color: '#f44336' }}>{passwordError}</span>
+              </div>
+            )}
           </div>
-
           <div className="quiz-input-group">
             <label htmlFor="confirmPassword">
               <FaCheck className="reset-input-icon" />
