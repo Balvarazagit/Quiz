@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaBrain, FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import './Footer.css';
+import logo from '../../../assests/logo-1.png'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +12,8 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-section footer-about">
           <div className="footer-logo">
-            <FaBrain className="logo-icon" />
+            {/* <FaBrain className="logo-icon" /> */}
+            <img className='logo-footer' src={logo} />
             <span>QuizMaster</span>
           </div>
           <p className="footer-description">

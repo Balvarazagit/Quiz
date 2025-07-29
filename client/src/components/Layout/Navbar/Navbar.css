@@ -58,6 +58,11 @@
   transition: var(--transition);
 }
 
+.logo-navbar{
+    width: 70px;
+    height: 70px;
+  }
+
 .logo-text {
   position: relative;
 }
@@ -262,6 +267,11 @@
     font-size: 1.6rem;
   }
   
+  .logo-navbar{
+    width: 50px;
+    height: 50px;
+  }
+
   .navbar-menu {
     padding: 5rem 1.5rem 2rem;
   }
