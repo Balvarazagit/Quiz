@@ -453,7 +453,7 @@ function JoinPage() {
                 </div>
 
                 <div className="leaderboard-list">
-                  {scoreboard.map((player, index) => (
+                  {scoreboard.slice(0,3).map((player, index) => (
                     <motion.div 
                       key={index}
                       initial={{ opacity: 0, y: 20 }}

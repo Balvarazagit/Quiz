@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 // require("dotenv").config();
-
+const { v4: uuidv4 } = require('uuid'); 
 const http = require("http");
 const { Server } = require("socket.io");
 
@@ -181,6 +181,7 @@ console.log("🧠 Quiz total questions:", quiz.questions.length);
           streak: room.streaks?.[player.userId] || 0,
         };
       });
+console.log("🧪 Saving scoreboard with userId:", JSON.stringify(scoreboard, null, 2));
 
       await QuizResult.create({
         pin,

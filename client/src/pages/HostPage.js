@@ -23,6 +23,7 @@ function HostPage() {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [timeLeft, setTimeLeft] = useState(null);
+  const [scoreboard, setScoreboard] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -118,8 +119,12 @@ function HostPage() {
 
     socket.on("auto-next", () => nextQuestion());
 
+    socket.on("scoreboard-update", (data) => {
+      setScoreboard(data); // sorted data from server
+    });
+
     // ✅ Updated handler to receive final scoreboard
-    socket.on("quiz-ended", (scoreboard) => {
+    socket.on("quiz-ended", (scoreboard) => { 
       setIsQuizOver(true);
       setFinalResults(scoreboard);
       toast.success("🏆 Quiz completed!");
@@ -215,6 +220,28 @@ function HostPage() {
               </div>
             </div>
 
+              <div className="live-scoreboard">
+                <h3>Live Scoreboard</h3>
+                <div className="scoreboard-header">
+                  <span className="header-rank">Rank</span>
+                  <span className="header-name">Player</span>
+                  <span className="header-score">Score</span>
+                </div>
+                <div className="scoreboard-list">
+                  {scoreboard.map((player, index) => (
+                    <div key={index} className="scoreboard-item">
+                      <span className="player-rank">#{index + 1}</span>
+                      <span className="player-name">
+                        {player.name}<span>({player.userId?.slice(0, 6)})</span>
+                        {index < 3 && <span className="winner-badge">Top {index + 1}</span>}
+                      </span>
+                      <span className="player-score">{player.score}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+
             {!quizStarted ? (
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -240,7 +267,7 @@ function HostPage() {
                           <span className="header-score">Score</span>
                         </div>
                         <div className="scoreboard-list">
-                          {finalResults.map((player, index) => (
+                          {finalResults.slice(0,3).map((player, index) => (
                             <motion.div
                               key={index}
                               initial={{ opacity: 0, y: 10 }}
@@ -263,7 +290,8 @@ function HostPage() {
                           ))}
                         </div>
                       </div>
-                ) : (
+                ) : 
+                (
                   <div className="quiz-controls">
                     {currentQuestion && (
                       <div className="question-display-container">

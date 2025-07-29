@@ -8,6 +8,7 @@ const quizResultSchema = new mongoose.Schema({
   players: [
     {
       name: String,
+      userId: String,
       score: Number,
       streak: Number  
     }

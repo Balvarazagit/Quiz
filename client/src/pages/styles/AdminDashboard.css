@@ -1009,7 +1009,7 @@
   
   .mobile-filter-dropdown {
     position: fixed;
-    bottom: 0;
+    top: 320px;
     left: 0;
     right: 0;
     background: white;
@@ -1017,6 +1017,7 @@
     border-radius: 16px 16px 0 0;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
     z-index: 100;
+    transform: translateY(0);
   }
   
   .filter-header {

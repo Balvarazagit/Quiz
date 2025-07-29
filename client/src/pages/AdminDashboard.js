@@ -25,7 +25,7 @@ const TABS = ['Users', 'Quiz Results', 'Quizzes'];
 function AdminDashboard() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState('Users');
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState([]);  
   const [users, setUsers] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
   const [searchPIN, setSearchPIN] = useState('');
@@ -422,6 +422,11 @@ function AdminDashboard() {
                           </span>
                           <span className="player-name">
                             {player.name}
+                            {player.userId && (
+                              <span className="player-id" style={{ fontSize: '12px', color: '#888', marginLeft: '5px' }}>
+                                ({player.userId.slice(0, 6)})
+                              </span>
+                            )}
                             {idx < 3 && <span className="podium-badge">Top {idx + 1}</span>}
                           </span>
                           <span className="player-score">
