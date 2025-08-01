@@ -354,6 +354,19 @@
   box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.2);
 }
 
+.thought-input-container {
+  margin-top: 1rem;
+}
+
+.thought-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+
 /* Action Buttons */
 .action-buttons {
   display: flex;

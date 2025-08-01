@@ -134,11 +134,18 @@ socket.on("start-quiz", async ({ pin }) => {
     room.questionStartTime = Date.now(); // ⏰ save start time
 
     const firstQuestion = quiz.questions[0];
+    // ✅ Random Thought
+    const defaultThought = "Stay sharp! Think before you answer. 💡";
+
+    const thought = quiz.thoughts?.length
+      ? quiz.thoughts[Math.floor(Math.random() * quiz.thoughts.length)]
+      : null;
 
     io.to(pin).emit("receive-question", {
       question: firstQuestion.question,
       options: firstQuestion.options,
       correct: firstQuestion.correct,
+      thought : firstQuestion.thought || defaultThought, // Use thought from question or random one
       startTime: room.questionStartTime,
       index: room.currentQuestionIndex, 
       total: quiz.questions.length,
@@ -161,6 +168,11 @@ socket.on("start-quiz", async ({ pin }) => {
     room.quiz = quiz;
     room.currentQuestionIndex += 1;
     const nextQ = quiz.questions[room.currentQuestionIndex];
+
+    // ✅ Random Thought
+    const thought = quiz.thoughts?.length
+      ? quiz.thoughts[Math.floor(Math.random() * quiz.thoughts.length)]
+      : null;
 
     if (!nextQ) {
        
@@ -216,6 +228,7 @@ socket.on("start-quiz", async ({ pin }) => {
       question: nextQ.question,
       options: nextQ.options,
       correct: nextQ.correct,
+      thought : nextQ.thought || defaultThought, // Use thought from question or random one
       startTime: room.questionStartTime,
       index: room.currentQuestionIndex, 
       total: quiz.questions.length,

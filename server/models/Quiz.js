@@ -4,6 +4,7 @@ const questionSchema = new mongoose.Schema({
   question: String,
   options: [String],
   correct: String,
+  thought: String,
 });
 
 // Track individual players and their scores

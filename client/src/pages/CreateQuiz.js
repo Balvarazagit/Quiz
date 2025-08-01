@@ -11,9 +11,12 @@
         type: 'MCQ',
         question: '',
         options: ['', '', '', ''],
-        correct: ''
+        correct: '',
+        thought:'',
       }
     ]);
+    console.log("questions",questions);
+    
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -24,7 +27,8 @@
           type: 'MCQ',
           question: '',
           options: ['', '', '', ''],
-          correct: ''
+          correct: '',
+          thought: '',
         }
       ]);
     };
@@ -93,7 +97,8 @@
               type: q.type,
               question: q.question,
               options: q.options,
-              correct: q.correct
+              correct: q.correct,
+              thought: q.thought
             }))
           })
         });
@@ -217,6 +222,17 @@
                   ))}
                 </select>
               </div>
+              <div className="thought-input-container">
+                <label>Host's Thought (optional):</label>
+                <textarea
+                  placeholder="Add a motivational or guiding thought..."
+                  value={q.thought}
+                  onChange={e => handleChange(qIndex, 'thought', e.target.value)}
+                  className="thought-textarea"
+                  rows={2}
+                />
+              </div>
+
             </div>
           ))}
         </div>

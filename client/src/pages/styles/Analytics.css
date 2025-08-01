@@ -20,7 +20,7 @@
 }
 
 /* Back Button */
-.back-button-analytics {
+f-analytics {
   position: absolute;
   top: 1.5rem;
   left: 1.5rem;
@@ -40,6 +40,11 @@
   z-index: 10;
 }
 
+.back-button-analytics{
+  display: flex;
+  align-items: center;
+  color: #4CAF50;
+}
 .back-button-analytics:hover {
   background-color: rgba(104, 211, 145, 0.1);
   transform: translateX(-2px);

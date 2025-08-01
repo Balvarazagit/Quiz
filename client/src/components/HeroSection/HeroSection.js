@@ -31,14 +31,14 @@ const HeroSection = () => {
               Get Started Free
             </motion.button>
             </Link>
-            <Link to="/contact">
+            <Link to="/join">
             <motion.button 
               className="secondary-button"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <span className="play-icon">▶</span>
-              Watch Demo
+              Join Quiz
             </motion.button>
             </Link>
           </div>

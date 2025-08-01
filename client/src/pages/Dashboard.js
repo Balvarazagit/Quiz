@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../pages/styles/Dashboard.css';
+import logo from "../assests/logo-1.png"
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -70,7 +71,7 @@ function Dashboard() {
             <span className="hamburger-line"></span>
             <span className="hamburger-line"></span>
           </button>
-          <div className="mobile-logo">🧩 QuizMaster</div>
+          <div className="mobile-logo"><img className='mobile-logo-dashboard' src={logo}/> QuizMaster</div>
           <div className="mobile-user-avatar">
             {user?.name?.charAt(0)?.toUpperCase() || 'U'}
           </div>
@@ -80,7 +81,7 @@ function Dashboard() {
       {/* Sidebar */}
       <aside className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <div className="logo">🧩 QuizMaster</div>
+         {isMobileMenuOpen ? '' : <div className="logo"><img className='logo-dashboard' src={logo}/> QuizMaster</div>}
           <div className="user-info">
             <div className="user-avatar">{user?.name?.charAt(0)?.toUpperCase() || 'U'}</div>
             <div className="user-details">

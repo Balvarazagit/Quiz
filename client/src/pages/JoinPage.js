@@ -35,6 +35,9 @@ function JoinPage() {
   const [totalQuestions, setTotalQuestions] = useState(0);
   const navigate = useNavigate();
   const [userId] = useState(uuidv4()); // ← unique ID per session
+  const [thought, setThought] = useState('');
+  const [showThought, setShowThought] = useState(false);
+
 
   const joinQuiz = () => {
     if (!name.trim()) {
@@ -80,6 +83,17 @@ function JoinPage() {
       setQuestionStartTime(data.startTime || Date.now());
       setJoined(true);
       setQuizStarted(true);
+      setThought(''); // reset
+      setShowThought(false); // reset
+
+      setTimeout(() => {
+        setShowAnswer(false);
+        if (data.thought) {
+          setThought(data.thought);
+          setShowThought(true);
+        }
+      }, 5000);
+
     });
 
     socket.on("quiz-ended", (scores) => {
@@ -420,6 +434,18 @@ function JoinPage() {
                     </div>
                   </motion.div>
                 )}
+                {showThought && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="thought-panel"
+                  >
+                    <div className="thought-bubble">
+                      💡 <strong>Thought:</strong> {thought}
+                    </div>
+                  </motion.div>
+                )}
+
               </motion.div>
             )}
           </AnimatePresence>

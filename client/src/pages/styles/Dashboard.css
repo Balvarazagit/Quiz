@@ -98,6 +98,19 @@ body {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--primary);
+  display: flex;
+  align-items: center;
+}
+
+.mobile-logo-dashboard {
+  width: 50px;
+  height: 50px;
+}
+
+.logo-dashboard {
+  width: 70px;
+  height: 70px;
+  ;
 }
 
 .mobile-user-avatar {
@@ -371,6 +384,7 @@ body {
 
   .sidebar.open {
     transform: translateX(0);
+    padding-top: 70px;
   }
 
   .main-content {

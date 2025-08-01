@@ -4,6 +4,7 @@ import '../pages/styles/Myquizzes.css';
 
 function Myquizzes() {
   const [quizzes, setQuizzes] = useState([]);
+  console.log("myquizzes",quizzes);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [expandedQuiz, setExpandedQuiz] = useState(null);
@@ -119,12 +120,20 @@ function Myquizzes() {
           <h1 className="page-title">My Quizzes</h1>
           <p className="page-subtitle">Manage and edit your quiz collection</p>
         </div>
+         <div className="header-buttons">
+        <button
+          onClick={() => navigate('/host')}  // Update this route as needed
+          className="host-quiz-btn"
+        >
+          <span className="host-icon-quizzes">🎮</span> Host Quiz
+        </button>
         <button 
           onClick={() => navigate('/create-quiz')}
           className="create-quiz-btn pulse"
         >
           <span className="plus-icon">+</span> New Quiz
         </button>
+        </div>
       </div>
 
       <div className="quizzes-list">
@@ -143,6 +152,9 @@ function Myquizzes() {
                   <span className="quiz-status-badge">
                     {quiz.isPublished ? 'Published' : 'Draft'}
                   </span>
+                  <div className="quiz-id-myquizzes" style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}>
+                    ID: {quiz._id}
+                  </div>
                 </div>
                 <span className="question-count">
                   {quiz.questions?.length || 0} {quiz.questions?.length === 1 ? 'question' : 'questions'}

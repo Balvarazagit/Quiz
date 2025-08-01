@@ -24,6 +24,10 @@ function HostPage() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [timeLeft, setTimeLeft] = useState(null);
   const [scoreboard, setScoreboard] = useState([]);
+  const [thought, setThought] = useState('');
+  console.log("thought",thought);
+  
+  const [showThought, setShowThought] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -106,11 +110,26 @@ function HostPage() {
     });
 
     socket.on("receive-question", (data) => {
+      console.log("data",data);
+      
       setCurrentQuestion(data);
       setAnswerStats({});
       const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
       const remaining = Math.max(0, 30 - elapsed);
       setTimeLeft(remaining);
+
+      // 🧠 Reset thought visibility
+      setThought('');
+      setShowThought(false);
+
+      // ⏱ Show thought after 5 seconds
+      setTimeout(() => {
+        if (data.thought) {
+          setThought(data.thought);
+          setShowThought(true);
+        }
+      }, 5000);
+
     });
 
     socket.on("answer-stats", (stats) => {
@@ -355,7 +374,18 @@ function HostPage() {
                           </div>
                         </div>
                       </div>
+                      
                     )}
+                          {showThought && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5 }}
+                              className="host-thought-box"
+                            >
+                              💡 <strong>Host Thought:</strong> {thought}
+                            </motion.div>
+                          )}
 
                     <div className="host-control-buttons">
                       {!showCorrectAnswer && (
