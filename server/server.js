@@ -51,6 +51,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 const rooms = {};
 const answerTracker = {}; 
+const defaultThought = "Stay sharp! Think before you answer. 💡";
 
 io.on("connection", (socket) => {
   console.log("🟢 Socket connected:", socket.id);
@@ -135,7 +136,6 @@ socket.on("start-quiz", async ({ pin }) => {
 
     const firstQuestion = quiz.questions[0];
     // ✅ Random Thought
-    const defaultThought = "Stay sharp! Think before you answer. 💡";
 
     const thought = quiz.thoughts?.length
       ? quiz.thoughts[Math.floor(Math.random() * quiz.thoughts.length)]
