@@ -113,7 +113,6 @@ const FAQ = () => {
       answer: `Yes. Use the "Contact Us" or "Report Issue" form on the website to notify the developers.`,
       category: "general"
     },
-
   ];
 
   const filteredFaqs = faqs.filter(faq => {
@@ -142,11 +141,11 @@ const FAQ = () => {
           <p className="faq-subtitle">Find answers to common questions about QuizMaster</p>
         </header>
 
-        <div className="search-container">
+        <div className="search-container-faq">
           <input 
             type="text" 
             placeholder="Search FAQs..." 
-            className="search-input"
+            className="search-input-faq"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
