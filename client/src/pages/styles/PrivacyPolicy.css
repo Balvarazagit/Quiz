@@ -1,0 +1,281 @@
+:root {
+  --primary-green: #4CAF50;
+  --light-green: #E8F5E9;
+  --dark-green: #388E3C;
+  --white: #ffffff;
+  --text-dark: #333333;
+  --text-light: #666666;
+  --border-radius: 12px;
+  --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.privacy-page {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.privacy-card {
+  max-width: 1000px;
+  width: 100%;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 3rem;
+  position: relative;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--primary-green);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  color: var(--dark-green);
+  transform: translateX(-2px);
+}
+
+.back-button svg {
+  transition: transform 0.2s ease;
+}
+
+.back-button:hover svg {
+  transform: translateX(-4px);
+}
+
+.privacy-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.privacy-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--primary-green);
+}
+
+.privacy-header h1 {
+  color: var(--text-dark);
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.policy-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.policy-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.policy-meta strong {
+  color: var(--text-dark);
+}
+
+.intro-section {
+  background: var(--light-green);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 2.5rem;
+  border-left: 4px solid var(--primary-green);
+}
+
+.intro-section p {
+  margin: 0;
+  color: var(--text-dark);
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.privacy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.policy-card {
+  background: var(--white);
+  border: 1px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.policy-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.12);
+  border-color: var(--primary-green);
+}
+
+.policy-number {
+  width: 36px;
+  height: 36px;
+  background: var(--primary-green);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.policy-card h2 {
+  color: var(--text-dark);
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.policy-card p, .policy-card li {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.data-collection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.data-type h3 {
+  color: var(--primary-green);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.data-type ul {
+  padding-left: 1.2rem;
+}
+
+.data-type li {
+  margin-bottom: 0.4rem;
+}
+
+.usage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.usage-do, .usage-dont {
+  padding: 0.8rem;
+  border-radius: 8px;
+}
+
+.usage-do {
+  background: rgba(76, 175, 80, 0.08);
+}
+
+.usage-dont {
+  background: rgba(244, 67, 54, 0.08);
+}
+
+.usage-do h4 {
+  color: var(--primary-green);
+}
+
+.usage-dont h4 {
+  color: #F44336;
+}
+
+.security-features {
+  list-style: none;
+  padding: 0;
+}
+
+.security-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.security-icon {
+  font-size: 1.2rem;
+}
+
+.privacy-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.rights-section, .contact-section {
+  background: var(--light-green);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+}
+
+.rights-section h2, .contact-section h2 {
+  color: var(--primary-green);
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.contact-section a {
+  color: var(--primary-green);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-left: 0.3rem;
+}
+
+.contact-section a:hover {
+  color: var(--dark-green);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .privacy-page {
+    padding: 1rem;
+  }
+  
+  .privacy-card {
+    padding: 1.5rem;
+  }
+  
+  .privacy-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .usage-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .privacy-footer {
+    grid-template-columns: 1fr;
+  }
+  
+  .privacy-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .policy-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+}

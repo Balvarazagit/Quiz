@@ -18,6 +18,9 @@ import Analytics from './pages/Analytics';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import HomePage from './pages/HomePage';
+import TermsAndConditions from './pages/TermsAndConditions';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import FAQ from './pages/FAQ';
 
 function App() {
   return (
@@ -53,6 +56,9 @@ function App() {
         <Route path='/analytics' element={<Analytics/>} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/faq" element={<FAQ />} />
       </Routes>
     </Router>
     <ToastContainer position="top-center" autoClose={2000} />

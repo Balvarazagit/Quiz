@@ -33,7 +33,7 @@ const Footer = () => {
             <li><Link to="/" className="footer-link">Home</Link></li>
             <li><Link to="/about" className="footer-link">About Us</Link></li>
             <li><Link to="/contact" className="footer-link">Contact</Link></li>
-            <li><Link to="/features" className="footer-link">Features</Link></li>
+            <li><Link to="/" className="footer-link">Features</Link></li>
             <li><Link to="/host" className="footer-link">Take a Quiz</Link></li>
           </ul>
         </div>
@@ -41,11 +41,11 @@ const Footer = () => {
         <div className="footer-section">
           <h4 className="footer-title">Support</h4>
           <ul className="footer-links">
-            <li><Link to="/help" className="footer-link">Help Center</Link></li>
+            <li><Link to="/contact" className="footer-link">Help Center</Link></li>
             <li><Link to="/terms" className="footer-link">Terms of Service</Link></li>
             <li><Link to="/privacy" className="footer-link">Privacy Policy</Link></li>
             <li><Link to="/faq" className="footer-link">FAQ</Link></li>
-            <li><Link to="/feedback" className="footer-link">Feedback</Link></li>
+            <li><Link to="/contact" className="footer-link">Feedback</Link></li>
           </ul>
         </div>
 
