@@ -276,7 +276,7 @@
 
 @media (max-width: 480px) {
   .faq-container{
-    max-width: 280px;
+    max-width: 310px;
   }
   .faq-header h1 {
     font-size: 1.5rem;
@@ -302,4 +302,9 @@
     font-size: 0.9rem;
   }
  
+}
+@media (max-width: 320px) {
+  .faq-container{
+    max-width: 280px;
+  }
 }
