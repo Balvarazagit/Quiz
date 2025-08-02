@@ -1129,3 +1129,150 @@
     margin: 0px 15px;
   }
 }
+/* Messages Tab Styles */
+.messages-tab {
+  padding: 20px;
+}
+
+.messages-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.messages-header h2 {
+  font-size: 2rem;
+  color: #2E7D32;
+  margin-bottom: 10px;
+}
+
+.messages-header p {
+  color: #4CAF50;
+  font-size: 1rem;
+}
+
+.header-icon {
+  margin-right: 10px;
+}
+
+.messages-list {
+  display: grid;
+  gap: 20px;
+}
+
+.message-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #4CAF50;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.sender-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sender-name {
+  font-weight: 600;
+  color: #2E7D32;
+  font-size: 1.1rem;
+}
+
+.sender-email {
+  color: #81C784;
+  font-size: 0.9rem;
+}
+
+.message-date {
+  color: #9E9E9E;
+  font-size: 0.85rem;
+}
+
+.message-content {
+  color: #424242;
+  line-height: 1.6;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background: #F1F8E9;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.empty-illustration {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 20px;
+}
+
+.empty-state h3 {
+  color: #2E7D32;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: #81C784;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .message-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .message-date {
+    align-self: flex-end;
+  }
+}
+
+/* Message Card Delete Button */
+.message-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.message-card .delete-btn {
+  background: none;
+  border: none;
+  color: #e53935;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.message-card .delete-btn:hover {
+  background: #ffebee;
+  transform: scale(1.1);
+}
+
+.message-card .delete-btn:active {
+  transform: scale(0.95);
+}
+
+/* Responsive adjustments for message cards */
+@media (max-width: 768px) {
+  .message-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .message-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

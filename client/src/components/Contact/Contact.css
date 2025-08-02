@@ -1,19 +1,19 @@
-/* Contact Page Styles */
+/* Contact Page Styles - Light Green & White Theme */
 .contact-page {
-  --primary: #4CAF50; /* Green primary color */
+  --primary: #4CAF50; /* Primary green */
   --primary-light: #81C784; /* Light green */
   --primary-dark: #388E3C; /* Dark green */
-  --secondary: #FF9800; /* Orange accent */
-  --dark: #263238; /* Dark gray */
+  --secondary: #8BC34A; /* Lime green accent */
+  --dark: #2E7D32; /* Dark green for text */
   --light: #FFFFFF; /* Pure white */
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: #F5F5F5; /* Light gray background */
+  background-color: #F1F8E9; /* Very light green background */
 }
 
 /* Hero Section */
 .contact-hero {
   position: relative;
-  padding: 8rem 0;
+  padding: 10rem 0;
   background: linear-gradient(135deg, #E8F5E9, #C8E6C9); /* Light green gradient */
   text-align: center;
   overflow: hidden;
@@ -28,14 +28,19 @@
 }
 
 .hero-content-contact h1 {
-  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-  -webkit-background-clip: text;
-  background-clip: text;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--dark);
+}
+
+.hero-content-contact h1 span {
+  color: var(--primary-dark);
 }
 
 .hero-content-contact p {
   font-size: 1.25rem;
-  color: #475569;
+  color: #2E7D32;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
@@ -47,7 +52,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(rgba(76, 175, 80, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(76, 175, 80, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -69,15 +74,16 @@
 /* Contact Form */
 .contact-form-container {
   background: var(--light);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid #E0E0E0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E8F5E9;
   transition: var(--transition);
 }
 
 .contact-form-container:hover {
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
 }
 
 .contact-form-container h2 {
@@ -101,7 +107,7 @@
 
 .success-message {
   background: #E8F5E9;
-  color: #2E7D32;
+  color: #1B5E20;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 2rem;
@@ -111,9 +117,8 @@
   border: 1px solid #C8E6C9;
 }
 
-.success-message span {
-  font-size: 1.2rem;
-  font-weight: bold;
+.success-icon {
+  font-size: 1.5rem;
   color: var(--primary);
 }
 
@@ -131,38 +136,58 @@
 
 .form-group label {
   font-weight: 600;
-  color: #334155;
+  color: #2E7D32;
   font-size: 0.95rem;
 }
 
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon-contact {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  fill: #81C784;
+  z-index: 2;
+}
+
+.textarea-icon {
+  top: 1.3rem;
+  transform: none;
+}
 .form-group input,
 .form-group textarea {
-  padding: 1rem 1rem 1rem 2.5rem;
-  border: 1px solid #E0E0E0;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 1px solid #E8F5E9;
   border-radius: 8px;
   font-size: 1rem;
   transition: var(--transition);
-  background: #F1F8E9; /* Very light green */
+  background: #F1F8E9;
+  width: 100%;
+}
+
+.form-group textarea {
+  padding-top: 1rem;
+  min-height: 150px;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: var(--primary-light);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.3);
   background: white;
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 150px;
 }
 
 .submit-button {
   background: linear-gradient(90deg, var(--primary), var(--primary-dark));
   color: white;
   border: none;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
@@ -173,6 +198,10 @@
   justify-content: center;
   gap: 0.75rem;
   margin-top: 1rem;
+}
+
+.button-icon {
+  font-size: 1.2rem;
 }
 
 .submit-button:hover {
@@ -203,11 +232,11 @@
 
 /* Contact Info */
 .contact-info {
-  background: #F1F8E9; /* Very light green */
-  border-radius: 16px;
+  background: #F1F8E9;
+  border-radius: 12px;
   padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid #E0E0E0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E8F5E9;
   align-self: flex-start;
   position: sticky;
   top: 100px;
@@ -240,11 +269,11 @@
 }
 
 .info-icon {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: white;
   background: var(--primary);
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -258,21 +287,17 @@
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: var(--dark);
-  display: flex;
-  text-align: start;
 }
 
 .info-item p {
-  color: #64748b;
+  color: #4CAF50;
   line-height: 1.6;
   font-size: 0.95rem;
-   display: flex;
-  text-align: start;
 }
 
 .social-section {
   margin-top: 3rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #C8E6C9;
   padding-top: 2rem;
 }
 
@@ -289,11 +314,11 @@
 }
 
 .social-links a {
-  font-size: 1.5rem;
-  color: #64748b;
+  font-size: 1.25rem;
+  color: #81C784;
   transition: var(--transition);
-  width: 45px;
-  height: 45px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -317,9 +342,9 @@
   position: relative;
   height: 500px;
   width: 100%;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .map-overlay {
@@ -337,7 +362,7 @@
   width: 100%;
   height: 100%;
   border: none;
-  filter: grayscale(20%) contrast(1.1);
+  filter: grayscale(30%) contrast(1.1) hue-rotate(40deg);
 }
 
 /* Responsive Styles */
@@ -386,5 +411,17 @@
   
   .map-container {
     height: 300px;
+  }
+  
+  .info-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .social-links a {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
 }

@@ -7,11 +7,11 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 const app = express();
-const server = http.createServer(app);
+const server = http.createServer(app);  
 const io = new Server(server, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", 'DELETE'],
   },
 });
 
@@ -33,6 +33,7 @@ app.get("/", (req, res) => {
   res.send("✅ Backend is Live!");
 });
 app.use('/api/users', require('./routes/users'));
+app.use('/api/messages', require('./routes/contact'));
 
 if (!process.env.MONGO_URI) {
   console.error("❌ MONGO_URI is missing! Check Render environment variables.");

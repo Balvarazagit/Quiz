@@ -20,7 +20,7 @@ const FILTER_OPTIONS = [
   { label: 'Last 7 Days', value: 'last7' },
   { label: 'This Month', value: 'month' },
 ];
-const TABS = ['Users', 'Quiz Results', 'Quizzes'];  
+const TABS = ['Users', 'Quiz Results', 'Quizzes','Messages'];  
 
 function AdminDashboard() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -35,6 +35,7 @@ function AdminDashboard() {
   const [quizSortBy, setQuizSortBy] = useState('date');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -77,6 +78,16 @@ function AdminDashboard() {
         .catch(console.error);
     }
   }, [loggedIn]);
+
+  // Messages Fetch
+  useEffect(() => {
+  if (loggedIn) {
+    fetch(`${process.env.REACT_APP_API_URL}/api/messages`)
+      .then(res => res.json())
+      .then(setMessages)
+      .catch(console.error);
+  }
+}, [loggedIn]);
 
   const handleDeleteResults = async (id) => {
     if (!window.confirm('Delete this quiz result?')) return;
@@ -157,6 +168,31 @@ function AdminDashboard() {
     } catch (err) {
       console.error(err);
       toast.error('Error deleting user');
+    }
+  };
+
+  const handleDeleteMessage = async (messageId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this message?");
+    if (!confirmDelete) return;
+
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/messages/${messageId}`, {
+        method: 'DELETE',
+        headers: {
+        'Content-Type': 'application/json',
+      },
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(data.message || 'Message deleted successfully');
+        setMessages(prev => prev.filter(msg => msg._id !== messageId));
+      } else {
+        toast.error(data.message || 'Failed to delete message');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Error deleting message');
     }
   };
 
@@ -552,6 +588,61 @@ function AdminDashboard() {
                         <span className="btn-icon">🗑️</span>
                         {!isMobile && <span className="btn-text">Delete Quiz</span>}
                       </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Messages Tab */}
+        {activeTab === 'Messages' && (
+          <div className="messages-tab">
+            <div className="messages-header">
+              <h2>
+                <span className="header-icon">✉️</span>
+                User Messages
+              </h2>
+              <p>View messages submitted by users through the contact form</p>
+            </div>
+
+            {messages.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-illustration">
+                  <svg viewBox="0 0 200 150">
+                    <path d="M40,30 L160,30 L180,50 L180,130 L20,130 L20,50 Z" fill="#f0f4f8" stroke="#4CAF50" strokeWidth="2" />
+                    <path d="M40,30 L160,30 L180,50 L40,50 Z" fill="#4CAF50" opacity="0.2" />
+                    <path d="M60,70 L140,70 M60,90 L140,90 M60,110 L120,110" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <h3>No messages yet</h3>
+                <p>Messages submitted through the contact form will appear here</p>
+              </div>
+            ) : (
+              <div className="messages-list">
+                {messages.map(message => (
+                  <div key={message._id} className="message-card">
+                    <div className="message-header">
+                      <div className="sender-info">
+                        <span className="sender-name">{message.name}</span>
+                        <span className="sender-email">{message.email}</span>
+                      </div>
+                      <div className="message-actions">
+                        <span className="message-date">
+                          {new Date(message.createdAt).toLocaleString()}
+                        </span>
+                        <button
+                          onClick={() => handleDeleteMessage(message._id)}
+                          className="delete-btn"
+                          title="Delete message"
+                        >
+                          <FiTrash2 />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="message-content">
+                      <p>{message.message}</p>
                     </div>
                   </div>
                 ))}

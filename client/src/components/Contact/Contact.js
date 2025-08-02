@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle } from 'react-icons/fi';
+import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Navbar from '../Layout/Navbar/Navbar';
 import Footer from '../Layout/Footer/Footer';
 import '../Contact/Contact.css';
@@ -22,21 +24,30 @@ const ContactPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/messages`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
       setSubmitSuccess(true);
       setFormData({ name: '', email: '', message: '' });
-      
-      // Reset success message after 5 seconds
       setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1500);
-  };
+    } else {
+      console.error('Failed to send message');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <>
@@ -76,7 +87,7 @@ const ContactPage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                 >
-                  <span>✓</span>
+                  <FiCheckCircle className="success-icon" />
                   <p>Thank you! Your message has been sent successfully.</p>
                 </motion.div>
               )}
@@ -84,41 +95,56 @@ const ContactPage = () => {
               <form onSubmit={handleSubmit} className="contact-form">
                 <div className="form-group">
                   <label htmlFor="name">Your Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Enter your name"
-                  />
+                  <div className="input-wrapper">
+                    <svg className="input-icon-contact" viewBox="0 0 24 24">
+                      <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+                    </svg>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter your name"
+                    />
+                  </div>
                 </div>
                 
                 <div className="form-group">
                   <label htmlFor="email">Email Address</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="Enter your email"
-                  />
+                  <div className="input-wrapper">
+                    <svg className="input-icon-contact" viewBox="0 0 24 24">
+                      <path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6M20 6L12 11L4 6H20M20 18H4V8L12 13L20 8V18Z" />
+                    </svg>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter your email"
+                    />
+                  </div>
                 </div>
                 
                 <div className="form-group">
                   <label htmlFor="message">Your Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows="5"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    placeholder="Type your message here..."
-                  ></textarea>
+                  <div className="input-wrapper">
+                    <svg className="input-icon-contact textarea-icon" viewBox="0 0 24 24">
+                      <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z" />
+                    </svg>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows="5"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      placeholder="Type your message here..."
+                    ></textarea>
+                  </div>
                 </div>
                 
                 <motion.button 
@@ -134,7 +160,10 @@ const ContactPage = () => {
                       Sending...
                     </>
                   ) : (
-                    'Send Message'
+                    <>
+                      <FiSend className="button-icon" />
+                      Send Message
+                    </>
                   )}
                 </motion.button>
               </form>
@@ -151,7 +180,9 @@ const ContactPage = () => {
               <h2>Contact Information</h2>
               
               <div className="info-item">
-                <div className="info-icon">📍</div>
+                <div className="info-icon">
+                  <FiMapPin />
+                </div>
                 <div>
                   <h3>Our Location</h3>
                   <p>Anjumane Hussainiya Sardariya Hostel And PG, Javed Park, Society, opp. Prachina Society Road, Royal Nawab Society, Juhapura, Ahmedabad, Gujarat 380055</p>
@@ -159,7 +190,9 @@ const ContactPage = () => {
               </div>
               
               <div className="info-item">
-                <div className="info-icon">📧</div>
+                <div className="info-icon">
+                  <FiMail />
+                </div>
                 <div>
                   <h3>Email Us</h3>
                   <p>balvaraza2@gmail.com</p>
@@ -168,7 +201,9 @@ const ContactPage = () => {
               </div>
               
               <div className="info-item">
-                <div className="info-icon">📞</div>
+                <div className="info-icon">
+                  <FiPhone />
+                </div>
                 <div>
                   <h3>Call Us</h3>
                   <p>+91 7698528935</p>
@@ -179,10 +214,10 @@ const ContactPage = () => {
               <div className="social-section">
                 <h3>Follow Us</h3>
                 <div className="social-links">
-                  <a href="#" aria-label="Twitter">🐦</a>
-                  <a href="#" aria-label="Facebook">📘</a>
-                  <a href="#" aria-label="Instagram">📷</a>
-                  <a href="#" aria-label="LinkedIn">🔗</a>
+                  <a href="#" aria-label="Twitter"><FaTwitter /></a>
+                  <a href="#" aria-label="Facebook"><FaFacebook /></a>
+                  <a href="#" aria-label="Instagram"><FaInstagram /></a>
+                  <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
                 </div>
               </div>
             </motion.div>
@@ -202,6 +237,7 @@ const ContactPage = () => {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 };
