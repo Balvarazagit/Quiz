@@ -21,6 +21,7 @@ import HomePage from './pages/HomePage';
 import TermsAndConditions from './pages/TermsAndConditions';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import FAQ from './pages/FAQ';
+import ViewQuizPage from './pages/ViewQuizPage';
 
 function App() {
   return (
@@ -59,6 +60,8 @@ function App() {
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/view-quiz/:quizId" element={<ViewQuizPage />} />
+
       </Routes>
     </Router>
     <ToastContainer position="top-center" autoClose={2000} />

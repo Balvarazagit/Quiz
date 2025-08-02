@@ -18,6 +18,15 @@ const playerSchema = new mongoose.Schema({
 const quizSchema = new mongoose.Schema({
   title: { type: String, required: true },
   questions: [questionSchema],
+  isPublished: {
+    type: Boolean,
+    default: false
+  },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // Make sure this matches your user model name
+    required: true,
+  },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now },
 

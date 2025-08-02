@@ -45,22 +45,47 @@ function Myquizzes() {
     navigate(`/quiz/${quizId}/edit`);
   };
 
-  const handleShareQuiz = (quizId) => {
-    const shareUrl = `${window.location.origin}/join/${quizId}`;
+  const handlePublishAndShare = async (quizId) => {
+  const token = localStorage.getItem('token');
+  try {
+    // Step 1: Publish quiz
+    const publishRes = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/${quizId}/publish`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const publishData = await publishRes.json();
+    if (!publishRes.ok) throw new Error(publishData.message || 'Failed to publish');
+
+    // Step 2: Share link
+    const shareUrl = `${window.location.origin}/view-quiz/${quizId}`;
 
     if (navigator.share) {
-      navigator.share({
-        title: 'Join My Quiz on QuizMaster!',
+      await navigator.share({
+        title: 'View My Quiz on QuizMaster!',
+        text: 'Check out this quiz I created',
         url: shareUrl,
-      }).catch((err) => console.error('Error sharing', err));
-    } else {
-      navigator.clipboard.writeText(shareUrl).then(() => {
-        alert("Link copied to clipboard!");
-      }).catch((err) => {
-        console.error("Copy failed", err);
       });
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Link copied to clipboard!');
+    } else {
+      const textarea = document.createElement('textarea');
+      textarea.value = shareUrl;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      alert('Link copied to clipboard!');
     }
-  };
+  } catch (err) {
+    console.error('Publish & Share error:', err);
+    alert('Failed to publish/share quiz. Please try again.');
+  }
+};
+
 
    const handleGoBack = () => {
     navigate(-1); // Goes back to previous page
@@ -74,6 +99,7 @@ function Myquizzes() {
       </div>
     );
   }
+
 
   if (!quizzes || quizzes.length === 0) {
     return (
@@ -140,7 +166,7 @@ function Myquizzes() {
         {quizzes.map((quiz) => (
           <div 
             key={quiz._id} 
-            className={`quiz-card ${expandedQuiz === quiz._id ? 'expanded' : ''}`}
+            className={`quiz-card-myquizzes ${expandedQuiz === quiz._id ? 'expanded' : ''}`}
           >
             <div 
               className="quiz-summary"
@@ -195,8 +221,8 @@ function Myquizzes() {
                   <h4 className="questions-title">Questions Preview</h4>
                   {quiz.questions?.map((question, qIndex) => (
                     <div key={qIndex} className="question-block">
-                      <div className="question-header">
-                        <span className="question-number">Q{qIndex + 1}</span>
+                      <div className="question-header-myquizzes">
+                        <span className="question-number-myquizzes">Q{qIndex + 1}</span>
                         <h4 className="question-text">{question.question}</h4>
                       </div>
                       
@@ -224,9 +250,10 @@ function Myquizzes() {
                 </div>
                 
                 <div className="quiz-footer-actions">
-                  <button className="action-btn share-btn"  onClick={() => handleShareQuiz(quiz._id)}>
-                    Share Quiz
+                  <button className="action-btn share-btn"  onClick={() => handlePublishAndShare(quiz._id)}>
+                    Publish & Share Quiz
                   </button>
+
                 </div>
               </div>
             )}
