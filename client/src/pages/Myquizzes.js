@@ -40,10 +40,10 @@ function Myquizzes() {
     setExpandedQuiz(expandedQuiz === quizId ? null : quizId);
   };
 
-  const handleEditQuiz = (quizId, e) => {
-    e.stopPropagation();
-    navigate(`/quiz/${quizId}/edit`);
-  };
+  // const handleEditQuiz = (quizId, e) => {
+  //   e.stopPropagation();
+  //   navigate(`/quiz/${quizId}/edit`);
+  // };
 
   const handlePublishAndShare = async (quizId) => {
   const token = localStorage.getItem('token');
@@ -86,6 +86,35 @@ function Myquizzes() {
   }
 };
 
+const handleDeleteQuiz = async (quizId) => {
+  const token = localStorage.getItem('token');
+
+  if (!window.confirm('Are you sure you want to delete this quiz? This action cannot be undone.')) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/${quizId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.message || 'Failed to delete quiz');
+    }
+
+    // Local state se bhi remove kar do
+    setQuizzes(prev => prev.filter(q => q._id !== quizId));
+
+    alert('Quiz deleted successfully!');
+  } catch (err) {
+    console.error('Delete quiz error:', err);
+    alert('Failed to delete quiz. Please try again.');
+  }
+};
 
    const handleGoBack = () => {
     navigate(-1); // Goes back to previous page
@@ -252,6 +281,13 @@ function Myquizzes() {
                 <div className="quiz-footer-actions">
                   <button className="action-btn share-btn"  onClick={() => handlePublishAndShare(quiz._id)}>
                     Publish & Share Quiz
+                  </button>
+                  <button
+                    className="action-btn delete-btn-myquizzes"
+                    onClick={() => handleDeleteQuiz(quiz._id)}
+                    style={{ }}
+                  >
+                    Delete Quiz
                   </button>
 
                 </div>

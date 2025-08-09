@@ -7,18 +7,17 @@ const User = require('../models/User');
 
 // ✅ [POST] Create a new quiz
 router.post('/create', auth, async (req, res) => {
-  const { title, questions } = req.body;
-
   try {
+    const { title, questions } = req.body;
+
     const newQuiz = new Quiz({
       title,
       questions,
-      createdBy: req.user.id
+      creator: req.user.id // ✅ This matches schema requirement
     });
 
     await newQuiz.save();
 
-    // ✅ Return quiz ID immediately after creation
     res.status(201).json({
       success: true,
       message: 'Quiz created successfully',
@@ -41,24 +40,11 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// ✅ [GET] Fetch quiz by ID (used when starting/joining)
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const quiz = await Quiz.findById(req.params.id);
-//     if (!quiz) {
-//       return res.status(404).json({ message: 'Quiz not found' });
-//     }
-//     res.json(quiz);
-//   } catch (err) {
-//     console.error('❌ Fetch quiz by ID error:', err);
-//     res.status(500).json({ message: 'Server error' });
-//   }
-// });
 
 // ✅ [OPTIONAL] Get all quizzes created by logged-in user
 router.get('/by-user/me', auth, async (req, res) => {
   try {
-    const quizzes = await Quiz.find({ createdBy: req.user.id }).select('title _id createdAt questions');
+    const quizzes = await Quiz.find({ creator: req.user.id }).select('title _id createdAt questions');
     res.json(quizzes);
   } catch (err) {
     console.error('❌ Fetch user quizzes error:', err);
@@ -102,7 +88,7 @@ router.delete('/:quizId', async (req, res) => {
 // ⚠️ Specific first
 router.get('/my-analytics', auth, async (req, res) => {
   try {
-    const quizzes = await Quiz.find({ createdBy: req.user.id }) // ✅ FIXED
+    const quizzes = await Quiz.find({ creator: req.user.id }) // ✅ FIXED
       .select('title plays');
 
     const formatted = quizzes.map(q => ({
@@ -201,22 +187,5 @@ router.post('/:quizId/publish', auth, async (req, res) => {
   }
 });
 
-router.post('/create', auth, async (req, res) => {
-  try {
-    const { title, questions } = req.body;
-
-    const quiz = new Quiz({
-      title,
-      questions,
-      creator: req.user.id // ✅ set creator from token
-    });
-
-    await quiz.save();
-    res.status(201).json({ message: 'Quiz created successfully', quiz });
-  } catch (err) {
-    console.error("Error creating quiz:", err);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
 
 module.exports = router;

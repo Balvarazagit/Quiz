@@ -101,7 +101,10 @@ function HostPage() {
 
     socket.on('player-joined', ({ players }) => {
       setPlayers(players);
-      toast.info(`👋 ${players[players.length - 1].name} joined!`);
+      const lastPlayer = players[players.length - 1];
+      if (lastPlayer && lastPlayer.name) {
+        toast.info(`👋 ${lastPlayer.name} joined!`);
+      }
     });
 
     socket.on('quiz-started', () => {

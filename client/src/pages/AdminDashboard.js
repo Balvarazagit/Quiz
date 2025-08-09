@@ -8,7 +8,7 @@ import {
   FiStar,
   FiChevronDown,
   FiFilter,
-  FiX
+  FiX,
 } from 'react-icons/fi';
 import '../pages/styles/AdminDashboard.css'
 import { toast } from 'react-toastify';
@@ -422,63 +422,70 @@ function AdminDashboard() {
                 <p>Try adjusting your search or time filter</p>
               </div>
             ) : (
-              <div className="results-grid">
-                {results.map((result) => (
-                  <div key={result._id} className="result-card">
-                    <div className="card-header">
-                      <div className="quiz-meta">
-                        <span className="quiz-pin">PIN: {result.pin}</span>
-                        <span className="quiz-date">
-                          <FiCalendar /> {new Date(result.date).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <button 
-                        onClick={() => handleDeleteResults(result._id)}
-                        className="delete-btn"
-                      >
-                        <FiTrash2 />
-                      </button>
-                    </div>
+             <div className="results-grid">
+  {results.map((result) => (
+    <div key={result._id} className="result-card">
+      <div className="card-header">
+        <div className="quiz-meta">
+          <span className="quiz-pin">
+            <FiChevronDown className="icon-sm" /> PIN: {result.pin}
+          </span>
+          <span className="quiz-date">
+            <FiCalendar className="icon-sm" /> 
+            {new Date(result.date).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            })}
+          </span>
+        </div>
+        <button 
+          onClick={() => handleDeleteResults(result._id)}
+          className="delete-btn"
+          aria-label="Delete results"
+        >
+          <FiTrash2 />
+        </button>
+      </div>
 
-                    <div className="player-leaderboard">
-                      <div className="leaderboard-header">
-                        <span>Rank</span>
-                        <span>Player</span>
-                        <span>Score</span>
-                      </div>
-                      {result.players.slice(0, isMobile ? 3 : undefined).map((player, idx) => (
-                        <div 
-                          key={idx} 
-                          className={`player-row ${idx < 3 ? 'podium-' + (idx + 1) : ''}`}
-                        >
-                          <span className="player-rank">
-                            {idx === 0 ? <FiAward className="gold" /> : 
-                            idx === 1 ? <FiAward className="silver" /> : 
-                            idx === 2 ? <FiAward className="bronze" /> : `#${idx + 1}`}
-                          </span>
-                          <span className="player-name">
-                            {player.name}
-                            {player.userId && (
-                              <span className="player-id" style={{ fontSize: '12px', color: '#888', marginLeft: '5px' }}>
-                                ({player.userId.slice(0, 6)})
-                              </span>
-                            )}
-                            {idx < 3 && <span className="podium-badge">Top {idx + 1}</span>}
-                          </span>
-                          <span className="player-score">
-                            {player.score} <FiStar className="score-icon" />
-                          </span>
-                        </div>
-                      ))}
-                      {isMobile && result.players.length > 3 && (
-                        <div className="mobile-show-more">
-                          + {result.players.length - 3} more players
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+      <div className="player-leaderboard">
+        <div className="leaderboard-header">
+          <span>Rank</span>
+          <span>Player</span>
+          <span>Score</span>
+        </div>
+        <div className="leaderboard-body">
+          {result.players.map((player, idx) => (
+            <div 
+              key={idx} 
+              className={`player-row ${idx < 3 ? 'podium-' + (idx + 1) : ''}`}
+            >
+              <span className="player-rank">
+                {idx === 0 ? <FiAward className="gold" /> : 
+                idx === 1 ? <FiAward className="silver" /> : 
+                idx === 2 ? <FiAward className="bronze" /> : `#${idx + 1}`}
+              </span>
+              <span className="player-name">
+                <span className="name-text">
+                  {player.name}
+                  {player.userId && (
+                    <span className="player-id">
+                      ({player.userId.slice(0, 6)})
+                    </span>
+                  )}
+                </span>
+                {idx < 3 && <span className="podium-badge">Top {idx + 1}</span>}
+              </span>
+              <span className="player-score">
+                {player.score} <FiStar className="score-icon" />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
             )}
           </div>
         )}

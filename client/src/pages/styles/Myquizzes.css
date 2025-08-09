@@ -464,6 +464,11 @@
   color: white;
 }
 
+.delete-btn-myquizzes{
+ background-Color: #ff4d4d;
+ color: white;
+}
+
 .share-btn:hover {
   background: var(--primary-dark);
 }
@@ -552,11 +557,11 @@
 
   .quiz-footer-actions {
     flex-direction: column;
+    align-items: center;
   }
 
   .action-btn {
     width: 100%;
-    text-align: center;
   }
 }
 
