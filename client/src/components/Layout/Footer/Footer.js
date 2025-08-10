@@ -62,7 +62,7 @@ const Footer = () => {
             </li>
             <li>
               <FaMapMarkerAlt className="contact-icon" />
-              <span>Anjumane Hussainiya Sardariya Hostel And PG,Juhapura, Ahmedabad, Gujarat 380055</span>
+              <span>701, Islampuravaas, Meta-Basu Rd, Basu, Meta, Gujarat 385520</span>
             </li>
           </ul>
         </div>

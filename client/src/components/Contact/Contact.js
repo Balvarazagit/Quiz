@@ -185,7 +185,7 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <h3>Our Location</h3>
-                  <p>Anjumane Hussainiya Sardariya Hostel And PG, Javed Park, Society, opp. Prachina Society Road, Royal Nawab Society, Juhapura, Ahmedabad, Gujarat 380055</p>
+                  <p>701, Islampuravaas, Meta-Basu Rd, Basu, Meta, Gujarat 385520</p>
                 </div>
               </div>
               
@@ -225,19 +225,54 @@ const ContactPage = () => {
         </section>
         
         {/* Map Section */}
-        <section className="map-section">
+        <motion.section
+          className="map-section"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <div className="section-header-contact">
+            <motion.h2
+              initial={{ y: 20 }}
+              whileInView={{ y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Our Location
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Visit us or get in touch for directions
+            </motion.p>
+          </div>
+
           <div className="map-container">
             <div className="map-overlay"></div>
-            <iframe 
+            <div className="map-interaction">
+              <motion.a
+                href="https://maps.google.com?q=Balva+Manzil"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="map-button"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <i className="fas fa-directions"></i> Get Directions
+              </motion.a>
+            </div>
+            <iframe
               title="Our Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3672.974090638804!2d72.5228846109511!3d22.98798021753135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e85585082cb95%3A0x94581940d6ae51d1!2sAnjumane%20Hussainiya%20Sardariya%20Hostel%20And%20PG!5e0!3m2!1sen!2sin!4v1753696064378!5m2!1sen!2sin" 
-              allowFullScreen="" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d237.5108258256696!2d72.34306435296!3d24.04475191467505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395ced81707154cd%3A0xb4cba6665c4ef0e3!2sBalva%20Manzil!5e1!3m2!1sen!2sin!4v1754815721713!5m2!1sen!2sin"
+              allowFullScreen=""
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
-        </section>
+        </motion.section>
       </main>
-      <Footer />
     </>
   );
 };
