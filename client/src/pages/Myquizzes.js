@@ -207,12 +207,12 @@ function Myquizzes() {
                 <div className="quiz-header">
                   <div className="quiz-title-wrapper">
                     <h3 className="quiz-title">{quiz.title}</h3>
+                    <div className="quiz-id-myquizzes" style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}>
+                    ID: {quiz._id}
+                  </div>
                     <span className={`quiz-status-badge ${quiz.isPublished ? 'published' : 'draft'}`}>
                       {quiz.isPublished ? 'Published' : 'Draft'}
                     </span>
-                     <div className="quiz-id-myquizzes" style={{ fontSize: "12px", color: "#888", marginTop: "4px" }}>
-                    ID: {quiz._id}
-                  </div>
                   </div>
                   <span className="question-count">
                     {quiz.questions?.length || 0} {quiz.questions?.length === 1 ? 'question' : 'questions'}
@@ -245,40 +245,57 @@ function Myquizzes() {
                         <div className="question-header-myquizzes">
                           <span className="question-number-myquizzes">Q{qIndex + 1}</span>
                           <h4 className="question-text">{question.question}</h4>
-                          {question.mediaType === "image" && (
-                            <img src={question.mediaUrl} alt="question" className="question-media-myquizzes" />
-                          )}
-                          {question.mediaType === "audio" && (
+                        </div>
+                        
+                        {/* Media display */}
+                        {question.mediaType === "image" && (
+                          <img 
+                            src={question.mediaUrl} 
+                            alt="question" 
+                            className="question-media-myquizzes" 
+                            loading="lazy"
+                          />
+                        )}
+                        {question.mediaType === "audio" && (
+                          <div className="media-container">
                             <audio controls className="question-media-myquizzes">
                               <source src={question.mediaUrl} type="audio/mpeg" />
                             </audio>
-                          )}
-                          {question.mediaType === "gif" && (
-                            <img src={question.mediaUrl} alt="gif" className="question-media-myquizzes" />
-                          )}
-                          {question.mediaType === "video" && (
+                          </div>
+                        )}
+                        {question.mediaType === "gif" && (
+                          <img 
+                            src={question.mediaUrl} 
+                            alt="gif" 
+                            className="question-media-myquizzes" 
+                            loading="lazy"
+                          />
+                        )}
+                        {question.mediaType === "video" && (
+                          <div className="video-container">
                             <iframe
                               className="question-media-myquizzes"
                               src={`https://www.youtube.com/embed/${extractYouTubeId(question.mediaUrl)}`}
                               title="YouTube video"
                               frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                               allowFullScreen
                             />
-                          )}
-                        </div>
+                          </div>
+                        )}
                         
-                        <ul className="options-list">
+                        <ul className="options-list-myquizzes">
                           {question.options?.map((option, oIndex) => (
                             <li 
                               key={oIndex}
-                              className={`option-item ${option === question.correct ? 'correct' : ''}`}
+                              className={`option-item-myquizzes ${option === question.correct ? 'correct' : ''}`}
                             >
-                              <span className="option-letter">
+                              <span className="option-letter-myquizzes">
                                 {String.fromCharCode(65 + oIndex)}.
                               </span>
                               {option}
                               {option === question.correct && (
-                                <span className="correct-badge">
+                                <span className="correct-badge-myquizzes">
                                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
