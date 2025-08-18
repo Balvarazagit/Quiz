@@ -5,6 +5,8 @@ const questionSchema = new mongoose.Schema({
   options: [String],
   correct: String,
   thought: String,
+  mediaType: { type: String, enum: ["image", "audio", "gif", "video", ""], default: "" },
+  mediaUrl: { type: String, default: "" }
 });
 
 // Track individual players and their scores

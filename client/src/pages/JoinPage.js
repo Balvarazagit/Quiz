@@ -155,6 +155,13 @@ function JoinPage() {
     }
   }, [showAnswer, selectedAnswer, correctAnswer, answerTime]);
 
+  const extractYouTubeId = (url) => {
+  const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
+};
+
+
   return (
     <div className="quiz-app-container">
       {/* Celebration Confetti */}
@@ -335,9 +342,34 @@ function JoinPage() {
                       <span>{timeLeft}s</span>
                     </div>
                   </div>
-                  
                   <h3 className="question-text">{currentQuestion.question}</h3>
+                  <div className="media-display">
+                    {currentQuestion.mediaType === "image" && (
+                      <img src={currentQuestion.mediaUrl} alt="question" className="media-preview" />
+                    )}
+
+                    {currentQuestion.mediaType === "audio" && (
+                      <audio controls className="media-audio">
+                        <source src={currentQuestion.mediaUrl} type="audio/mpeg" />
+                      </audio>
+                    )}
+
+                    {currentQuestion.mediaType === "gif" && (
+                      <img src={currentQuestion.mediaUrl} alt="gif" className="media-preview" />
+                    )}
+
+                    {currentQuestion.mediaType === "video" && (
+                      <iframe
+                        className="media-video"
+                        src={`https://www.youtube.com/embed/${extractYouTubeId(currentQuestion.mediaUrl)}`}
+                        title="YouTube video"
+                        frameBorder="0"
+                        allowFullScreen
+                      />
+                    )}
+                  </div>
                   
+
                   {/* Progress Bar */}
                   <div className="progress-track">
                     <div 

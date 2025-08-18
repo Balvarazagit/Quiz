@@ -168,6 +168,12 @@ function HostPage() {
     return Math.round((answerStats[option] || 0) / answerStats.totalAnswers * 100);
   };
 
+  const extractYouTubeId = (url) => {
+    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
+
   return (
     <div className="host-container">
       <motion.div
@@ -324,6 +330,34 @@ function HostPage() {
                                   )}
                                   <span className="question-number-host">Question {questionNumber}</span>
                                   <h3 className="question-text">{currentQuestion.question}</h3>
+                                  <div className="media-display">
+                                    {currentQuestion.mediaType === "image" && (
+                                      <img src={currentQuestion.mediaUrl} alt="question" className="media-preview" />
+                                    )}
+
+                                    {currentQuestion.mediaType === "audio" && (
+                                      <audio controls className="media-audio">
+                                        <source src={currentQuestion.mediaUrl} type="audio/mpeg" />
+                                      </audio>
+                                    )}
+
+                                    {currentQuestion.mediaType === "gif" && (
+                                      <img src={currentQuestion.mediaUrl} alt="gif" className="media-preview" />
+                                    )}
+
+                                    {currentQuestion.mediaType === "video" && (
+                                      <iframe
+                                        className="media-video"
+                                        src={`https://www.youtube.com/embed/${extractYouTubeId(currentQuestion.mediaUrl)}`}
+                                        title="YouTube video"
+                                        frameBorder="0"
+                                        allowFullScreen
+                                      />
+                                    )}
+                                  </div>
+                                
+
+
                                 </div>
                           <div className="options-stats-container">
                             {currentQuestion.options.map((option, index) => {

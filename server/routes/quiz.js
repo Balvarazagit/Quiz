@@ -153,10 +153,12 @@ router.get('/:quizId/view', async (req, res) => {
       questions: quiz.questions.map(q => ({
         question: q.question,
         options: q.options,
-        correct: q.correct
+        correct: q.correct,
+        mediaType: q.mediaType || "",
+        mediaUrl: q.mediaUrl || "",
       })),
-      creatorName: quiz.creator?.name || 'Unknown'
-    };
+      creatorName: quiz.creator?.name || 'Unknown',
+    };    
 
     res.json(viewData);
   } catch (err) {

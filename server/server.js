@@ -150,6 +150,8 @@ socket.on("start-quiz", async ({ pin }) => {
       startTime: room.questionStartTime,
       index: room.currentQuestionIndex, 
       total: quiz.questions.length,
+      mediaType: firstQuestion.mediaType || "",
+      mediaUrl: firstQuestion.mediaUrl || ""
     });
 
     io.to(pin).emit("quiz-started");
@@ -233,6 +235,8 @@ socket.on("start-quiz", async ({ pin }) => {
       startTime: room.questionStartTime,
       index: room.currentQuestionIndex, 
       total: quiz.questions.length,
+      mediaType: nextQ.mediaType || "",
+      mediaUrl: nextQ.mediaUrl || ""
     });
 
     setTimeout(() => {
@@ -292,7 +296,7 @@ socket.on("start-quiz", async ({ pin }) => {
 
   socket.on("send-question", ({ pin, question }) => {
     io.to(pin).emit("receive-question", question);
-  });
+  }); 
 
  socket.on("kick-player", ({ pin, playerId }) => {
   const room = rooms[pin];
