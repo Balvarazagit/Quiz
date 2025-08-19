@@ -56,13 +56,13 @@ router.get('/by-user/me', auth, async (req, res) => {
 router.get('/admin/all', async (req, res) => {
   try {
     const quizzes = await Quiz.find()
-      .populate('createdBy', 'name email') // Get name & email of creator
+      .populate('creator', 'name email') // Get name & email of creator
       .sort({ createdAt: -1 });
 
     const formatted = quizzes.map(q => ({
       _id: q._id,
       title: q.title,
-      host: q.createdBy,
+      host: q.creator,
       createdAt: q.createdAt
     }));
 

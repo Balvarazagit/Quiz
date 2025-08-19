@@ -29,7 +29,7 @@ const quizSchema = new mongoose.Schema({
     ref: 'User', // Make sure this matches your user model name
     required: true,
   },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  // createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now },
 
   // 🎯 NEW FIELDS

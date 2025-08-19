@@ -98,6 +98,7 @@ function JoinPage() {
 
     socket.on("quiz-ended", (scores) => {
       const sorted = [...scores].sort((a, b) => b.score - a.score);
+      console.log("sorted",sorted);
       setScoreboard(sorted);
       setQuizEnded(true);
       const me = sorted.find(s => s.name === name);
@@ -343,7 +344,7 @@ function JoinPage() {
                     </div>
                   </div>
                   <h3 className="question-text">{currentQuestion.question}</h3>
-                  <div className="media-display">
+                  <div className="media-display-join">
                     {currentQuestion.mediaType === "image" && (
                       <img src={currentQuestion.mediaUrl} alt="question" className="media-preview" />
                     )}

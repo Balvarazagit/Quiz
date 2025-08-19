@@ -28,6 +28,8 @@ function AdminDashboard() {
   const [results, setResults] = useState([]);  
   const [users, setUsers] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
+  console.log("quizzes", quizzes);
+  
   const [searchPIN, setSearchPIN] = useState('');
   const [filter, setFilter] = useState('all');
   const [userSearch, setUserSearch] = useState('');

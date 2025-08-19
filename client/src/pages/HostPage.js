@@ -330,7 +330,7 @@ function HostPage() {
                                   )}
                                   <span className="question-number-host">Question {questionNumber}</span>
                                   <h3 className="question-text">{currentQuestion.question}</h3>
-                                  <div className="media-display">
+                                  <div className="media-display-host">
                                     {currentQuestion.mediaType === "image" && (
                                       <img src={currentQuestion.mediaUrl} alt="question" className="media-preview" />
                                     )}
