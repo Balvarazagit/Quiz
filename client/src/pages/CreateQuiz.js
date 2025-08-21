@@ -47,22 +47,35 @@ function CreateQuiz() {
   };
 
   const handleChange = (qIndex, field, value) => {
-  const updated = [...questions];
-  updated[qIndex][field] = value;
+    const updated = [...questions];
+    updated[qIndex][field] = value;
 
-  if (field === 'type') {
-    updated[qIndex].options =
-      value === 'TrueFalse' ? ['True', 'False'] : ['', '', '', ''];
-    // Fix: MCQ/TrueFalse/Poll pe correct ko string bana do
-    if (value === 'Puzzle') {
-      updated[qIndex].correct = [];
-    } else {
-      updated[qIndex].correct = '';
+    if (field === "type") {
+      if (value === "TrueFalse") {
+        updated[qIndex].options = ["True", "False"];
+        updated[qIndex].correct = "";
+      } else if (value === "MCQ") {
+        updated[qIndex].options = ["", "", "", ""];
+        updated[qIndex].correct = "";
+      } else if (value === "Poll") {
+        updated[qIndex].pollMode = "MCQ"; // ✅ default poll mode
+        updated[qIndex].options = ["", "", "", ""];
+        updated[qIndex].correct = ""; // poll me correct ki zarurat nahi
+      } else if (value === "Puzzle") {
+        updated[qIndex].options = ["", "", "", ""];
+        updated[qIndex].correct = [];
+      }
     }
-  }
 
-  setQuestions(updated);
-};
+    if (field === "pollMode") {
+      updated[qIndex].pollMode = value;
+      updated[qIndex].options =
+        value === "TrueFalse" ? ["True", "False"] : ["", "", "", ""];
+    }
+
+    setQuestions(updated);
+  };
+
 
   const handleOptionChange = (qIndex, optIndex, value) => {
     const updated = [...questions];
@@ -274,6 +287,20 @@ if (q.type === "Poll") {
                   />
                 </div>
 
+                {q.type === "Poll" && (
+                  <div className="poll-mode-selector">
+                    <label className="input-label">Poll Type</label>
+                    <select
+                      value={q.pollMode || "MCQ"}
+                      onChange={(e) => handleChange(qIndex, "pollMode", e.target.value)}
+                      className="question-type-select"
+                    >
+                      <option value="MCQ">MCQ Poll (4 Options)</option>
+                      <option value="TrueFalse">True/False Poll</option>
+                    </select>
+                  </div>
+                )}
+
                 <div className="media-section">
                   <label className="input-label">Add Media (Optional)</label>
                   <div className="media-controls">
@@ -362,18 +389,27 @@ if (q.type === "Poll") {
                 </div>
 
                 <div className="options-section">
-                  <label className="input-label">{q.type === 'TrueFalse' ? 'True/False Options' : 'Answer Options'}</label>
+                  <label className="input-label">
+                    {q.type === "TrueFalse" || (q.type === "Poll" && q.pollMode === "TrueFalse")
+                      ? "True/False Options"
+                      : "Answer Options"}
+                  </label>
+
                   <div className="options-container">
                     {q.options.map((opt, optIndex) => (
                       <div key={optIndex} className="option-input-wrapper">
                         <span className="option-bullet"></span>
                         <input
                           type="text"
-                          placeholder={q.type === 'TrueFalse' ? '' : `Option ${optIndex + 1}`}
+                          placeholder={
+                            q.type === "TrueFalse" || (q.type === "Poll" && q.pollMode === "TrueFalse")
+                              ? ""
+                              : `Option ${optIndex + 1}`
+                          }
                           value={opt}
-                          onChange={e => handleOptionChange(qIndex, optIndex, e.target.value)}
+                          onChange={(e) => handleOptionChange(qIndex, optIndex, e.target.value)}
                           className="option-input"
-                          disabled={q.type === 'TrueFalse'}
+                          disabled={q.type === "TrueFalse" || (q.type === "Poll" && q.pollMode === "TrueFalse")}
                         />
                       </div>
                     ))}
