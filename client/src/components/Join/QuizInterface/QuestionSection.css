@@ -1,0 +1,74 @@
+/* QuestionSection.css */
+.question-section {
+  background: #F1F8E9;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.question-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.question-tag {
+  background: #4CAF50;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.time-remaining {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #4CAF50;
+}
+
+.timer-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.question-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2E7D32;
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+}
+
+.media-display-join {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.media-preview {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+}
+
+.media-audio, .media-video {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.progress-track {
+  height: 6px;
+  background: #E0E0E0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #4CAF50;
+  transition: width 1s linear;
+}

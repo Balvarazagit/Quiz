@@ -422,7 +422,7 @@
   font-weight: 600;
 }
 
-.player-score {
+.player-score-admin {
   display: flex;
   align-items: center;
   justify-content: flex-end;

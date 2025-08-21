@@ -1,0 +1,50 @@
+/* FeedbackPanel.css */
+.feedback-panel {
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.feedback-panel.positive {
+  background: #E8F5E9;
+  border: 1px solid #C8E6C9;
+}
+
+.feedback-panel.negative {
+  background: #FFEBEE;
+  border: 1px solid #FFCDD2;
+}
+
+.feedback-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.feedback-icon-container {
+  flex-shrink: 0;
+}
+
+.feedback-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.feedback-details h4 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.positive .feedback-details h4 {
+  color: #2E7D32;
+}
+
+.negative .feedback-details h4 {
+  color: #D32F2F;
+}
+
+.points-earned {
+  font-weight: 700;
+  color: #4CAF50;
+  margin-bottom: 8px;
+}

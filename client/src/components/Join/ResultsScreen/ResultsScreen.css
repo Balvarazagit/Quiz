@@ -1,0 +1,81 @@
+/* ResultsScreen.css */
+.results-screen {
+  text-align: center;
+}
+
+.results-header {
+  margin-bottom: 30px;
+}
+
+.trophy-icon-container {
+  margin-bottom: 15px;
+}
+
+.results-icon {
+  width: 60px;
+  height: 60px;
+}
+
+.results-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2E7D32;
+  margin: 0 0 20px 0;
+}
+
+.final-score-container {
+  background: #F1F8E9;
+  border-radius: 12px;
+  padding: 20px;
+  display: inline-block;
+}
+
+.final-score-label {
+  font-size: 14px;
+  color: #757575;
+  margin: 0 0 8px 0;
+}
+
+.final-score {
+  font-size: 48px;
+  font-weight: 800;
+  color: #4CAF50;
+  margin: 0;
+}
+
+.results-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.share-results, .new-session {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.share-results {
+  background: #2196F3;
+  color: white;
+}
+
+.share-results:hover {
+  background: #1976D2;
+}
+
+.new-session {
+  background: #4CAF50;
+  color: white;
+}
+
+.new-session:hover {
+  background: #388E3C;
+}

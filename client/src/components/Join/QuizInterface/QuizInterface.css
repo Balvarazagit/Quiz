@@ -1,0 +1,16 @@
+/* QuizInterface.css */
+.quiz-interface {
+  margin-bottom: 30px;
+}
+
+.thought-panel {
+  margin-bottom: 20px;
+}
+
+.thought-bubble {
+  padding: 15px;
+  background: #FFF8E1;
+  border-radius: 12px;
+  border: 1px solid #FFECB3;
+  color: #5D4037;
+}

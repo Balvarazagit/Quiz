@@ -1,0 +1,127 @@
+.live-scoreboard-host {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid var(--gray-light);
+  margin-bottom: 2rem;
+}
+
+.live-scoreboard-host h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-align: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gray-light);
+}
+
+.live-scoreboard-host .scoreboard-header {
+  display: grid;
+  grid-template-columns: 70px 1fr 90px;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  background-color: var(--bg-light);
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.live-scoreboard-host .scoreboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.live-scoreboard-host .scoreboard-item {
+  display: grid;
+  grid-template-columns: 70px 1fr 90px;
+  align-items: center;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--gray-light);
+  transition: all 0.3s;
+}
+
+.live-scoreboard-host .scoreboard-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.live-scoreboard-host .player-rank {
+  font-weight: 600;
+  color: var(--primary-dark);
+  font-size: 1rem;
+}
+
+.live-scoreboard-host .player-name {
+  font-weight: 500;
+  color: #333;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.live-scoreboard-host .player-name span {
+  font-size: 0.8rem;
+  color: white;
+}
+
+.live-scoreboard-host .player-score-livescoreboard {
+  font-weight: 600;
+  color: var(--primary-dark);
+  text-align: right;
+  font-size: 1rem;
+}
+
+.winner-badge {
+  background: var(--primary-light);
+  color: var(--white);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+/* Scrollbar styling */
+.live-scoreboard-host .scoreboard-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.live-scoreboard-host .scoreboard-list::-webkit-scrollbar-track {
+  background: var(--bg-light);
+  border-radius: 10px;
+}
+
+.live-scoreboard-host .scoreboard-list::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .live-scoreboard-host .scoreboard-header,
+  .live-scoreboard-host .scoreboard-item {
+    grid-template-columns: 50px 1fr 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .live-scoreboard-host .player-name {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .winner-badge {
+    margin-left: 0;
+  }
+}

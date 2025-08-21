@@ -1,0 +1,149 @@
+.final-scoreboard {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--gray-light);
+  margin-top: 1rem;
+}
+
+.scoreboard-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.trophy-icon {
+  font-size: 2rem;
+}
+
+.final-scoreboard .scoreboard-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px;
+  padding: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1rem;
+  background-color: var(--bg-light);
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.final-scoreboard .scoreboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.final-scoreboard .scoreboard-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px;
+  align-items: center;
+  background: white;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--gray-light);
+  transition: all 0.3s;
+  position: relative;
+}
+
+.final-scoreboard .scoreboard-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.final-scoreboard .scoreboard-item.top-1 {
+  background: linear-gradient(135deg, #FFF9C4, #FFF59D);
+  border-color: #FFD600;
+}
+
+.final-scoreboard .scoreboard-item.top-2 {
+  background: linear-gradient(135deg, #F5F5F5, #EEEEEE);
+  border-color: #9E9E9E;
+}
+
+.final-scoreboard .scoreboard-item.top-3 {
+  background: linear-gradient(135deg, #FFCCBC, #FFAB91);
+  border-color: #FF5722;
+}
+
+.final-scoreboard .player-rank {
+  font-weight: 700;
+  color: var(--primary-dark);
+  font-size: 1.25rem;
+}
+
+.final-scoreboard .player-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.final-scoreboard .player-score-finalscoreboard {
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-align: right;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.score-value {
+  font-size: 1.5rem;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.winner-badge {
+  background: var(--primary-light);
+  color: var(--white);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .final-scoreboard .scoreboard-header,
+  .final-scoreboard .scoreboard-item {
+    grid-template-columns: 50px 1fr 70px;
+  }
+  
+  .final-scoreboard .player-score-finalscoreboard {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+  }
+  
+  .score-value {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .final-scoreboard .player-name {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .winner-badge {
+    margin-left: 0;
+  }
+}

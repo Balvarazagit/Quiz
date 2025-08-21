@@ -1,9 +1,17 @@
+// HostPage.js (Main Component)
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
-import { FaPlay, FaStepForward, FaUserAlt, FaSignOutAlt, FaClipboard, FaClipboardCheck } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import HostForm from '../components/Host/HostForm/HostForm';
+import PinDisplay from '../components/Host/PinDisplay/PinDisplay';
+import PlayerList from '../components/Host/PlayerList/PlayerList';
+import LiveScoreboard from '../components/Host/LiveScoreboard/LiveScoreboard';
+import QuestionDisplay from '../components/Host/QuestionDisplay/QuestionDisplay';
+import FinalScoreboard from '../components/Host/FinalScoreboard/FinalScoreboard'
+import QuizControls from '../components/Host/QuizControls/QuizControls';
 import '../pages/styles/HostPage.css';
+import { FaUserAlt, FaPlay } from 'react-icons/fa';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
@@ -17,9 +25,7 @@ function HostPage() {
   const [quizStarted, setQuizStarted] = useState(false);
   const [isQuizOver, setIsQuizOver] = useState(false);
   const [finalResults, setFinalResults] = useState([]);
-  const [copied, setCopied] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
-  console.log("currentQuestion", currentQuestion);
   const [answerStats, setAnswerStats] = useState({});
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -51,13 +57,6 @@ function HostPage() {
 
     return () => clearInterval(interval);
   }, [currentQuestion]);
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(pin);
-    setCopied(true);
-    toast.success('PIN copied to clipboard!');
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const hostQuiz = () => {
     if (!quizId.trim()) {
@@ -112,7 +111,6 @@ function HostPage() {
     });
 
     socket.on("receive-question", (data) => {
-      console.log("Current Question:", data);
       setCurrentQuestion(data);
       setAnswerStats({});
       const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
@@ -159,17 +157,6 @@ function HostPage() {
     };
   }, []);
 
-  const getOptionPercentage = (option) => {
-    if (!answerStats.totalAnswers || answerStats.totalAnswers === 0) return 0;
-    return Math.round((answerStats[option] || 0) / answerStats.totalAnswers * 100);
-  };
-
-  const extractYouTubeId = (url) => {
-    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : null;
-  };
-
   return (
     <div className="host-container">
       <motion.div
@@ -186,90 +173,22 @@ function HostPage() {
         </div>
 
         {!pin ? (
-          <div className="host-form">
-            <div>
-              <label>Quiz ID</label>
-              <input
-                type="text"
-                placeholder="Enter your quiz ID"
-                value={quizId}
-                onChange={(e) => setQuizId(e.target.value)}
-              />
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={hostQuiz}
-              className="host-button"
-            >
-              <FaPlay className="icon" /> Host Quiz
-            </motion.button>
-          </div>
+          <HostForm 
+            quizId={quizId} 
+            setQuizId={setQuizId} 
+            hostQuiz={hostQuiz} 
+          />
         ) : (
           <div className="host-game">
-            <div className="pin-container">
-              <h3>Game PIN</h3>
-              <div className="pin-display">
-                <code>{pin}</code>
-                <button onClick={copyToClipboard} aria-label="Copy PIN">
-                  {copied ? <FaClipboardCheck className="copied" /> : <FaClipboard />}
-                </button>
-              </div>
-              <p>Share this PIN with players to join</p>
-            </div>
-
-              <div className="players-container">
-                <h4>
-                  <span className="player-icon"><FaUserAlt /></span>
-                  Players Joined: {players.length}
-                </h4>
-                <div className="players-list">
-                  {players.length === 0 ? (
-                    <p className="empty-players">Waiting for players to join...</p>
-                  ) : (
-                    players.map(player => (
-                      <motion.div
-                        key={player.id}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="player-item"
-                      >
-                        {/* ✅ Name + userId grouping */}
-                        <div className="player-info">
-                          <span className="player-name">{player.name}</span>
-                          <span className="player-id">({player.userId?.slice(0, 6)})</span>
-                        </div>
-
-                        <button onClick={() => handleKick(player.id, player.name)}>
-                          <FaSignOutAlt />
-                        </button>
-                      </motion.div>
-                    ))
-                  )}
-                </div>
-              </div>
-
-            <div className="live-scoreboard-host">
-              <h3>Live Scoreboard</h3>
-              <div className="scoreboard-header">
-                <span className="header-rank">Rank</span>
-                <span className="header-name">Player</span>
-                <span className="header-score">Score</span>
-              </div>
-              <div className="scoreboard-list">
-                {scoreboard.map((player, index) => (
-                  <div key={index} className="scoreboard-item">
-                    <span className="player-rank">#{index + 1}</span>
-                    <span className="player-name">
-                      {player.name}<span>({player.userId?.slice(0, 6)})</span>
-                      {index < 3 && <span className="winner-badge">Top {index + 1}</span>}
-                    </span>
-                    <span className="player-score">{player.score}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
+            <PinDisplay pin={pin} />
+            
+            <PlayerList 
+              players={players} 
+              handleKick={handleKick} 
+            />
+            
+            <LiveScoreboard scoreboard={scoreboard} />
+            
             {!quizStarted ? (
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -283,186 +202,28 @@ function HostPage() {
             ) : (
               <>
                 {isQuizOver ? (
-                  <div className="final-scoreboard">
-                    <h2 className="scoreboard-title">
-                      <span className="trophy-icon">🏆</span>
-                      Final Results
-                      <span className="trophy-icon">🏆</span>
-                    </h2>
-                    <div className="scoreboard-header">
-                      <span className="header-rank">Rank</span>
-                      <span className="header-name">Player</span>
-                      <span className="header-score">Score</span>
-                    </div>
-                    <div className="scoreboard-list">
-                      {finalResults.slice(0, 10).map((player, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className={`scoreboard-item ${index < 3 ? `top-${index + 1}` : ''}`}
-                        >
-                          <span className="player-rank">
-                            {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
-                          </span>
-                          <span className="player-name">
-                            {player.name}<span style={{ fontSize: '12px', color: '#999' }}>({player.userId?.slice(0, 6)})</span>
-                            {index < 3 && <span className="winner-badge">Winner</span>}
-                          </span>
-                          <span className="player-score">
-                            <span className="score-value">{player.score}</span>
-                            <span className="score-label">pts</span>
-                          </span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
+                  <FinalScoreboard finalResults={finalResults} />
                 ) : (
-                  <div className="quiz-controls">
-                    {currentQuestion && (
-                      <div className="question-display-container">
-                        <div className="question-display">
-                          <div className="question-host-header">
-                            {timeLeft !== null && (
-                              <div className="question-timer">⏳ {timeLeft}s remaining</div>
-                            )}
-                            <span className="question-number-host">Question {questionNumber}</span>
-                            <h3 className="question-text">{currentQuestion.question}</h3>
-                            <div className="media-display-host">
-                              {currentQuestion.mediaType === "image" && (
-                                <img src={currentQuestion.mediaUrl} alt="question" className="media-preview" />
-                              )}
-
-                              {currentQuestion.mediaType === "audio" && (
-                                <audio controls className="media-audio">
-                                  <source src={currentQuestion.mediaUrl} type="audio/mpeg" />
-                                </audio>
-                              )}
-
-                              {currentQuestion.mediaType === "gif" && (
-                                <img src={currentQuestion.mediaUrl} alt="gif" className="media-preview" />
-                              )}
-
-                              {currentQuestion.mediaType === "video" && (
-                                <iframe
-                                  className="media-video"
-                                  src={`https://www.youtube.com/embed/${extractYouTubeId(currentQuestion.mediaUrl)}`}
-                                  title="YouTube video"
-                                  frameBorder="0"
-                                  allowFullScreen
-                                />
-                              )}
-                            </div>
-                          </div>
-                          <div className="options-stats-container">
-                            {currentQuestion.options.map((option, index) => {
-                              const percentage = getOptionPercentage(option);
-                              const isCorrect = showCorrectAnswer && (
-                                Array.isArray(currentQuestion.correct)
-                                  ? currentQuestion.correct.includes(option)
-                                  : option === currentQuestion.correct
-                              );
-
-                              return (
-                                <div key={index} className="option-stat-wrapper">
-                                  <div className="option-stat">
-                                    <div className="option-label">
-                                      <span className="option-letter">{String.fromCharCode(65 + index)}</span>
-                                      <span className="option-text">{option}</span>
-                                      {isCorrect && <span className="correct-indicator">✓</span>}
-                                    </div>
-
-                                    <div className="stat-visualization">
-                                      <div className="stat-bar-container">
-                                        <div
-                                          className="stat-bar"
-                                          style={{
-                                            width: `${percentage}%`,
-                                            backgroundColor: isCorrect ? '#4CAF50' : '#2196F3'
-                                          }}
-                                        ></div>
-                                      </div>
-
-                                      <div className="stat-numbers">
-                                        <span className="stat-percentage">{percentage}%</span>
-                                        <span className="stat-count">({answerStats[option] || 0})</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-
-                                {/* Show correct answer separately for puzzle type when revealed */}
-                                {showCorrectAnswer && currentQuestion.type === "Puzzle" && (
-                                  <div className="puzzle-answer-box">
-                                    <h4>🧩 Correct Answer:</h4>
-                                    <p className="puzzle-answer-text">
-                                      {Array.isArray(currentQuestion.correct)
-                                        ? currentQuestion.correct.join(", ")
-                                        : currentQuestion.correct}
-                                    </p>
-                                  </div>
-                                )}
-
-
-                          <div className="participation-metrics">
-                            <div className="total-responses">
-                              <span className="metric-value">{answerStats.totalAnswers || 0}</span>
-                              <span className="metric-label">Responses</span>
-                            </div>
-                            <div className="response-rate">
-                              <span className="metric-value">
-                                {players.length > 0
-                                  ? Math.round((answerStats.totalAnswers || 0) / players.length * 100)
-                                  : 0}%
-                              </span>
-                              <span className="metric-label">Participation</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    <AnimatePresence>
-                      {showThought && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.5 }}
-                          className="host-thought-box"
-                        >
-                          💡 <strong>Host Thought:</strong> {thought}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    <div className="host-control-buttons">
-                      {!showCorrectAnswer && (
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={revealAnswer}
-                          className="reveal-button"
-                        >
-                          Reveal Answer
-                        </motion.button>
-                      )}
-                      <motion.button
-                        whileHover={!isQuizOver ? { scale: 1.02 } : {}}
-                        whileTap={!isQuizOver ? { scale: 0.98 } : {}}
-                        onClick={nextQuestion}
-                        disabled={isQuizOver}
-                        className={`next-button ${isQuizOver ? 'disabled' : ''}`}
-                      >
-                        <FaStepForward className="icon" />
-                        {isMobile ? (isQuizOver ? "Completed" : "Next") : (isQuizOver ? "Quiz Completed" : "Next Question")}
-                      </motion.button>
-                    </div>
-                  </div>
+                  <>
+                    <QuestionDisplay 
+                      currentQuestion={currentQuestion}
+                      questionNumber={questionNumber}
+                      timeLeft={timeLeft}
+                      answerStats={answerStats}
+                      players={players}
+                      showCorrectAnswer={showCorrectAnswer}
+                      thought={thought}
+                      showThought={showThought}
+                    />
+                    
+                    <QuizControls 
+                      revealAnswer={revealAnswer}
+                      nextQuestion={nextQuestion}
+                      isQuizOver={isQuizOver}
+                      isMobile={isMobile}
+                      showCorrectAnswer={showCorrectAnswer}
+                    />
+                  </>
                 )}
               </>
             )}

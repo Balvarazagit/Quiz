@@ -478,7 +478,7 @@ function AdminDashboard() {
                 </span>
                 {idx < 3 && <span className="podium-badge">Top {idx + 1}</span>}
               </span>
-              <span className="player-score">
+              <span className="player-score-admin">
                 {player.score} <FiStar className="score-icon" />
               </span>
             </div>

@@ -1,0 +1,365 @@
+/* components/host/PlayerList.css */
+.players-container {
+  border: 2px solid var(--gray-light);
+  border-radius: 16px;
+  padding: 1.5rem;
+  background-color: var(--white);
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.players-container:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.players-container h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--gray-light);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.player-icon {
+  background-color: var(--bg-light);
+  color: var(--primary-dark);
+  padding: 0.6rem;
+  border-radius: 50%;
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.players-list {
+  max-height: 250px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 0.5rem;
+}
+
+.players-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.players-list::-webkit-scrollbar-track {
+  background: var(--bg-light);
+  border-radius: 10px;
+}
+
+.players-list::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 10px;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-light);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.player-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--primary-light), var(--primary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.player-item:hover {
+  transform: translateX(5px);
+  box-shadow: var(--shadow);
+}
+
+.player-item:hover::before {
+  opacity: 1;
+}
+
+.player-info-playerlist {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.player-name {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.player-id {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  background-color: rgba(139, 195, 74, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  font-family: 'Courier New', monospace;
+  white-space: nowrap;
+}
+
+.player-item button {
+  color: var(--danger);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.player-item button:hover {
+  color: #D32F2F;
+  background-color: rgba(244, 67, 54, 0.1);
+  transform: scale(1.1);
+}
+
+.empty-players {
+  text-align: center;
+  color: var(--text-light);
+  padding: 2rem 0;
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.empty-players::before {
+  content: "👤";
+  font-size: 2rem;
+  opacity: 0.5;
+}
+
+/* Responsive Design Improvements */
+@media (max-width: 1024px) {
+  .players-container {
+    padding: 1.25rem;
+  }
+  
+  .players-container h4 {
+    font-size: 1.1rem;
+  }
+  
+  .player-item {
+    padding: 0.9rem 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .players-container {
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .players-container h4 {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .player-icon {
+    width: 28px;
+    height: 28px;
+    padding: 0.5rem;
+  }
+
+  .players-list {
+    max-height: 200px;
+  }
+
+  .player-item {
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .player-info-playerlist {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .player-name {
+    font-size: 0.95rem;
+  }
+
+  .player-id {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .player-item button {
+    width: 34px;
+    height: 34px;
+    padding: 0.4rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .players-container {
+    padding: 0.875rem;
+  }
+  
+  .players-container h4 {
+    font-size: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .players-list {
+    max-height: 180px;
+  }
+
+  .player-item {
+    padding: 0.75rem;
+  }
+
+  .player-info-playerlist {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .player-name {
+    font-size: 0.9rem;
+    max-width: 140px;
+  }
+
+  .player-id {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .players-container {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .players-container h4 {
+    font-size: 0.95rem;
+  }
+
+  .player-icon {
+    width: 26px;
+    height: 26px;
+    padding: 0.4rem;
+  }
+
+  .players-list {
+    max-height: 160px;
+  }
+
+  .player-item {
+    padding: 0.7rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .player-name {
+    font-size: 0.875rem;
+    max-width: 120px;
+  }
+
+  .player-id {
+    font-size: 0.625rem;
+    padding: 0.1rem 0.35rem;
+  }
+
+  .player-item button {
+    width: 32px;
+    height: 32px;
+    padding: 0.3rem;
+  }
+  
+  .empty-players {
+    padding: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .players-container {
+    padding: 0.6rem;
+  }
+  
+  .players-container h4 {
+    font-size: 0.9rem;
+  }
+
+  .player-item {
+    padding: 0.6rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .player-info-playerlist {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .player-name {
+    max-width: 100px;
+  }
+
+  .player-item button {
+    align-self: flex-end;
+    margin-top: 0.25rem;
+  }
+}
+
+/* Touch device improvements */
+@media (hover: none) {
+  .player-item:hover {
+    transform: none;
+  }
+  
+  .player-item button:hover {
+    transform: none;
+    background-color: transparent;
+  }
+  
+  .players-container:hover {
+    box-shadow: none;
+  }
+}

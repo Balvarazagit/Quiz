@@ -22,7 +22,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import FAQ from './pages/FAQ';
 import ViewQuizPage from './pages/ViewQuizPage';
-import PuzzleComponent from './components/Join/Puzzle/PuzzleComponent';
+import PuzzleComponent from './components/Create-quiz/Puzzle/PuzzleComponent';
 
 function App() {
   return (
@@ -63,7 +63,7 @@ function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/view-quiz/:quizId" element={<ViewQuizPage />} />
         <Route path="/puzzle" element={<PuzzleComponent />} />
-
+        
       </Routes>
     </Router>
     <ToastContainer position="top-center" autoClose={2000} />

@@ -1,0 +1,99 @@
+.host-control-buttons {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.reveal-button {
+  flex: 1;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #FFC107, #FFA000);
+  color: #333;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: var(--shadow);
+}
+
+.reveal-button:hover {
+  background: linear-gradient(135deg, #FFA000, #FF8F00);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.next-button {
+  flex: 1;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: var(--shadow);
+}
+
+.next-button:hover {
+  background: linear-gradient(135deg, var(--primary-dark), #2E7D32);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.next-button.disabled {
+  background: #9E9E9E;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Start Button */
+.start-button {
+  width: 100%;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--white);
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  gap: 0.75rem;
+  box-shadow: var(--shadow);
+}
+
+.start-button:hover {
+  background: linear-gradient(135deg, var(--primary-dark), #2E7D32);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.start-button:disabled {
+  background: #A5D6A7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .host-control-buttons {
+    flex-direction: column;
+  }
+}
