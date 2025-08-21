@@ -50,11 +50,6 @@
 width: 100px;
 }
 
-.logo-icon {
-  font-size: 1.8rem;
-  color: var(--primary-light);
-}
-
 .footer-description {
   line-height: 1.6;
   margin-bottom: 1.75rem;

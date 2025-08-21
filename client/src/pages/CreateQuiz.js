@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../pages/styles/CreateQuiz.css';
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 function CreateQuiz() {
   const [quizTitle, setQuizTitle] = useState('');
+  const [tempOrders, setTempOrders] = useState({});
   const [questions, setQuestions] = useState([
     {
       type: 'MCQ',
@@ -45,17 +47,22 @@ function CreateQuiz() {
   };
 
   const handleChange = (qIndex, field, value) => {
-    const updated = [...questions];
-    updated[qIndex][field] = value;
+  const updated = [...questions];
+  updated[qIndex][field] = value;
 
-    if (field === 'type') {
-      updated[qIndex].options =
-        value === 'TrueFalse' ? ['True', 'False'] : ['', '', '', ''];
+  if (field === 'type') {
+    updated[qIndex].options =
+      value === 'TrueFalse' ? ['True', 'False'] : ['', '', '', ''];
+    // Fix: MCQ/TrueFalse/Poll pe correct ko string bana do
+    if (value === 'Puzzle') {
+      updated[qIndex].correct = [];
+    } else {
       updated[qIndex].correct = '';
     }
+  }
 
-    setQuestions(updated);
-  };
+  setQuestions(updated);
+};
 
   const handleOptionChange = (qIndex, optIndex, value) => {
     const updated = [...questions];
@@ -84,17 +91,30 @@ function CreateQuiz() {
         return;
       }
 
-      if (q.type === "MCQ") {
-        if (q.options.some(opt => !opt.trim()) || !q.correct.trim()) {
-          toast.error(`❗ MCQ needs all options & correct answer in Q${i + 1}`);
-          return;
-        }
-      }
+    if (q.type === "MCQ") {
+  if (q.options.some(opt => !opt.trim())) {
+    toast.error(`❗ MCQ needs all options in Q${i + 1}`);
+    return;
+  }
+  if (!q.correct.trim()) {
+    toast.error(`❗ MCQ needs a correct answer in Q${i + 1}`);
+    return;
+  }
+}
 
-      if (q.type === "TrueFalse" && !q.correct.trim()) {
-        toast.error(`❗ True/False needs correct answer in Q${i + 1}`);
-        return;
-      }
+if (q.type === "TrueFalse" && !q.correct.trim()) {
+  toast.error(`❗ True/False needs correct answer in Q${i + 1}`);
+  return;
+}
+
+// ✅ Poll ke liye koi correct answer check nahi hoga
+if (q.type === "Poll") {
+  if (q.options.some(opt => !opt.trim())) {
+    toast.error(`❗ Poll needs all options in Q${i + 1}`);
+    return;
+  }
+}
+
     }
 
     const token = localStorage.getItem('token');
@@ -171,7 +191,7 @@ function CreateQuiz() {
   };
 
   const extractYouTubeId = (url) => {
-    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
@@ -238,6 +258,8 @@ function CreateQuiz() {
                   >
                     <option value="MCQ">Multiple Choice</option>
                     <option value="TrueFalse">True / False</option>
+                    <option value="Poll">Poll (No correct answer)</option>
+                    <option value="Puzzle">Puzzle</option>
                   </select>
                 </div>
 
@@ -358,21 +380,91 @@ function CreateQuiz() {
                   </div>
                 </div>
 
-                <div className="correct-answer-selector">
-                  <label className="input-label">Correct Answer</label>
-                  <select
-                    value={q.correct}
-                    onChange={e => handleChange(qIndex, 'correct', e.target.value)}
-                    className="correct-answer-select"
-                  >
-                    <option value="">Select correct option</option>
-                    {q.options.map((opt, idx) => (
-                      <option key={idx} value={opt}>
-                        {opt || (q.type === 'TrueFalse' ? ['True', 'False'][idx] : `Option ${idx + 1}`)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {/* ✅ Only show Correct Answer if not Poll */}
+                {q.type !== "Poll" &&  q.type !== "Puzzle" && (
+                  <div className="correct-answer-selector">
+                    <label className="input-label">Correct Answer</label>
+                    <select
+                      value={q.correct}
+                      onChange={e => handleChange(qIndex, 'correct', e.target.value)}
+                      className="correct-answer-select"
+                    >
+                      <option value="">Select correct option</option>
+                      {q.options.map((opt, idx) => (
+                        <option key={idx} value={opt}>
+                          {opt || (q.type === 'TrueFalse' ? ['True', 'False'][idx] : `Option ${idx + 1}`)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* ✅ Puzzle extra input */}
+                {q.type === "Puzzle" && (
+  <div className="puzzle-order-container">
+    <label className="input-label">Arrange the options in correct order</label>
+
+   <DragDropContext
+  onDragEnd={(result) => {
+    if (!result.destination) return;
+    const currentOrder = tempOrders[qIndex] || questions[qIndex].options;
+    const items = Array.from(currentOrder);
+    const [reordered] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reordered);
+
+    setTempOrders({ ...tempOrders, [qIndex]: items });
+  }}
+>
+      <Droppable droppableId={`droppable-${qIndex}`}>
+        {(provided) => (
+          <ul
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="puzzle-draggable-list"
+          >
+           {(tempOrders[qIndex] || q.options).map((opt, idx) => (
+  <Draggable key={`${qIndex}-${idx}-${opt}`} draggableId={`${qIndex}-${idx}-${opt}`} index={idx}>
+    {(provided) => (
+      <li
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        className="puzzle-option"
+      >
+        {opt}
+      </li>
+    )}
+  </Draggable>
+))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+    </DragDropContext>
+
+    <button
+  type="button"
+  onClick={() => {
+    const updated = [...questions];
+    updated[qIndex].correct = [...(tempOrders[qIndex] || updated[qIndex].options)];
+    setQuestions(updated);
+    toast.success("✅ Correct order set!");
+  }}
+  className="set-order-btn"
+>
+  Set Current Order as Correct
+</button>
+
+    {/* ✅ Show preview of correct order */}
+    {Array.isArray(q.correct) && q.correct.length > 0 && (
+      <p className="correct-preview">
+        Correct Order: {q.correct.join(" → ")}
+      </p>
+    )}
+  </div>
+)}
+
+
 
                 <div className="thought-input-container">
                   <label className="input-label">Host's Thought (Optional)</label>

@@ -22,6 +22,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import FAQ from './pages/FAQ';
 import ViewQuizPage from './pages/ViewQuizPage';
+import PuzzleComponent from './components/Join/Puzzle/PuzzleComponent';
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/view-quiz/:quizId" element={<ViewQuizPage />} />
+        <Route path="/puzzle" element={<PuzzleComponent />} />
 
       </Routes>
     </Router>

@@ -52,6 +52,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 const rooms = {};
 const answerTracker = {}; 
+const pollAnswers = {};
 const defaultThought = "Stay sharp! Think before you answer. 💡";
 
 io.on("connection", (socket) => {
@@ -151,7 +152,8 @@ socket.on("start-quiz", async ({ pin }) => {
       index: room.currentQuestionIndex, 
       total: quiz.questions.length,
       mediaType: firstQuestion.mediaType || "",
-      mediaUrl: firstQuestion.mediaUrl || ""
+      mediaUrl: firstQuestion.mediaUrl || "",
+      type: firstQuestion.type || "Quiz"
     });
 
     io.to(pin).emit("quiz-started");
@@ -227,6 +229,11 @@ socket.on("start-quiz", async ({ pin }) => {
     answerTracker[pin] = {};
      // 🕓 reset for new question
 
+      // 🟢 ADD THIS FOR POLL RESET
+    if (global.pollUserAnswers && global.pollUserAnswers[pin]) {
+      global.pollUserAnswers[pin] = {};
+    }
+
     io.to(pin).emit("receive-question", {
       question: nextQ.question,
       options: nextQ.options,
@@ -236,7 +243,8 @@ socket.on("start-quiz", async ({ pin }) => {
       index: room.currentQuestionIndex, 
       total: quiz.questions.length,
       mediaType: nextQ.mediaType || "",
-      mediaUrl: nextQ.mediaUrl || ""
+      mediaUrl: nextQ.mediaUrl || "",
+      type: nextQ.type || "Quiz"
     });
 
     setTimeout(() => {
@@ -247,30 +255,58 @@ socket.on("start-quiz", async ({ pin }) => {
   }
 });
 
- socket.on("submit-answer", ({ pin, userId, name, answer, score }) => {
-  const room = rooms[pin];
-  if (!room || !room.quiz) return;
+socket.on("submit-answer", ({ pin, userId, name, answer, score, isPoll }) => {
+    console.log("Received answer:", { pin, userId, name, answer, score });
 
-  const index = room.currentQuestionIndex;
-  const question = room.quiz.questions[index];
-  if (!question) return;
+    if (!answerTracker[pin]) answerTracker[pin] = {};
 
-  const correctAnswer = question.correct;
+    if (isPoll) {
+        // Remove previous answer count for this user
+        if (!global.pollUserAnswers) global.pollUserAnswers = {};
+        if (!global.pollUserAnswers[pin]) global.pollUserAnswers[pin] = {};
+        const prevAnswer = global.pollUserAnswers[pin][userId];
+        if (prevAnswer && answerTracker[pin][prevAnswer]) {
+            answerTracker[pin][prevAnswer] -= 1;
+            if (answerTracker[pin][prevAnswer] < 0) answerTracker[pin][prevAnswer] = 0;
+        }
+        // Save latest answer
+        global.pollUserAnswers[pin][userId] = answer;
+        pollAnswers[userId] = answer; // overwrite previous
+    }
 
-  if (!room.scores) room.scores = {};
-  if (!room.streaks) room.streaks = {};
+    // ...existing code...
+    const room = rooms[pin];
+    if (!room || !room.quiz) return;
 
-  if (answer === correctAnswer) {
-    room.scores[userId] = (room.scores[userId] || 0) + (score || 0);
-    room.streaks[userId] = (room.streaks[userId] || 0) + 1;
-  } else {
-    room.streaks[userId] = 0;
-  }
+    const index = room.currentQuestionIndex;
+    const question = room.quiz.questions[index];
+    if (!question) return;
 
-  // ✅ TRACK OPTION COUNTS FOR GRAPH
-  if (!answerTracker[pin]) answerTracker[pin] = {};
-  if (!answerTracker[pin][answer]) answerTracker[pin][answer] = 0;
-  answerTracker[pin][answer] += 1;
+    const correctAnswer = question.correct;
+    let isCorrect = false;
+
+    if (question.type === "Puzzle") {
+        isCorrect = JSON.stringify(answer) === JSON.stringify(correctAnswer);
+    } else if (Array.isArray(correctAnswer)) {
+        isCorrect = correctAnswer.includes(answer);
+    } else {
+        isCorrect = answer === correctAnswer;
+    }
+
+    if (!room.scores) room.scores = {};
+    if (!room.streaks) room.streaks = {};
+    console.log("rooms scores:", room.scores);
+
+    if (isCorrect) {
+        room.scores[userId] = (room.scores[userId] || 0) + (score || 0);
+        room.streaks[userId] = (room.streaks[userId] || 0) + 1;
+    } else {
+        room.streaks[userId] = 0;
+    }
+
+    // ✅ TRACK OPTION COUNTS FOR GRAPH
+    if (!answerTracker[pin][answer]) answerTracker[pin][answer] = 0;
+    answerTracker[pin][answer] += 1;
 
   // ✅ CALCULATE totalAnswers
   const totalAnswers = Object.values(answerTracker[pin]).reduce((sum, val) => sum + val, 0);

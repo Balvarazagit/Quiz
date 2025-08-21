@@ -3,10 +3,11 @@ const mongoose = require('mongoose');
 const questionSchema = new mongoose.Schema({
   question: String,
   options: [String],
-  correct: String,
+  correct: [String] || String,
   thought: String,
   mediaType: { type: String, enum: ["image", "audio", "gif", "video", ""], default: "" },
-  mediaUrl: { type: String, default: "" }
+  mediaUrl: { type: String, default: "" },
+  type: { type: String, enum: ["MCQ", "TrueFalse", "Poll", "Puzzle"], default: "MCQ" }
 });
 
 // Track individual players and their scores

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
 import { FaPlay, FaStepForward, FaUserAlt, FaSignOutAlt, FaClipboard, FaClipboardCheck } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import '../pages/styles/HostPage.css';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
@@ -16,17 +16,16 @@ function HostPage() {
   const [questionNumber, setQuestionNumber] = useState(1);
   const [quizStarted, setQuizStarted] = useState(false);
   const [isQuizOver, setIsQuizOver] = useState(false);
-  const [finalResults, setFinalResults] = useState([]); // ✅ NEW: scoreboard
+  const [finalResults, setFinalResults] = useState([]);
   const [copied, setCopied] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  console.log("currentQuestion", currentQuestion);
   const [answerStats, setAnswerStats] = useState({});
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [timeLeft, setTimeLeft] = useState(null);
   const [scoreboard, setScoreboard] = useState([]);
   const [thought, setThought] = useState('');
-  console.log("thought",thought);
-  
   const [showThought, setShowThought] = useState(false);
 
   useEffect(() => {
@@ -38,20 +37,20 @@ function HostPage() {
   }, []);
 
   useEffect(() => {
-  if (!currentQuestion) return;
+    if (!currentQuestion) return;
 
-  const interval = setInterval(() => {
-    setTimeLeft(prev => {
-      if (prev <= 1) {
-        clearInterval(interval);
-        return 0;
-      }
-      return prev - 1;
-    });
-  }, 1000);
+    const interval = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-  return () => clearInterval(interval);
-}, [currentQuestion]);
+    return () => clearInterval(interval);
+  }, [currentQuestion]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(pin);
@@ -113,26 +112,24 @@ function HostPage() {
     });
 
     socket.on("receive-question", (data) => {
-      console.log("data",data);
-      
+      console.log("Current Question:", data);
       setCurrentQuestion(data);
       setAnswerStats({});
       const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
       const remaining = Math.max(0, 30 - elapsed);
       setTimeLeft(remaining);
 
-      // 🧠 Reset thought visibility
+      // Reset thought visibility
       setThought('');
       setShowThought(false);
 
-      // ⏱ Show thought after 5 seconds
+      // Show thought after 5 seconds
       setTimeout(() => {
         if (data.thought) {
           setThought(data.thought);
           setShowThought(true);
         }
       }, 5000);
-
     });
 
     socket.on("answer-stats", (stats) => {
@@ -142,11 +139,10 @@ function HostPage() {
     socket.on("auto-next", () => nextQuestion());
 
     socket.on("scoreboard-update", (data) => {
-      setScoreboard(data); // sorted data from server
+      setScoreboard(data);
     });
 
-    // ✅ Updated handler to receive final scoreboard
-    socket.on("quiz-ended", (scoreboard) => { 
+    socket.on("quiz-ended", (scoreboard) => {
       setIsQuizOver(true);
       setFinalResults(scoreboard);
       toast.success("🏆 Quiz completed!");
@@ -169,7 +165,7 @@ function HostPage() {
   };
 
   const extractYouTubeId = (url) => {
-    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
@@ -222,53 +218,57 @@ function HostPage() {
               <p>Share this PIN with players to join</p>
             </div>
 
-            <div className="players-container">
-              <h4>
-                <span className="player-icon"><FaUserAlt /></span>
-                Players Joined: {players.length}
-              </h4>
-              <div className="players-list">
-                {players.length === 0 ? (
-                  <p className="empty-players">Waiting for players to join...</p>
-                ) : (
-                  players.map(player => (
-                    <motion.div
-                      key={player.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="player-item"
-                    >
-                      <span>{player.name}</span>
-                      <button onClick={() => handleKick(player.id, player.name)}>
-                        <FaSignOutAlt />
-                      </button>
-                    </motion.div>
-                  ))
-                )}
+              <div className="players-container">
+                <h4>
+                  <span className="player-icon"><FaUserAlt /></span>
+                  Players Joined: {players.length}
+                </h4>
+                <div className="players-list">
+                  {players.length === 0 ? (
+                    <p className="empty-players">Waiting for players to join...</p>
+                  ) : (
+                    players.map(player => (
+                      <motion.div
+                        key={player.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="player-item"
+                      >
+                        {/* ✅ Name + userId grouping */}
+                        <div className="player-info">
+                          <span className="player-name">{player.name}</span>
+                          <span className="player-id">({player.userId?.slice(0, 6)})</span>
+                        </div>
+
+                        <button onClick={() => handleKick(player.id, player.name)}>
+                          <FaSignOutAlt />
+                        </button>
+                      </motion.div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+            <div className="live-scoreboard-host">
+              <h3>Live Scoreboard</h3>
+              <div className="scoreboard-header">
+                <span className="header-rank">Rank</span>
+                <span className="header-name">Player</span>
+                <span className="header-score">Score</span>
+              </div>
+              <div className="scoreboard-list">
+                {scoreboard.map((player, index) => (
+                  <div key={index} className="scoreboard-item">
+                    <span className="player-rank">#{index + 1}</span>
+                    <span className="player-name">
+                      {player.name}<span>({player.userId?.slice(0, 6)})</span>
+                      {index < 3 && <span className="winner-badge">Top {index + 1}</span>}
+                    </span>
+                    <span className="player-score">{player.score}</span>
+                  </div>
+                ))}
               </div>
             </div>
-
-              <div className="live-scoreboard">
-                <h3>Live Scoreboard</h3>
-                <div className="scoreboard-header">
-                  <span className="header-rank">Rank</span>
-                  <span className="header-name">Player</span>
-                  <span className="header-score">Score</span>
-                </div>
-                <div className="scoreboard-list">
-                  {scoreboard.map((player, index) => (
-                    <div key={index} className="scoreboard-item">
-                      <span className="player-rank">#{index + 1}</span>
-                      <span className="player-name">
-                        {player.name}<span>({player.userId?.slice(0, 6)})</span>
-                        {index < 3 && <span className="winner-badge">Top {index + 1}</span>}
-                      </span>
-                      <span className="player-score">{player.score}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
 
             {!quizStarted ? (
               <motion.button
@@ -283,86 +283,86 @@ function HostPage() {
             ) : (
               <>
                 {isQuizOver ? (
-                      <div className="final-scoreboard">
-                        <h2 className="scoreboard-title">
-                          <span className="trophy-icon">🏆</span>
-                          Final Results
-                          <span className="trophy-icon">🏆</span>
-                        </h2>
-                        <div className="scoreboard-header">
-                          <span className="header-rank">Rank</span>
-                          <span className="header-name">Player</span>
-                          <span className="header-score">Score</span>
-                        </div>
-                        <div className="scoreboard-list">
-                          {finalResults.slice(0,3).map((player, index) => (
-                            <motion.div
-                              key={index}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: index * 0.1 }}
-                              className={`scoreboard-item ${index < 3 ? `top-${index + 1}` : ''}`}
-                            >
-                              <span className="player-rank">
-                                {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
-                              </span>
-                              <span className="player-name">
-                                {player.name}<span style={{ fontSize: '12px', color: '#999' }}>({player.userId?.slice(0, 6)})</span>
-                                {index < 3 && <span className="winner-badge">Winner</span>}
-                              </span>
-                              <span className="player-score">
-                                <span className="score-value">{player.score}</span>
-                                <span className="score-label">pts</span>
-                              </span>
-                            </motion.div>
-                          ))}
-                        </div>
-                      </div>
-                ) : 
-                (
+                  <div className="final-scoreboard">
+                    <h2 className="scoreboard-title">
+                      <span className="trophy-icon">🏆</span>
+                      Final Results
+                      <span className="trophy-icon">🏆</span>
+                    </h2>
+                    <div className="scoreboard-header">
+                      <span className="header-rank">Rank</span>
+                      <span className="header-name">Player</span>
+                      <span className="header-score">Score</span>
+                    </div>
+                    <div className="scoreboard-list">
+                      {finalResults.slice(0, 10).map((player, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className={`scoreboard-item ${index < 3 ? `top-${index + 1}` : ''}`}
+                        >
+                          <span className="player-rank">
+                            {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+                          </span>
+                          <span className="player-name">
+                            {player.name}<span style={{ fontSize: '12px', color: '#999' }}>({player.userId?.slice(0, 6)})</span>
+                            {index < 3 && <span className="winner-badge">Winner</span>}
+                          </span>
+                          <span className="player-score">
+                            <span className="score-value">{player.score}</span>
+                            <span className="score-label">pts</span>
+                          </span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
                   <div className="quiz-controls">
                     {currentQuestion && (
                       <div className="question-display-container">
                         <div className="question-display">
-                                <div className="question-host-header">
-                                  {timeLeft !== null && (
-                                    <div className="question-timer">⏳ {timeLeft}s remaining</div>
-                                  )}
-                                  <span className="question-number-host">Question {questionNumber}</span>
-                                  <h3 className="question-text">{currentQuestion.question}</h3>
-                                  <div className="media-display-host">
-                                    {currentQuestion.mediaType === "image" && (
-                                      <img src={currentQuestion.mediaUrl} alt="question" className="media-preview" />
-                                    )}
+                          <div className="question-host-header">
+                            {timeLeft !== null && (
+                              <div className="question-timer">⏳ {timeLeft}s remaining</div>
+                            )}
+                            <span className="question-number-host">Question {questionNumber}</span>
+                            <h3 className="question-text">{currentQuestion.question}</h3>
+                            <div className="media-display-host">
+                              {currentQuestion.mediaType === "image" && (
+                                <img src={currentQuestion.mediaUrl} alt="question" className="media-preview" />
+                              )}
 
-                                    {currentQuestion.mediaType === "audio" && (
-                                      <audio controls className="media-audio">
-                                        <source src={currentQuestion.mediaUrl} type="audio/mpeg" />
-                                      </audio>
-                                    )}
+                              {currentQuestion.mediaType === "audio" && (
+                                <audio controls className="media-audio">
+                                  <source src={currentQuestion.mediaUrl} type="audio/mpeg" />
+                                </audio>
+                              )}
 
-                                    {currentQuestion.mediaType === "gif" && (
-                                      <img src={currentQuestion.mediaUrl} alt="gif" className="media-preview" />
-                                    )}
+                              {currentQuestion.mediaType === "gif" && (
+                                <img src={currentQuestion.mediaUrl} alt="gif" className="media-preview" />
+                              )}
 
-                                    {currentQuestion.mediaType === "video" && (
-                                      <iframe
-                                        className="media-video"
-                                        src={`https://www.youtube.com/embed/${extractYouTubeId(currentQuestion.mediaUrl)}`}
-                                        title="YouTube video"
-                                        frameBorder="0"
-                                        allowFullScreen
-                                      />
-                                    )}
-                                  </div>
-                                
-
-
-                                </div>
+                              {currentQuestion.mediaType === "video" && (
+                                <iframe
+                                  className="media-video"
+                                  src={`https://www.youtube.com/embed/${extractYouTubeId(currentQuestion.mediaUrl)}`}
+                                  title="YouTube video"
+                                  frameBorder="0"
+                                  allowFullScreen
+                                />
+                              )}
+                            </div>
+                          </div>
                           <div className="options-stats-container">
                             {currentQuestion.options.map((option, index) => {
                               const percentage = getOptionPercentage(option);
-                              const isCorrect = showCorrectAnswer && option === currentQuestion.correct;
+                              const isCorrect = showCorrectAnswer && (
+                                Array.isArray(currentQuestion.correct)
+                                  ? currentQuestion.correct.includes(option)
+                                  : option === currentQuestion.correct
+                              );
 
                               return (
                                 <div key={index} className="option-stat-wrapper">
@@ -395,6 +395,19 @@ function HostPage() {
                             })}
                           </div>
 
+                                {/* Show correct answer separately for puzzle type when revealed */}
+                                {showCorrectAnswer && currentQuestion.type === "Puzzle" && (
+                                  <div className="puzzle-answer-box">
+                                    <h4>🧩 Correct Answer:</h4>
+                                    <p className="puzzle-answer-text">
+                                      {Array.isArray(currentQuestion.correct)
+                                        ? currentQuestion.correct.join(", ")
+                                        : currentQuestion.correct}
+                                    </p>
+                                  </div>
+                                )}
+
+
                           <div className="participation-metrics">
                             <div className="total-responses">
                               <span className="metric-value">{answerStats.totalAnswers || 0}</span>
@@ -411,18 +424,21 @@ function HostPage() {
                           </div>
                         </div>
                       </div>
-                      
                     )}
-                          {showThought && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.5 }}
-                              className="host-thought-box"
-                            >
-                              💡 <strong>Host Thought:</strong> {thought}
-                            </motion.div>
-                          )}
+
+                    <AnimatePresence>
+                      {showThought && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.5 }}
+                          className="host-thought-box"
+                        >
+                          💡 <strong>Host Thought:</strong> {thought}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
                     <div className="host-control-buttons">
                       {!showCorrectAnswer && (

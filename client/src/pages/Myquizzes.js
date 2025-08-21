@@ -4,6 +4,7 @@ import '../pages/styles/Myquizzes.css';
 
 function Myquizzes() {
   const [quizzes, setQuizzes] = useState([]);
+  console.log("quizzes",quizzes)
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [expandedQuiz, setExpandedQuiz] = useState(null);
@@ -110,8 +111,7 @@ function Myquizzes() {
   });
 
   const extractYouTubeId = (url) => {
-    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
+    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/; const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;
   };
 
@@ -286,25 +286,36 @@ function Myquizzes() {
                         
                         <ul className="options-list-myquizzes">
                           {question.options?.map((option, oIndex) => (
-                            <li 
+                            <li
                               key={oIndex}
-                              className={`option-item-myquizzes ${option === question.correct ? 'correct' : ''}`}
-                            >
+                              className={`option-item-myquizzes ${(Array.isArray(question.correct) && question.correct.includes(option)) ||
+                                  (!Array.isArray(question.correct) && option === question.correct)
+                                  ? 'correct'
+                                  : ''
+                                }`}  
+                                >
                               <span className="option-letter-myquizzes">
                                 {String.fromCharCode(65 + oIndex)}.
                               </span>
                               {option}
-                              {option === question.correct && (
-                                <span className="correct-badge-myquizzes">
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                  </svg>
-                                  <span className="correct-text-label">Correct</span>
-                                </span>
-                              )}
+                              {((Array.isArray(question.correct) && question.correct.includes(option)) ||
+                                (!Array.isArray(question.correct) && option === question.correct)) && (
+                                  <span className="correct-badge-myquizzes">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                    <span className="correct-text-label">Correct</span>
+                                  </span>
+                                )}
                             </li>
                           ))}
                         </ul>
+
+                        {question.type === "Puzzle" && Array.isArray(question.correct) && question.correct.length > 0 && (
+                          <div className="puzzle-correct-answer-myquizzes">
+                            <strong>Correct Order:</strong> {question.correct.join(", ")}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>

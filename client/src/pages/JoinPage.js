@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import '../pages/styles/JoinPage.css';
 import { v4 as uuidv4 } from 'uuid';
+import PuzzleComponent from '../components/Join/Puzzle/PuzzleComponent';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
@@ -15,10 +16,12 @@ const socket = io(`${process.env.REACT_APP_API_URL}`, {
 function JoinPage() {
   const [pin, setPin] = useState('');
   const [name, setName] = useState('');
+  console.log("name",name)
   const [error, setError] = useState('');
   const [joined, setJoined] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  console.log("currentQuestion", currentQuestion);
   const [quizEnded, setQuizEnded] = useState(false);
   const [scoreboard, setScoreboard] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -28,6 +31,7 @@ function JoinPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [questionStartTime, setQuestionStartTime] = useState(null);
   const [myScore, setMyScore] = useState(0);
+  console.log("myscore",myScore)
   const [answerTime, setAnswerTime] = useState(null);
   const [myStreak, setMyStreak] = useState(0);
   const [userBehind, setUserBehind] = useState(null);
@@ -37,7 +41,8 @@ function JoinPage() {
   const [userId] = useState(uuidv4()); // ← unique ID per session
   const [thought, setThought] = useState('');
   const [showThought, setShowThought] = useState(false);
-
+  const [pollAnswer, setPollAnswer] = useState(null); 
+  const [puzzleResult, setPuzzleResult] = useState(null); // null | true | false
 
   const joinQuiz = () => {
     if (!name.trim()) {
@@ -47,16 +52,32 @@ function JoinPage() {
     socket.emit("join-quiz", { pin, name, userId });
   };
 
-  const answerQuestion = (selectedOption) => {
-    setSelectedAnswer(selectedOption);
-    const now = Date.now();
-    setAnswerTime(now);
-    const timeTaken = (now - questionStartTime) / 1000;
-    const maxTime = 30;
-    const baseScore = 1000;
-    const score = Math.max(0, Math.round(baseScore * ((maxTime - timeTaken) / maxTime)));
-    socket.emit('submit-answer', { pin, name, answer: selectedOption, score, userId });
-  };
+ const answerQuestion = (selectedOption) => {
+  console.log("selectedOption:", selectedOption, "correct:", currentQuestion.correct);
+  if (currentQuestion.type === "Poll") {
+    setPollAnswer(selectedOption); 
+    socket.emit("submit-answer", { pin, name, answer: selectedOption, userId, isPoll: true });
+    return;
+  }
+
+  if (selectedAnswer || timeLeft === 0 || showAnswer) return;
+
+  const now = Date.now();
+  setAnswerTime(now);
+  setSelectedAnswer(selectedOption);
+
+  const timeTaken = (now - questionStartTime) / 1000;
+  const maxTime = 30;
+  const baseScore = 1000;
+  const earned =
+  (Array.isArray(currentQuestion.correct)
+    ? currentQuestion.correct.includes(selectedOption)
+    : selectedOption === currentQuestion.correct)
+    ? Math.max(0, Math.round(baseScore * ((maxTime - timeTaken) / maxTime)))
+    : 0;
+
+  socket.emit('submit-answer', { pin, name, answer: selectedOption, score: earned, userId });
+};
 
   useEffect(() => {
     socket.on('kicked', () => {
@@ -101,16 +122,17 @@ function JoinPage() {
       console.log("sorted",sorted);
       setScoreboard(sorted);
       setQuizEnded(true);
-      const me = sorted.find(s => s.name === name);
+      const me = scoreboard.find(s => s.userId === userId);
       if (me) setMyScore(me.score);
     });
 
     socket.on("scoreboard-update", (scores) => {
-      const sorted = [...scores].sort((a, b) => b.score - a.score);
-      setScoreboard(sorted);
-      const myIndex = sorted.findIndex(p => p.name === name);
-      setUserBehind(myIndex !== -1 && myIndex < sorted.length - 1 ? sorted[myIndex + 1] : null);
-    });
+      console.log("Scoreboard update received join:", scores); 
+  const sorted = [...scores].sort((a, b) => b.score - a.score);
+  setScoreboard(sorted);
+  const myIndex = sorted.findIndex(p => p.name === name);
+  setUserBehind(myIndex !== -1 && myIndex < sorted.length - 1 ? sorted[myIndex + 1] : null);
+});
 
     return () => {
       socket.off('kicked');
@@ -138,26 +160,42 @@ function JoinPage() {
   }, [quizStarted, quizEnded, currentQuestion, timeLeft]);
 
   useEffect(() => {
-    if (showAnswer && selectedAnswer && correctAnswer) {
-      const isCorrect = selectedAnswer === correctAnswer;
-      const timeTaken = (answerTime - questionStartTime) / 1000;
-      const maxTime = 30;
-      const baseScore = 1000;
-      const earned = Math.max(0, Math.round(baseScore * ((maxTime - timeTaken) / maxTime)));
+  if (!showAnswer) return;
 
-      if (isCorrect) {
-        toast.success(`✅ Correct! You earned ${earned} points`, { autoClose: 2500 });
-        setMyScore(prev => prev + earned);
-        setMyStreak(prev => prev + 1);
-      } else {
-        toast.error(`❌ Wrong Answer. You earned 0 points`, { autoClose: 2500 });
-        setMyStreak(0);
-      }
+  // Puzzle
+  if (currentQuestion?.type === "Puzzle" && puzzleResult !== null) {
+    if (puzzleResult) {
+      toast.success("✅ Correct!", { autoClose: 2500 });
+    } else {
+      toast.error("❌ Wrong Answer.", { autoClose: 2500 });
     }
-  }, [showAnswer, selectedAnswer, correctAnswer, answerTime]);
+    return;
+  }
+
+  // MCQ/TrueFalse
+  if (selectedAnswer && correctAnswer) {
+    const isCorrect = Array.isArray(correctAnswer)
+  ? correctAnswer.includes(selectedAnswer)
+  : selectedAnswer === correctAnswer;
+    if (isCorrect) {
+      toast.success("✅ Correct!", { autoClose: 2500 });
+    } else {
+      toast.error("❌ Wrong Answer.", { autoClose: 2500 });
+    }
+  }
+}, [showAnswer, selectedAnswer, correctAnswer, puzzleResult, currentQuestion]);
+
+useEffect(() => {
+  if (!showAnswer) return;
+  // Jab showAnswer true ho, tabhi score update karo
+  if (scoreboard.length && name) {
+    const me = scoreboard.find(s => s.userId === userId);
+    if (me) setMyScore(me.score);
+  }
+}, [showAnswer, scoreboard, name]);
 
   const extractYouTubeId = (url) => {
-  const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+  const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
   const match = url.match(regExp);
   return match && match[2].length === 11 ? match[2] : null;
 };
@@ -174,7 +212,7 @@ function JoinPage() {
         <header className="app-header">
           <div className="branding">
             <div className="app-logo">
-              <svg className="logo-icon" viewBox="0 0 24 24">
+              <svg className="logo-icon-join" viewBox="0 0 24 24">
                 <path fill="#4CAF50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
               </svg>
             </div>
@@ -296,21 +334,21 @@ function JoinPage() {
                     <div className="info-item">
                       <div className="info-icon">🔢</div>
                       <div className="info-content">
-                        <span className="info-label">Game PIN</span>
+                        <span className="info-label-join">Game PIN</span>
                         <span className="info-value">{pin}</span>
                       </div>
                     </div>
                     <div className="info-item">
                       <div className="info-icon">👤</div>
                       <div className="info-content">
-                        <span className="info-label">Player</span>
+                        <span className="info-label-join">Player</span>
                         <span className="info-value">{name}</span>
                       </div>
                     </div>
                     <div className="info-item">
                       <div className="info-icon">🆔</div>
                       <div className="info-content">
-                        <span className="info-label">ID</span>
+                        <span className="info-label-join">ID</span>
                         <span className="info-value">{userId}</span>
                       </div>
                     </div>
@@ -381,92 +419,141 @@ function JoinPage() {
                 </div>
 
                 {/* Options Grid */}
-                <div className="options-grid">
-                  {currentQuestion.options.map((opt, idx) => (
+                <div className="options-grid-join">
+                  {currentQuestion.type === "Puzzle" ? (
+<PuzzleComponent
+  options={currentQuestion?.options || []}
+  correctAnswer={currentQuestion?.correct || []}
+  socket={socket}
+  pin={pin}
+  userId={userId}
+  timeLeft={timeLeft}
+  name={name}
+  onAnswer={(isCorrect, arrangedOptions) => {
+    setPuzzleResult(isCorrect); // ← store result in state
+    const now = Date.now();
+    const timeTaken = (now - questionStartTime) / 1000; // seconds
+    const maxTime = 30;
+    const baseScore = 1000;
+    const earned = isCorrect ? Math.max(0, Math.round(baseScore * ((maxTime - timeTaken) / maxTime))) : 0;
+
+    socket.emit('submit-answer', {
+      pin,
+      name,
+      answer: arrangedOptions,
+      score: earned,
+      userId
+    });
+
+    setMyScore(prev => prev + earned);
+    setMyStreak(prev => isCorrect ? prev + 1 : 0);
+  }}
+/>
+
+) :
+                  currentQuestion.options.map((opt, idx) => (
                     <motion.button
                       key={idx}
-                      whileHover={!selectedAnswer && timeLeft > 0 ? { 
-                        scale: 1.02,
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
-                      } : {}}
-                      whileTap={!selectedAnswer && timeLeft > 0 ? { scale: 0.98 } : {}}
-                      disabled={selectedAnswer !== null || timeLeft === 0}
+                      whileHover={timeLeft > 0 ? { scale: 1.02 } : {}}
+                      whileTap={timeLeft > 0 ? { scale: 0.98 } : {}}
+                      disabled={timeLeft === 0 || (currentQuestion.type !== "Poll" && selectedAnswer !== null)}
                       onClick={() => answerQuestion(opt)}
                       className={`quiz-option ${
-                        showAnswer
-                          ? opt === correctAnswer
-                            ? 'correct'
-                            : opt === selectedAnswer
-                            ? 'incorrect'
-                            : ''
-                          : selectedAnswer === opt
-                          ? 'selected'
-                          : ''
-                      }`}
+  currentQuestion.type === "Poll"
+    ? pollAnswer === opt ? "selected" : "" 
+    : showAnswer
+      ? (
+          (Array.isArray(correctAnswer) && correctAnswer.includes(opt)) ||
+          (!Array.isArray(correctAnswer) && opt === correctAnswer)
+        )
+        ? "correct"
+        : selectedAnswer === opt
+          ? "incorrect"
+          : ""
+      : selectedAnswer === opt
+        ? "selected"
+        : ""
+}`}
+
                     >
-                      <div className="option-marker">
-                        {String.fromCharCode(65 + idx)}
-                      </div>
+                      <div className="option-marker">{String.fromCharCode(65 + idx)}</div>
                       <div className="option-content">
                         <span className="option-text">{opt}</span>
-                        {showAnswer && opt === correctAnswer && (
-                          <svg className="check-icon" viewBox="0 0 24 24">
-                            <path fill="#4CAF50" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                          </svg>
-                        )}
                       </div>
                     </motion.button>
                   ))}
                 </div>
 
                 {/* Answer Feedback */}
-                {showAnswer && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`feedback-panel ${
-                      selectedAnswer === correctAnswer ? 'positive' : 'negative'
-                    }`}
-                  >
-                    <div className="feedback-content">
-                      {selectedAnswer === correctAnswer ? (
-                        <>
-                          <div className="feedback-icon-container">
-                            <svg className="feedback-icon" viewBox="0 0 24 24">
-                              <path fill="#4CAF50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                            </svg>
-                          </div>
-                          <div className="feedback-details">
-                            <h4>Correct Answer!</h4>
-                            <p className="points-earned">
-                              +{Math.max(0, Math.round(1000 * ((30 - (answerTime - questionStartTime) / 1000) / 30)))} points
-                            </p>
-                            {myStreak > 1 && (
-                              <div className="streak-notice">
-                                <svg className="streak-icon" viewBox="0 0 24 24">
-                                  <path fill="#FFC107" d="M17.09 4.56c-.7-1.03-1.5-1.99-2.4-2.85-.35-.34-.94-.02-.84.46.19.94.39 2.18.39 3.29 0 2.06-1.35 3.73-3.41 3.73-1.54 0-2.8-.93-3.35-2.26-.1-.2-.14-.32-.2-.54-.11-.42-.66-.55-.9-.18-.18.27-.35.54-.51.83C4.68 8.13 4 10.05 4 12.26 4 17.14 8.37 21 13.75 21s9.75-3.86 9.75-8.74c0-4.46-3.41-8.09-7.66-8.7z"/>
-                                </svg>
-                                <span>🔥 {myStreak} correct in a row!</span>
-                              </div>
-                            )}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className="feedback-icon-container">
-                            <svg className="feedback-icon" viewBox="0 0 24 24">
-                              <path fill="#E57373" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                            </svg>
-                          </div>
-                          <div className="feedback-details">
-                            <h4>Correct Answer: {correctAnswer}</h4>
-                            <p className="encouragement">Keep going! Next question coming soon</p>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
+{showAnswer && currentQuestion.type === "Puzzle" && (
+  <motion.div className={`feedback-panel ${puzzleResult ? 'positive' : 'negative'}`}>
+    <div className="feedback-content">
+      {puzzleResult ? (
+        <h4>✅ Correct!</h4>
+      ) : (
+        <>
+          <h4>Correct Answer: {currentQuestion.correct.join(', ')}</h4>
+          <p>Keep going! Next question coming soon</p>
+        </>
+      )}
+    </div>
+  </motion.div>
+) }
+{showAnswer && selectedAnswer !== null && currentQuestion.type !== "Puzzle" && (
+  <motion.div 
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  className={`feedback-panel ${
+    (Array.isArray(correctAnswer)
+      ? correctAnswer.includes(selectedAnswer)
+      : selectedAnswer === correctAnswer)
+      ? 'positive'
+      : 'negative'
+  }`}
+>
+  <div className="feedback-content">
+    {(Array.isArray(correctAnswer)
+      ? correctAnswer.includes(selectedAnswer)
+      : selectedAnswer === correctAnswer) ? (
+      <>
+        <div className="feedback-icon-container">
+          <svg className="feedback-icon" viewBox="0 0 24 24">
+            <path fill="#4CAF50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg> 
+        </div>
+        <div className="feedback-details">
+          <h4>Correct Answer!</h4>
+          <p className="points-earned">
+            +{Math.max(0, Math.round(1000 * ((30 - (answerTime - questionStartTime) / 1000) / 30)))} points
+          </p>
+          {myStreak > 1 && (
+            <div className="streak-notice">
+              <svg className="streak-icon" viewBox="0 0 24 24">
+                <path fill="#FFC107" d="M17.09 4.56c-.7-1.03-1.5-1.99-2.4-2.85-.35-.34-.94-.02-.84.46.19.94.39 2.18.39 3.29 0 2.06-1.35 3.73-3.41 3.73-1.54 0-2.8-.93-3.35-2.26-.1-.2-.14-.32-.2-.54-.11-.42-.66-.55-.9-.18-.18.27-.35.54-.51.83C4.68 8.13 4 10.05 4 12.26 4 17.14 8.37 21 13.75 21s9.75-3.86 9.75-8.74c0-4.46-3.41-8.09-7.66-8.7z"/>
+              </svg>
+              <span>🔥 {myStreak} correct in a row!</span>
+            </div> 
+          )}
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="feedback-icon-container">
+          <svg className="feedback-icon" viewBox="0 0 24 24">
+            <path fill="#E57373" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+          </svg> 
+        </div>
+        <div className="feedback-details">
+          <h4>Correct Answer: {Array.isArray(correctAnswer) ? correctAnswer.join(', ') : correctAnswer}</h4>
+          <p className="encouragement">Keep going! Next question is coming...</p>
+        </div>
+      </>
+    )}
+  </div>
+</motion.div>
+
+)}
+
                 {showThought && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -518,7 +605,7 @@ function JoinPage() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className={`leaderboard-item ${
+                      className={`leaderboard-item-join ${
                         player.name === name ? 'current-player' : ''
                       } ${index < 3 ? 'podium' : ''}`}
                     >

@@ -1,0 +1,142 @@
+.puzzle-container {
+  padding: 24px;
+  background-color: #f1f8e9;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.puzzle-title {
+  color: #2e7d32;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.options-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.puzzle-option {
+  padding: 12px 16px;
+  margin: 8px 0;
+  border: 1px solid #66bb6a;
+  border-radius: 8px;
+  background-color: #ffffff;
+  cursor: grab;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+}
+
+.puzzle-option:hover {
+  background-color: #e8f5e9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.puzzle-option.dragging {
+  opacity: 0.8;
+  background-color: #e8f5e9;
+  transform: scale(1.02);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.option-number {
+  margin-right: 12px;
+  color: #388e3c;
+  font-weight: bold;
+}
+
+.no-options {
+  text-align: center;
+  color: #757575;
+  font-style: italic;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-button {
+  margin-top: 10px;
+  padding: 12px 24px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.submit-button:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-feedback {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.result-feedback.correct {
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+}
+
+.result-feedback.incorrect {
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+}
+
+.feedback-text {
+  color: #2e7d32;
+  font-weight: 500;
+  margin: 0;
+}
+
+.result-feedback.incorrect .feedback-text {
+  color: #c62828;
+}
+
+@media (max-width: 600px) {
+  .puzzle-container {
+    padding: 16px;
+    margin: 10px;
+  }
+  
+  .options-container {
+    padding: 15px;
+  }
+  
+  .puzzle-option {
+    padding: 10px 14px;
+  }
+  
+  .submit-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
