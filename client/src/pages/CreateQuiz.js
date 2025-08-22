@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../pages/styles/CreateQuiz.css';
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import QuizHeader from '../components/Create-quiz/QuizHeader/QuizHeader';
+import QuestionCard from '../components/Create-quiz/QuestionCard/QuestionCard';
+import ActionButtons from '../components/Create-quiz/ActionButtons/ActionButtons';
 
-function CreateQuiz() {
+function Createquiz() {
   const [quizTitle, setQuizTitle] = useState('');
   const [tempOrders, setTempOrders] = useState({});
   const [questions, setQuestions] = useState([
@@ -58,9 +60,9 @@ function CreateQuiz() {
         updated[qIndex].options = ["", "", "", ""];
         updated[qIndex].correct = "";
       } else if (value === "Poll") {
-        updated[qIndex].pollMode = "MCQ"; // ✅ default poll mode
+        updated[qIndex].pollMode = "MCQ";
         updated[qIndex].options = ["", "", "", ""];
-        updated[qIndex].correct = ""; // poll me correct ki zarurat nahi
+        updated[qIndex].correct = "";
       } else if (value === "Puzzle") {
         updated[qIndex].options = ["", "", "", ""];
         updated[qIndex].correct = [];
@@ -75,7 +77,6 @@ function CreateQuiz() {
 
     setQuestions(updated);
   };
-
 
   const handleOptionChange = (qIndex, optIndex, value) => {
     const updated = [...questions];
@@ -104,30 +105,28 @@ function CreateQuiz() {
         return;
       }
 
-    if (q.type === "MCQ") {
-  if (q.options.some(opt => !opt.trim())) {
-    toast.error(`❗ MCQ needs all options in Q${i + 1}`);
-    return;
-  }
-  if (!q.correct.trim()) {
-    toast.error(`❗ MCQ needs a correct answer in Q${i + 1}`);
-    return;
-  }
-}
+      if (q.type === "MCQ") {
+        if (q.options.some(opt => !opt.trim())) {
+          toast.error(`❗ MCQ needs all options in Q${i + 1}`);
+          return;
+        }
+        if (!q.correct.trim()) {
+          toast.error(`❗ MCQ needs a correct answer in Q${i + 1}`);
+          return;
+        }
+      }
 
-if (q.type === "TrueFalse" && !q.correct.trim()) {
-  toast.error(`❗ True/False needs correct answer in Q${i + 1}`);
-  return;
-}
+      if (q.type === "TrueFalse" && !q.correct.trim()) {
+        toast.error(`❗ True/False needs correct answer in Q${i + 1}`);
+        return;
+      }
 
-// ✅ Poll ke liye koi correct answer check nahi hoga
-if (q.type === "Poll") {
-  if (q.options.some(opt => !opt.trim())) {
-    toast.error(`❗ Poll needs all options in Q${i + 1}`);
-    return;
-  }
-}
-
+      if (q.type === "Poll") {
+        if (q.options.some(opt => !opt.trim())) {
+          toast.error(`❗ Poll needs all options in Q${i + 1}`);
+          return;
+        }
+      }
     }
 
     const token = localStorage.getItem('token');
@@ -223,10 +222,7 @@ if (q.type === "Poll") {
           Back
         </button>
         
-        <div className="quiz-header">
-          <h1 className="quiz-creator-title">Create New Quiz</h1>
-          <p className="quiz-subtitle">Design an engaging quiz with multiple question types</p>
-        </div>
+        <QuizHeader />
         
         <div className="quiz-title-section">
           <label className="input-label">Quiz Title</label>
@@ -241,315 +237,31 @@ if (q.type === "Poll") {
 
         <div className="questions-container">
           {questions.map((q, qIndex) => (
-            <div key={qIndex} className="question-card">
-              <div className="question-create-header">
-                <div className="question-number-create-container">
-                  <span className="question-number-create-badge">{qIndex + 1}</span>
-                  <h3 className="question-number-create">Question</h3>
-                </div>
-                <button 
-                  type="button" 
-                  onClick={() => handleRemoveQuestion(qIndex)}
-                  className="remove-question-btn"
-                  disabled={questions.length <= 1}
-                  aria-label="Remove question"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-
-              <div className="question-content">
-                <div className="question-type-selector">
-                  <label className="input-label">Question Type</label>
-                  <select
-                    value={q.type}
-                    onChange={e => handleChange(qIndex, 'type', e.target.value)}
-                    className="question-type-select"
-                  >
-                    <option value="MCQ">Multiple Choice</option>
-                    <option value="TrueFalse">True / False</option>
-                    <option value="Poll">Poll (No correct answer)</option>
-                    <option value="Puzzle">Puzzle</option>
-                  </select>
-                </div>
-
-                <div className="question-textarea-container">
-                  <label className="input-label">Question Text</label>
-                  <textarea
-                    placeholder="Enter your question here..."
-                    value={q.question}
-                    onChange={e => handleChange(qIndex, 'question', e.target.value)}
-                    className="question-textarea"
-                    rows={3}
-                  />
-                </div>
-
-                {q.type === "Poll" && (
-                  <div className="poll-mode-selector">
-                    <label className="input-label">Poll Type</label>
-                    <select
-                      value={q.pollMode || "MCQ"}
-                      onChange={(e) => handleChange(qIndex, "pollMode", e.target.value)}
-                      className="question-type-select"
-                    >
-                      <option value="MCQ">MCQ Poll (4 Options)</option>
-                      <option value="TrueFalse">True/False Poll</option>
-                    </select>
-                  </div>
-                )}
-
-                <div className="media-section">
-                  <label className="input-label">Add Media (Optional)</label>
-                  <div className="media-controls">
-                    <select
-                      value={q.mediaType}
-                      onChange={(e) => handleChange(qIndex, "mediaType", e.target.value)}
-                      className="media-type-select"
-                    >
-                      <option value="">No Media</option>
-                      <option value="image">Image</option>
-                      <option value="audio">Audio</option>
-                      <option value="gif">GIF</option>
-                      <option value="video">YouTube Video</option>
-                    </select>
-
-                    {q.mediaType === "image" && (
-                      <div className="media-upload">
-                        <label className="file-upload-btn">
-                          Upload Image
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleFileUpload(e, qIndex, "mediaUrl")}
-                            hidden
-                          />
-                        </label>
-                        {q.mediaUrl && <img src={q.mediaUrl} alt="preview" className="media-preview" />}
-                      </div>
-                    )}
-
-                    {q.mediaType === "audio" && (
-                      <div className="media-upload">
-                        <label className="file-upload-btn">
-                          Upload Audio
-                          <input
-                            type="file"
-                            accept="audio/*"
-                            onChange={(e) => handleFileUpload(e, qIndex, "mediaUrl")}
-                            hidden
-                          />
-                        </label>
-                        {q.mediaUrl && (
-                          <audio controls className="media-audio">
-                            <source src={q.mediaUrl} type="audio/mpeg" />
-                          </audio>
-                        )}
-                      </div>
-                    )}
-
-                    {q.mediaType === "gif" && (
-                      <div className="media-upload">
-                        <label className="file-upload-btn">
-                          Upload GIF
-                          <input
-                            type="file"
-                            accept="image/gif"
-                            onChange={(e) => handleFileUpload(e, qIndex, "mediaUrl")}
-                            hidden
-                          />
-                        </label>
-                        {q.mediaUrl && <img src={q.mediaUrl} alt="gif" className="media-preview" />}
-                      </div>
-                    )}
-
-                    {q.mediaType === "video" && (
-                      <div className="media-upload">
-                        <input
-                          type="text"
-                          placeholder="Paste YouTube video URL"
-                          value={q.mediaUrl}
-                          onChange={(e) => handleChange(qIndex, "mediaUrl", e.target.value)}
-                          className="youtube-url-input"
-                        />
-                        {q.mediaUrl && (
-                          <iframe
-                            className="media-video"
-                            src={`https://www.youtube.com/embed/${extractYouTubeId(q.mediaUrl)}`}
-                            title="YouTube video"
-                            frameBorder="0"
-                            allowFullScreen
-                          />
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="options-section">
-                  <label className="input-label">
-                    {q.type === "TrueFalse" || (q.type === "Poll" && q.pollMode === "TrueFalse")
-                      ? "True/False Options"
-                      : "Answer Options"}
-                  </label>
-
-                  <div className="options-container">
-                    {q.options.map((opt, optIndex) => (
-                      <div key={optIndex} className="option-input-wrapper">
-                        <span className="option-bullet"></span>
-                        <input
-                          type="text"
-                          placeholder={
-                            q.type === "TrueFalse" || (q.type === "Poll" && q.pollMode === "TrueFalse")
-                              ? ""
-                              : `Option ${optIndex + 1}`
-                          }
-                          value={opt}
-                          onChange={(e) => handleOptionChange(qIndex, optIndex, e.target.value)}
-                          className="option-input"
-                          disabled={q.type === "TrueFalse" || (q.type === "Poll" && q.pollMode === "TrueFalse")}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* ✅ Only show Correct Answer if not Poll */}
-                {q.type !== "Poll" &&  q.type !== "Puzzle" && (
-                  <div className="correct-answer-selector">
-                    <label className="input-label">Correct Answer</label>
-                    <select
-                      value={q.correct}
-                      onChange={e => handleChange(qIndex, 'correct', e.target.value)}
-                      className="correct-answer-select"
-                    >
-                      <option value="">Select correct option</option>
-                      {q.options.map((opt, idx) => (
-                        <option key={idx} value={opt}>
-                          {opt || (q.type === 'TrueFalse' ? ['True', 'False'][idx] : `Option ${idx + 1}`)}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-
-                {/* ✅ Puzzle extra input */}
-                {q.type === "Puzzle" && (
-  <div className="puzzle-order-container">
-    <label className="input-label">Arrange the options in correct order</label>
-
-   <DragDropContext
-  onDragEnd={(result) => {
-    if (!result.destination) return;
-    const currentOrder = tempOrders[qIndex] || questions[qIndex].options;
-    const items = Array.from(currentOrder);
-    const [reordered] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reordered);
-
-    setTempOrders({ ...tempOrders, [qIndex]: items });
-  }}
->
-      <Droppable droppableId={`droppable-${qIndex}`}>
-        {(provided) => (
-          <ul
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className="puzzle-draggable-list"
-          >
-           {(tempOrders[qIndex] || q.options).map((opt, idx) => (
-  <Draggable key={`${qIndex}-${idx}-${opt}`} draggableId={`${qIndex}-${idx}-${opt}`} index={idx}>
-    {(provided) => (
-      <li
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-        className="puzzle-option"
-      >
-        {opt}
-      </li>
-    )}
-  </Draggable>
-))}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable>
-    </DragDropContext>
-
-    <button
-  type="button"
-  onClick={() => {
-    const updated = [...questions];
-    updated[qIndex].correct = [...(tempOrders[qIndex] || updated[qIndex].options)];
-    setQuestions(updated);
-    toast.success("✅ Correct order set!");
-  }}
-  className="set-order-btn"
->
-  Set Current Order as Correct
-</button>
-
-    {/* ✅ Show preview of correct order */}
-    {Array.isArray(q.correct) && q.correct.length > 0 && (
-      <p className="correct-preview">
-        Correct Order: {q.correct.join(" → ")}
-      </p>
-    )}
-  </div>
-)}
-
-
-
-                <div className="thought-input-container">
-                  <label className="input-label">Host's Thought (Optional)</label>
-                  <textarea
-                    placeholder="Add a motivational or guiding thought for participants..."
-                    value={q.thought}
-                    onChange={e => handleChange(qIndex, 'thought', e.target.value)}
-                    className="thought-textarea"
-                    rows={2}
-                  />
-                </div>
-              </div>
-            </div>
+            <QuestionCard
+              key={qIndex}
+              qIndex={qIndex}
+              question={q}
+              questions={questions}
+              tempOrders={tempOrders}
+              setTempOrders={setTempOrders}
+              handleChange={handleChange}
+              handleOptionChange={handleOptionChange}
+              handleRemoveQuestion={handleRemoveQuestion}
+              handleFileUpload={handleFileUpload}
+              extractYouTubeId={extractYouTubeId}
+              setQuestions={setQuestions}
+            />
           ))}
         </div>
 
-        <div className="action-buttons">
-          <button 
-            type="button" 
-            onClick={handleAddQuestion}
-            className="add-question-btn"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-            Add Question
-          </button>
-          <button 
-            type="submit" 
-            onClick={handleSubmit} 
-            className="submit-quiz-btn"
-            disabled={loading}
-          >
-            {loading ? (
-              <span className="submit-spinner"></span>
-            ) : (
-              <>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Create Quiz
-              </>
-            )}
-          </button>
-        </div>
+        <ActionButtons 
+          handleAddQuestion={handleAddQuestion}
+          handleSubmit={handleSubmit}
+          loading={loading}
+        />
       </div>
     </div>
   );
 }
 
-export default CreateQuiz;
+export default Createquiz;
