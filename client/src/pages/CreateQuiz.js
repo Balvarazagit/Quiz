@@ -266,6 +266,17 @@ function Createquiz() {
         <QuizHeader />
 
         <div className="quiz-title-section">
+          <label className="input-label">Quiz Title</label>
+          <input
+            type="text"
+            placeholder="Enter a catchy quiz title..."
+            value={quizTitle}
+            onChange={e => setQuizTitle(e.target.value)}
+            className="quiz-title-input"
+          />
+        </div>
+
+        <div className="quiz-title-section">
           <label className="input-label">Topic for AI Quiz</label>
           <input
             type="text"
@@ -304,17 +315,6 @@ function Createquiz() {
           >
             {loading ? "Generating..." : "✨ Generate with AI"}
           </button>
-        </div>
-
-        <div className="quiz-title-section">
-          <label className="input-label">Quiz Title</label>
-          <input
-            type="text"
-            placeholder="Enter a catchy quiz title..."
-            value={quizTitle}
-            onChange={e => setQuizTitle(e.target.value)}
-            className="quiz-title-input"
-          />
         </div>
 
         <div className="questions-container">
