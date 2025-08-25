@@ -3,6 +3,7 @@ const router = express.Router();
 const Quiz = require('../models/Quiz');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
+const axios = require("axios");
 
 
 // ✅ [POST] Create a new quiz
@@ -189,5 +190,76 @@ router.post('/:quizId/publish', auth, async (req, res) => {
   }
 });
 
+// ✅ [POST] AI Question Generator
+router.post("/generate-questions", auth, async (req, res) => {
+  try {
+    const { topic, count, qType } = req.body; // qType = "MCQ" | "TrueFalse" | "Mix"
+
+    if (!topic || !count) {
+      return res.status(400).json({ message: "Topic and count required" });
+    }
+
+    // Prompt banate waqt type ke hisaab se instruction dena
+    let typeInstruction = "";
+    if (qType === "MCQ") {
+      typeInstruction = `Generate only Multiple Choice Questions (MCQ). 
+Each question must have exactly 4 **meaningful answer options** (not just "A","B","C","D").`;
+    } else if (qType === "TrueFalse") {
+      typeInstruction = `Generate only True/False questions. 
+Each question must have options ["True", "False"].`;
+    } else {
+      typeInstruction = `Generate a mix of MCQ and True/False questions. 
+For MCQ: include 4 meaningful options. For True/False: use ["True","False"].`;
+    }
+
+    const response = await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        contents: [
+          {
+            parts: [
+              {
+                text: `${typeInstruction}
+Generate ${count} questions on topic "${topic}".
+Return ONLY valid JSON array in this format:
+[
+  {
+    "type": "MCQ" | "TrueFalse",
+    "question": "string",
+    "options": ["option1", "option2", "option3", "option4"] OR ["True", "False"],
+    "correct": "exact matching option string"
+  }
+]`
+              }
+            ]
+          }
+        ]
+      },
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    let content = response.data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+
+    if (!content) {
+      return res.status(500).json({ success: false, message: "No response from AI" });
+    }
+
+    // 🧹 Clean response
+    content = content.replace(/```json/g, "").replace(/```/g, "").trim();
+
+    let questions = [];
+    try {
+      questions = JSON.parse(content);
+    } catch (parseErr) {
+      console.error("❌ JSON Parse Error:", parseErr.message, "\nRAW:", content);
+      return res.status(500).json({ success: false, message: "Invalid JSON from AI", raw: content });
+    }
+
+    res.json({ success: true, questions });
+  } catch (err) {
+    console.error("❌ AI Generation Error:", err.response?.data || err.message);
+    res.status(500).json({ success: false, message: "AI generation failed" });
+  }
+});
 
 module.exports = router;

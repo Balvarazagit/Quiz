@@ -9,6 +9,7 @@ import ActionButtons from '../components/Create-quiz/ActionButtons/ActionButtons
 
 function Createquiz() {
   const [quizTitle, setQuizTitle] = useState('');
+  const [qType, setQType] = useState("MCQ");
   const [tempOrders, setTempOrders] = useState({});
   const [questions, setQuestions] = useState([
     {
@@ -24,6 +25,8 @@ function Createquiz() {
   
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [topic, setTopic] = useState("");
+  const [count, setCount] = useState(5);
 
   const handleAddQuestion = () => {
     setQuestions([
@@ -208,6 +211,44 @@ function Createquiz() {
     return match && match[2].length === 11 ? match[2] : null;
   };
 
+  const generateAIQuestions = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!topic.trim()) {
+      toast.error("❗ Please enter a topic");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/quiz/generate-questions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          // ✅ yaha qType bhi bhejna hoga
+          body: JSON.stringify({ topic, count, qType }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok && data.questions) {
+        setQuestions(data.questions);
+        toast.success(`✅ ${data.questions.length} questions generated!`);
+      } else {
+        toast.error(data.message || "AI failed to generate questions");
+      }
+    } catch (err) {
+      toast.error("⚠️ Error generating questions");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="quiz-creator-container">
       <div className="quiz-creator-card">
@@ -223,7 +264,48 @@ function Createquiz() {
         </button>
         
         <QuizHeader />
-        
+
+        <div className="quiz-title-section">
+          <label className="input-label">Topic for AI Quiz</label>
+          <input
+            type="text"
+            placeholder="Enter topic (e.g. JavaScript, History)"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            className="quiz-title-input"
+          />
+
+          <label className="input-label">Number of Questions</label>
+          <input
+            type="number"
+            min="1"
+            max="20"
+            value={count}
+            onChange={(e) => setCount(e.target.value)}
+            className="quiz-title-input"
+          />
+
+          {/* ✅ Ye dropdown AI type select karne ke liye */}
+          <label className="input-label">Question Type</label>
+          <select
+            value={qType}
+            onChange={(e) => setQType(e.target.value)}
+            className="quiz-title-input"
+          >
+            <option value="MCQ">Multiple Choice</option>
+            <option value="TrueFalse">True / False</option>
+            <option value="Mix">Mix (MCQ + True/False)</option>
+          </select>
+
+          <button
+            onClick={generateAIQuestions}
+            disabled={loading}
+            className="ai-generate-btn"
+          >
+            {loading ? "Generating..." : "✨ Generate with AI"}
+          </button>
+        </div>
+
         <div className="quiz-title-section">
           <label className="input-label">Quiz Title</label>
           <input
