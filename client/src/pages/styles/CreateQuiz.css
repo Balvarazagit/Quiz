@@ -134,3 +134,108 @@
   color: var(--text-dark);
   font-size: 0.95rem;
 }
+
+.ai-generate-btn {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(72, 187, 120, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-generate-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(72, 187, 120, 0.3);
+}
+
+.ai-generate-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(72, 187, 120, 0.25);
+}
+
+.ai-generate-btn:disabled {
+  background: linear-gradient(135deg, #a0aec0, #718096);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.8;
+}
+
+/* Subtle shimmer effect on hover */
+.ai-generate-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.ai-generate-btn:hover:not(:disabled)::after {
+  animation: shimmer 1.5s infinite;
+  opacity: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(30deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(30deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ai-generate-btn {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ai-generate-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+  
+  /* Reduce animation intensity on mobile for performance */
+  .ai-generate-btn:hover:not(:disabled)::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Reduced motion preference for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .ai-generate-btn {
+    transition: none;
+  }
+  
+  .ai-generate-btn::after {
+    display: none;
+  }
+  
+  .ai-generate-btn:hover:not(:disabled) {
+    transform: none;
+  }
+}
