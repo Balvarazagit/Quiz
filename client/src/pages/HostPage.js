@@ -12,6 +12,7 @@ import FinalScoreboard from '../components/Host/FinalScoreboard/FinalScoreboard'
 import QuizControls from '../components/Host/QuizControls/QuizControls';
 import '../pages/styles/HostPage.css';
 import { FaUserAlt, FaPlay } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
@@ -33,7 +34,16 @@ function HostPage() {
   const [scoreboard, setScoreboard] = useState([]);
   const [thought, setThought] = useState('');
   const [showThought, setShowThought] = useState(false);
+  const location = useLocation();
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const id = params.get("quizId");
+    if (id) {
+      setQuizId(id);
+    }
+  }, [location]);
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
