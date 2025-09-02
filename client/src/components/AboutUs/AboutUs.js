@@ -1,24 +1,30 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from "react-router-dom";
+import { 
+  FaLaptopCode, FaCode, FaPalette, FaChalkboardTeacher, 
+  FaChartLine, FaHandshake, FaUsers, FaClipboardList, 
+  FaStar, FaTools, FaLinkedin, FaEnvelope, FaComment
+} from 'react-icons/fa';
 import Navbar from '../Layout/Navbar/Navbar';
 import Footer from '../Layout/Footer/Footer';
 import '../AboutUs/AboutUs.css';
 
 const AboutPage = () => {
   const teamMembers = [
-    { name: 'Alex Johnson', role: 'Founder & CEO', emoji: '👨‍💻', color: '#6c5ce7' },
-    { name: 'Sarah Chen', role: 'Lead Developer', emoji: '👩‍💻', color: '#fd79a8' },
-    { name: 'Michael R.', role: 'UX Designer', emoji: '🎨', color: '#00cec9' },
-    { name: 'Emily Wilson', role: 'Education Expert', emoji: '👩‍🏫', color: '#a29bfe' },
-    { name: 'David Kim', role: 'Marketing Director', emoji: '📈', color: '#ffeaa7' },
-    { name: 'Priya Patel', role: 'Customer Success', emoji: '🤝', color: '#fab1a0' }
+    { name: 'Balva Aliraza RoshanAli', role: 'Founder & CEO', icon: <FaLaptopCode />, color: '#6c5ce7' },
+    { name: 'Balva Aliraza RoshanAli', role: 'Lead Developer', icon: <FaCode />, color: '#fd79a8' },
+    { name: 'Balva Aliraza RoshanAli', role: 'UX Designer', icon: <FaPalette />, color: '#00cec9' },
+    { name: 'Balva Aliraza RoshanAli', role: 'Education Expert', icon: <FaChalkboardTeacher />, color: '#a29bfe' },
+    { name: 'Balva Aliraza RoshanAli', role: 'Marketing Director', icon: <FaChartLine />, color: '#ffeaa7' },
+    { name: 'Balva Aliraza RoshanAli', role: 'Customer Success', icon: <FaHandshake />, color: '#fab1a0' }
   ];
 
   const stats = [
-    { number: '10K+', label: 'Active Users', icon: '👥' },
-    { number: '500+', label: 'Quizzes Created', icon: '📝' },
-    { number: '95%', label: 'Satisfaction', icon: '⭐' },
-    { number: '24/7', label: 'Support', icon: '🛠️' }
+    { number: '10K+', label: 'Active Users', icon: <FaUsers /> },
+    { number: '500+', label: 'Quizzes Created', icon: <FaClipboardList /> },
+    { number: '95%', label: 'Satisfaction', icon: <FaStar /> },
+    { number: '24/7', label: 'Support', icon: <FaTools /> }
   ];
 
   return (
@@ -113,7 +119,12 @@ const AboutPage = () => {
               viewport={{ once: true }}
             >
               <div className="visual-container">
-                <div className="main-visual"></div>
+                <div className="main-visual">
+                  <img 
+                    src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
+                    alt="Interactive learning platform" 
+                  />
+                </div>
                 <div className="floating-dots">
                   {[...Array(12)].map((_, i) => (
                     <motion.div
@@ -157,14 +168,14 @@ const AboutPage = () => {
                 style={{ '--member-color': member.color }}
               >
                 <div className="member-avatar" style={{ backgroundColor: member.color }}>
-                  {member.emoji}
+                  {member.icon}
                 </div>
                 <h3>{member.name}</h3>
                 <p>{member.role}</p>
                 <div className="member-links">
-                  <span>🔗</span>
-                  <span>📧</span>
-                  <span>💬</span>
+                  <a href="https://www.linkedin.com/in/aliraza-balva-10b872229/" target="_blank" rel="noopener noreferrer"><span><FaLinkedin /></span></a>
+                  <a href="mailto:balvaraza2@gmail.com"><span><FaEnvelope /></span></a>
+                  <Link to="/contact"><span><FaComment /></span></Link>
                 </div>
                 <div className="member-bg" style={{ backgroundColor: member.color }}></div>
               </motion.div>
@@ -219,6 +230,7 @@ const AboutPage = () => {
               We envision a world where learning is personalized, engaging, and accessible to all. 
               QuizMaster is just the beginning of this educational transformation.
             </p>
+            <Link to="/contact">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -226,9 +238,15 @@ const AboutPage = () => {
             >
               Join Our Journey
             </motion.button>
+            </Link>
           </motion.div>
           <div className="vision-graphic">
-            <div className="graphic-circle"></div>
+            <div className="graphic-circle">
+              <img 
+                src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                alt="Future of education" 
+              />
+            </div>
             <div className="graphic-particles">
               {[...Array(8)].map((_, i) => (
                 <motion.div

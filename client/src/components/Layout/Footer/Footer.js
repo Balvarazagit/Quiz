@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaGithub, FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import './Footer.css';
 import logo from '../../../assests/logo-1.png'
 
@@ -19,10 +19,10 @@ const Footer = () => {
             Making learning fun and interactive through engaging quizzes and assessments for all age groups.
           </p>
           <div className="footer-social">
-            <a href="#" aria-label="Facebook" className="social-icon"><FaFacebook /></a>
+            <a href="https://github.com/Balvarazagit/Quiz/" aria-label="Facebook" className="social-icon"><FaGithub  /></a>
             <a href="#" aria-label="Twitter" className="social-icon"><FaTwitter /></a>
             <a href="#" aria-label="Instagram" className="social-icon"><FaInstagram /></a>
-            <a href="#" aria-label="LinkedIn" className="social-icon"><FaLinkedin /></a>
+            <a href="https://www.linkedin.com/in/aliraza-balva-10b872229/" aria-label="LinkedIn" className="social-icon"><FaLinkedin /></a>
           </div>
         </div>
 

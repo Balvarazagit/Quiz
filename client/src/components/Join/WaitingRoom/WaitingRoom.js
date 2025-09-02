@@ -1,7 +1,8 @@
-import './WaitingRoom.css';
 import { motion } from "framer-motion";
+import { FaHashtag, FaUser, FaIdCard, FaClock, FaUsers } from "react-icons/fa";
+import "./WaitingRoom.css";
 
-const WaitingRoom = ({ pin, name, userId }) => {
+const WaitingRoom = ({ pin, name, userId, players = 12 }) => {
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -9,39 +10,66 @@ const WaitingRoom = ({ pin, name, userId }) => {
       className="waiting-room"
     >
       <div className="waiting-content">
+        <div className="waiting-header">
+          <h2>Quiz Session</h2>
+          <div className="player-count">
+            <FaUsers className="count-icon" />
+            <span>{players} Players</span>
+          </div>
+        </div>
+        
         <div className="waiting-animation">
           <div className="pulse-circle"></div>
-          <svg className="waiting-icon" viewBox="0 0 24 24">
-            <path fill="#4CAF50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-          </svg>
+          <div className="clock-icon">
+            <FaClock />
+          </div>
         </div>
+        
         <h3 className="waiting-title">Waiting for Host</h3>
         <p className="waiting-message">The quiz will begin shortly</p>
         
         <div className="session-info-card">
           <div className="info-list">
             <div className="info-item">
-              <div className="info-icon">🔢</div>
+              <div className="info-icon">
+                <FaHashtag />
+              </div>
               <div className="info-content">
-                <span className="info-label-join">Game PIN</span>
+                <span className="info-label">Game PIN</span>
                 <span className="info-value">{pin}</span>
               </div>
             </div>
             <div className="info-item">
-              <div className="info-icon">👤</div>
+              <div className="info-icon">
+                <FaUser />
+              </div>
               <div className="info-content">
-                <span className="info-label-join">Player</span>
+                <span className="info-label">Player</span>
                 <span className="info-value">{name}</span>
               </div>
             </div>
             <div className="info-item">
-              <div className="info-icon">🆔</div>
+              <div className="info-icon">
+                <FaIdCard />
+              </div>
               <div className="info-content">
-                <span className="info-label-join">ID</span>
+                <span className="info-label">ID</span>
                 <span className="info-value">{userId}</span>
               </div>
             </div>
           </div>
+        </div>
+        
+        <div className="progress-container">
+          <div className="progress-bar">
+            <motion.div 
+              className="progress-fill"
+              initial={{ width: 0 }}
+              animate={{ width: "60%" }}
+              transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+            />
+          </div>
+          <p className="progress-text">Waiting for host to start the game...</p>
         </div>
       </div>
     </motion.div>

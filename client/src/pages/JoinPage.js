@@ -45,6 +45,7 @@ function JoinPage() {
   const [showThought, setShowThought] = useState(false);
   const [pollAnswer, setPollAnswer] = useState(null); 
   const [puzzleResult, setPuzzleResult] = useState(null);
+  const [playersList, setPlayersList] = useState([]);
 
   const joinQuiz = () => {
     if (!name.trim()) {
@@ -86,9 +87,10 @@ function JoinPage() {
       navigate('/join');
     });
 
-    socket.on('player-joined', () => {
+    socket.on("player-joined", ({ players }) => {
       setJoined(true);
       setError('');
+      setPlayersList(players);
     });
 
     socket.on('error-pin', ({ message }) => setError(message));
@@ -250,6 +252,7 @@ function JoinPage() {
               pin={pin}
               name={name}
               userId={userId}
+              players={playersList.length}
             />
           )}
 

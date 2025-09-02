@@ -599,3 +599,59 @@ body, html {
     font-size: 0.95rem;
   }
 }
+
+/* Team Member Icons */
+.member-avatar svg {
+  font-size: 2rem;
+}
+
+/* Stat Icons */
+.stat-icon svg {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Social Icons */
+.member-links span {
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+
+.member-links svg {
+  font-size: 1.2rem;
+}
+
+/* Mission Section Image */
+.main-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* Vision Section Image */
+.graphic-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Adjust existing styles for new content */
+.member-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.stat-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: #6c5ce7;
+}
