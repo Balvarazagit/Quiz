@@ -6,12 +6,11 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import '../pages/styles/JoinPage.css';
 import { v4 as uuidv4 } from 'uuid';
-
-// Import components
 import JoinForm from '../components/Join/JoinForm/JoinForm';
 import WaitingRoom from '../components/Join/WaitingRoom/WaitingRoom';
 import QuizInterface from '../components/Join/QuizInterface/QuizInterface';
 import ResultsScreen from '../components/Join/ResultsScreen/ResultsScreen';
+import { useLocation } from "react-router-dom";
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
@@ -45,6 +44,7 @@ function JoinPage() {
   const [pollAnswer, setPollAnswer] = useState(null); 
   const [puzzleResult, setPuzzleResult] = useState(null);
   const [playersList, setPlayersList] = useState([]);
+  const location = useLocation();
 
   const joinQuiz = () => {
     if (!name.trim()) {
@@ -197,6 +197,14 @@ function JoinPage() {
     }
   }, [showAnswer, scoreboard, name, userId]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const pinFromUrl = params.get("pin");
+    if (pinFromUrl) {
+      setPin(pinFromUrl);
+    }
+  }, [location]);
+  
   return (
     <div className="quiz-app-join-container">
       {quizEnded && <Confetti width={width} height={height} recycle={false} numberOfPieces={500} />}

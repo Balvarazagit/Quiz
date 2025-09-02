@@ -29,7 +29,7 @@
   box-shadow: var(--shadow);
   padding: 2.5rem;
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px;
   border: 1px solid var(--gray-light);
   position: relative;
   overflow: hidden;
@@ -83,7 +83,117 @@
   gap: 1.5rem;
 }
 
+/* QR Section Styles */
+.qr-section-host {
+  background: var(--bg-light);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  margin: 1.5rem 0;
+  border: 2px dashed var(--primary-light);
+}
+
+.qr-section-host h3 {
+  color: var(--primary-dark);
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+}
+
+.qr-container {
+  padding: 0.75rem;
+  background: white;
+  border-radius: 12px;
+  display: inline-block;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.qr-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.copy-link-btn,
+.share-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copy-link-btn:hover,
+.share-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* Grid layout for players and scoreboard */
+.host-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.players-section,
+.scoreboard-section {
+  background: var(--bg-light);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid var(--gray-light);
+}
+
+/* Start button */
+.start-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem auto;
+  width: 100%;
+  max-width: 300px;
+}
+
+.start-button:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.start-button:disabled {
+  background: var(--primary-light);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .host-card {
+    padding: 2rem;
+  }
+  
+  .host-content-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .host-card {
     padding: 1.5rem;
@@ -93,10 +203,70 @@
   .host-header h2 {
     font-size: 1.5rem;
   }
+  
+  .host-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+  
+  .qr-section-host {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .qr-section-host h3 {
+    font-size: 1.1rem;
+  }
+  
+  .qr-code {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .copy-link-btn,
+  .share-btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .start-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
+  .host-container {
+    padding: 0.5rem;
+  }
+  
   .host-card {
     padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .host-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .host-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .qr-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .copy-link-btn,
+  .share-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .players-section,
+  .scoreboard-section {
+    padding: 0.75rem;
   }
 }

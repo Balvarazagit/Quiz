@@ -1,4 +1,3 @@
-/* WaitingRoom.css */
 .waiting-room {
   display: flex;
   justify-content: center;
@@ -11,7 +10,7 @@
 
 .waiting-content {
   text-align: center;
-  max-width: 500px;
+  max-width: 900px;
   width: 100%;
   background: white;
   border-radius: 24px;
@@ -31,86 +30,6 @@
   background: linear-gradient(90deg, #4CAF50, #8BC34A);
 }
 
-.waiting-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #e8f5e9;
-}
-
-.waiting-header h2 {
-  color: #2E7D32;
-  margin: 0;
-  font-weight: 700;
-  font-size: 24px;
-}
-
-.player-count {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #f1f8e9;
-  padding: 8px 16px;
-  border-radius: 20px;
-  color: #2E7D32;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.count-icon {
-  font-size: 16px;
-}
-
-.waiting-animation {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  margin: 0 auto 30px;
-}
-
-.pulse-circle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: rgba(232, 245, 233, 0.6);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.7;
-    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.4;
-    box-shadow: 0 0 0 20px rgba(76, 175, 80, 0);
-  }
-  100% {
-    transform: scale(0.9);
-    opacity: 0.7;
-    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
-  }
-}
-
-.clock-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 50px;
-  color: #4CAF50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .waiting-title {
   font-size: 28px;
   font-weight: 700;
@@ -125,153 +44,42 @@
   line-height: 1.5;
 }
 
-.session-info-card {
-  background: #F1F8E9;
-  border-radius: 18px;
-  padding: 25px;
+.session-info-container {
+  display: flex;
+  gap: 25px;
   margin-bottom: 30px;
-  border: 1px solid #C5E1A5;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
-}
-
-.info-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.info-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 15px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.8);
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
-}
-
-.info-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
-}
-
-.info-icon {
-  font-size: 18px;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  background: #E8F5E9;
-  border-radius: 50%;
-  color: #2E7D32;
-  flex-shrink: 0;
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.15);
-}
-
-.info-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: start;
-  flex: 1;
-}
-
-.info-label {
-  font-size: 14px;
-  color: #689F38;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.info-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #33691E;
-}
-
-.progress-container {
-  margin-top: 25px;
-}
-
-.progress-text {
-  color: #689F38;
-  font-size: 14px;
-  margin-bottom: 12px;
-  font-weight: 500;
-}
-
-.progress-bar {
-  height: 8px;
-  background: #E8F5E9;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) inset;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #8BC34A, #4CAF50);
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-}
-
-/* Decorative elements */
-.decorative-element {
-  position: absolute;
-  z-index: 0;
-  opacity: 0.1;
-  color: #4CAF50;
-}
-
-.decorative-element-1 {
-  top: -20px;
-  right: -20px;
-  font-size: 120px;
-  transform: rotate(45deg);
-}
-
-.decorative-element-2 {
-  bottom: -30px;
-  left: -30px;
-  font-size: 150px;
-  transform: rotate(-15deg);
 }
 
 /* Responsive adjustments */
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+  .session-info-container {
+    flex-direction: column;
+  }
+  
   .waiting-content {
     padding: 25px 20px;
     border-radius: 20px;
   }
   
-  .waiting-header {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-  }
-  
   .waiting-title {
     font-size: 24px;
   }
-  
-  .session-info-card {
-    padding: 20px;
+}
+
+@media (max-width: 576px) {
+  .waiting-room {
+    padding: 10px;
   }
   
-  .info-item {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
-    padding: 15px;
+  .waiting-content {
+    padding: 20px 15px;
   }
-  
-  .info-content {
-    align-items: center;
-  }
-  
-  .decorative-element {
-    display: none;
+}
+
+@media (max-width: 400px) {
+  .waiting-title {
+    font-size: 22px;
   }
 }

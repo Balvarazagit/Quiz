@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { toast } from 'react-toastify';
 import './JoinForm.css'
 
 const JoinForm = ({ pin, setPin, name, setName, error, joinQuiz }) => {

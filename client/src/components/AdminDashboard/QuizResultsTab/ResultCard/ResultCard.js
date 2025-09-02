@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiCalendar, FiTrash2, FiAward, FiStar, FiChevronDown } from 'react-icons/fi';
+import { FiCalendar, FiAward, FiStar, FiChevronDown } from 'react-icons/fi';
 import DeleteButton from '../../common/DeleteButton/DeleteButton';
 import './ResultCard.css'
 

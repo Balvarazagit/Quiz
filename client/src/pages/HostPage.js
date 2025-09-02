@@ -1,4 +1,3 @@
-// HostPage.js (Main Component)
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
@@ -8,11 +7,12 @@ import PinDisplay from '../components/Host/PinDisplay/PinDisplay';
 import PlayerList from '../components/Host/PlayerList/PlayerList';
 import LiveScoreboard from '../components/Host/LiveScoreboard/LiveScoreboard';
 import QuestionDisplay from '../components/Host/QuestionDisplay/QuestionDisplay';
-import FinalScoreboard from '../components/Host/FinalScoreboard/FinalScoreboard'
+import FinalScoreboard from '../components/Host/FinalScoreboard/FinalScoreboard';
 import QuizControls from '../components/Host/QuizControls/QuizControls';
 import '../pages/styles/HostPage.css';
 import { FaUserAlt, FaPlay } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
+import { QRCodeSVG } from "qrcode.react";
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
@@ -192,12 +192,60 @@ function HostPage() {
           <div className="host-game">
             <PinDisplay pin={pin} />
             
-            <PlayerList 
-              players={players} 
-              handleKick={handleKick} 
-            />
-            
-            <LiveScoreboard scoreboard={scoreboard} />
+            <div className="qr-section-host">
+              <h3>📲 Scan to Join</h3>
+              <div className="qr-container">
+                <QRCodeSVG
+                  value={`${window.location.origin}/join?pin=${pin}`}
+                  size={isMobile ? 120 : 150}
+                  level="H"
+                  includeMargin={true}
+                  className="qr-code"
+                />
+              </div>
+              <div className="qr-actions">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="copy-link-btn"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.origin}/join?pin=${pin}`);
+                    toast.success("Join link copied!");
+                  }}
+                >
+                  📋 Copy Join Link
+                </motion.button>
+                {navigator.share && (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="share-btn"
+                    onClick={() =>
+                      navigator.share({
+                        title: "Join my Quiz!",
+                        text: `Join the quiz with PIN: ${pin}`,
+                        url: `${window.location.origin}/join?pin=${pin}`,
+                      })
+                    }
+                  >
+                    🔗 Share
+                  </motion.button>
+                )}
+              </div>
+            </div>
+
+            <div className="host-content-grid">
+              <div className="players-section">
+                <PlayerList 
+                  players={players} 
+                  handleKick={handleKick} 
+                />
+              </div>
+              
+              <div className="scoreboard-section">
+                <LiveScoreboard scoreboard={scoreboard} />
+              </div>
+            </div>
             
             {!quizStarted ? (
               <motion.button
