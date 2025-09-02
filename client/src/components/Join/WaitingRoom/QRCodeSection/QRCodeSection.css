@@ -54,15 +54,17 @@
   font-size: 14px;
 }
 
-.share-with-qr {
+/* Download QR button */
+.download-qr {
   background: #2196F3;
   color: white;
 }
 
-.share-with-qr:hover {
+.download-qr:hover {
   background: #0b7dda;
 }
 
+/* Copy Link button */
 .share-link-only {
   background: #4CAF50;
   color: white;

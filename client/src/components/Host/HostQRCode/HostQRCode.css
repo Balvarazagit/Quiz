@@ -111,36 +111,6 @@
   box-shadow: var(--shadow-hover);
 }
 
-/* Share Button - Primary Green */
-.share-btn-host {
-  background: var(--primary);
-  color: white;
-  border: 2px solid var(--primary);
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex: 1;
-  min-width: 140px;
-  justify-content: center;
-  font-weight: 600;
-}
-
-.share-btn-host:hover:not(:disabled) {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-}
-
-.share-btn-host:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
 /* Responsive adjustments for QR section */
 @media (max-width: 768px) {
   .qr-section-host {
@@ -157,8 +127,7 @@
   }
   
   .copy-link-btn,
-  .download-btn-host,
-  .share-btn-host {
+  .download-btn-host {
     padding: 0.6rem 0.8rem;
     font-size: 0.85rem;
     min-width: 120px;
@@ -173,8 +142,7 @@
   }
   
   .copy-link-btn,
-  .download-btn-host,
-  .share-btn-host {
+  .download-btn-host{
     width: 100%;
     min-width: unset;
   }

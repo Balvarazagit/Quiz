@@ -1,71 +1,42 @@
 import { useRef } from 'react';
-import { FaShare, FaQrcode, FaLink } from "react-icons/fa";
+import { FaDownload, FaLink } from "react-icons/fa";
 import { QRCodeSVG } from "qrcode.react";
 import './QRCodeSection.css';
 
 const QRCodeSection = ({ joinUrl }) => {
   const qrRef = useRef();
 
-  const handleShare = async () => {
+  const handleDownload = () => {
     try {
-      // Convert SVG to data URL
       const svgElement = qrRef.current.querySelector('svg');
       const svgData = new XMLSerializer().serializeToString(svgElement);
       const svgBlob = new Blob([svgData], { type: 'image/svg+xml' });
       const svgUrl = URL.createObjectURL(svgBlob);
-      
-      // Create an image to convert SVG to PNG
+
       const img = new Image();
-      img.onload = async () => {
+      img.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
-        
+
         const pngUrl = canvas.toDataURL('image/png');
-        
-        // Try to share with Web Share API
-        if (navigator.share) {
-          // Fetch the PNG as a blob
-          const response = await fetch(pngUrl);
-          const blob = await response.blob();
-          const file = new File([blob], 'quiz-qr.png', { type: 'image/png' });
-          
-          await navigator.share({
-            title: 'Join My Quiz',
-            text: `Join my quiz using PIN or scan the QR code: ${joinUrl}`,
-            files: [file],
-          });
-        } else {
-          // Fallback for browsers that don't support sharing files
-          const link = document.createElement('a');
-          link.download = 'quiz-qr.png';
-          link.href = pngUrl;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          
-          // Also copy the link to clipboard
-          navigator.clipboard.writeText(joinUrl);
-          alert('QR code downloaded and link copied to clipboard!');
-        }
-        
+
+        const link = document.createElement('a');
+        link.download = 'quiz-qr.png';
+        link.href = pngUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
         URL.revokeObjectURL(svgUrl);
+        alert('QR code downloaded!');
       };
       img.src = svgUrl;
     } catch (error) {
-      console.error('Error sharing QR code:', error);
-      // Fallback to just sharing the link
-      if (navigator.share) {
-        await navigator.share({
-          title: 'Join My Quiz',
-          text: `Join my quiz: ${joinUrl}`,
-        });
-      } else {
-        navigator.clipboard.writeText(joinUrl);
-        alert('Join link copied to clipboard!');
-      }
+      console.error('Error downloading QR code:', error);
+      alert('Failed to download QR code!');
     }
   };
 
@@ -92,10 +63,10 @@ const QRCodeSection = ({ joinUrl }) => {
         />
         <div className="qr-actions">
           <button
-            className="share-btn share-with-qr"
-            onClick={handleShare}
+            className="share-btn download-qr"
+            onClick={handleDownload}
           >
-            <FaQrcode /> Share QR
+            <FaDownload /> Download QR
           </button>
           <button
             className="share-btn share-link-only"
