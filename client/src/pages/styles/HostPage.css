@@ -83,55 +83,6 @@
   gap: 1.5rem;
 }
 
-/* QR Section Styles */
-.qr-section-host {
-  background: var(--bg-light);
-  border-radius: 16px;
-  padding: 1.5rem;
-  text-align: center;
-  margin: 1.5rem 0;
-  border: 2px dashed var(--primary-light);
-}
-
-.qr-section-host h3 {
-  color: var(--primary-dark);
-  margin: 0 0 1rem 0;
-  font-size: 1.25rem;
-}
-
-.qr-container {
-  padding: 0.75rem;
-  background: white;
-  border-radius: 12px;
-  display: inline-block;
-  margin-bottom: 1rem;
-  box-shadow: var(--shadow);
-}
-
-.qr-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.share-btn {
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.share-btn:hover {
-  background: var(--primary-dark);
-}
-
 /* Grid layout for players and scoreboard */
 .host-content-grid {
   display: grid;
@@ -207,26 +158,6 @@
     font-size: 1.5rem;
   }
   
-  .qr-section-host {
-    padding: 1rem;
-    margin: 1rem 0;
-  }
-  
-  .qr-section-host h3 {
-    font-size: 1.1rem;
-  }
-  
-  .qr-code {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .copy-link-btn,
-  .share-btn {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.85rem;
-  }
-  
   .start-button {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
@@ -250,17 +181,7 @@
   .host-header h2 {
     font-size: 1.3rem;
   }
-  
-  .qr-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .share-btn {
-    width: 100%;
-    justify-content: center;
-  }
-  
+
   .players-section,
   .scoreboard-section {
     padding: 0.75rem;

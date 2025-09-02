@@ -139,16 +139,16 @@ function ViewQuizPage() {
             
             <ul className="options-grid">
               {q.options.map((opt, j) => (
-                <li 
+                <li
                   key={j}
-                  className={`option-card ${opt === q.correct ? 'correct' : ''}`}
+                  className={`option-card ${q.correct.includes(opt) ? 'correct' : ''}`}
                 >
                   <div className="option-letter">
                     {String.fromCharCode(65 + j)}
                   </div>
                   <div className="option-content">
                     <p className="option-text">{opt}</p>
-                    {opt === q.correct && (
+                    {q.correct.includes(opt) && (
                       <div className="correct-indicator">
                         <FiCheck className="correct-icon" />
                         <span>Correct Answer</span>

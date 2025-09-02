@@ -331,7 +331,7 @@ function Myquizzes() {
                     )}
                     {quiz.isPublished && (
                       <button 
-                        className="action-btn share-btn"
+                        className="action-btn share-btn-myquizzes"
                         onClick={() => {
                           const shareUrl = `${window.location.origin}/view-quiz/${quiz._id}`;
                           navigator.clipboard.writeText(shareUrl);

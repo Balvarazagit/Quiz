@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
@@ -10,9 +10,10 @@ import QuestionDisplay from '../components/Host/QuestionDisplay/QuestionDisplay'
 import FinalScoreboard from '../components/Host/FinalScoreboard/FinalScoreboard';
 import QuizControls from '../components/Host/QuizControls/QuizControls';
 import '../pages/styles/HostPage.css';
-import { FaUserAlt, FaPlay } from 'react-icons/fa';
+import { FaUserAlt, FaPlay, FaQrcode, FaLink } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { QRCodeSVG } from "qrcode.react";
+import HostQRCode from '../components/Host/HostQRCode/HostQRCode';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
@@ -35,6 +36,7 @@ function HostPage() {
   const [thought, setThought] = useState('');
   const [showThought, setShowThought] = useState(false);
   const location = useLocation();
+  const qrRef = useRef();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -98,6 +100,57 @@ function HostPage() {
     if (confirmKick) {
       socket.emit("kick-player", { pin, playerId });
       toast.info(`👢 ${playerName} was removed`, { position: "top-center" });
+    }
+  };
+
+  const shareQRCode = async () => {
+    try {
+      // Convert QR code to data URL
+      const svgElement = qrRef.current.querySelector('svg');
+      const svgData = new XMLSerializer().serializeToString(svgElement);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml' });
+      const svgUrl = URL.createObjectURL(svgBlob);
+      
+      // Create an image to convert SVG to PNG
+      const img = new Image();
+      img.onload = async () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        
+        const pngUrl = canvas.toDataURL('image/png');
+        
+        // Try to share with Web Share API
+        if (navigator.share) {
+          // Fetch the PNG as a blob
+          const response = await fetch(pngUrl);
+          const blob = await response.blob();
+          const file = new File([blob], 'quiz-qr.png', { type: 'image/png' });
+          
+          await navigator.share({
+            title: 'Join My Quiz',
+            text: `Join my quiz using PIN: ${pin} or scan the QR code`,
+            files: [file],
+          });
+        } else {
+          // Fallback for browsers that don't support sharing files
+          const link = document.createElement('a');
+          link.download = 'quiz-qr.png';
+          link.href = pngUrl;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          toast.info('QR code downloaded!');
+        }
+        
+        URL.revokeObjectURL(svgUrl);
+      };
+      img.src = svgUrl;
+    } catch (error) {
+      console.error('Error sharing QR code:', error);
+      toast.error('Failed to share QR code');
     }
   };
 
@@ -192,36 +245,7 @@ function HostPage() {
           <div className="host-game">
             <PinDisplay pin={pin} />
             
-              <div className="qr-section-host">
-                <h3>📲 Scan to Join</h3>
-                <div className="qr-container">
-                  <QRCodeSVG
-                    value={`${window.location.origin}/join?pin=${pin}`}
-                    size={isMobile ? 120 : 150}
-                    level="H"
-                    includeMargin={true}
-                    className="qr-code"
-                  />
-                </div>
-                <div className="qr-actions">
-                  {navigator.share && (
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="share-btn"
-                      onClick={() =>
-                        navigator.share({
-                          title: "Join my Quiz!",
-                          text: `Join the quiz with PIN: ${pin}`,
-                          url: `${window.location.origin}/join?pin=${pin}`,
-                        })
-                      }
-                    >
-                      🔗 Share
-                    </motion.button>
-                  )}
-                </div>
-              </div>
+            <HostQRCode pin={pin} isMobile={isMobile} />
 
             <div className="host-content-grid">
               <div className="players-section">

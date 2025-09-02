@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  width: 100%;
 }
 
 .qr-container h3 {
@@ -33,6 +34,7 @@
 
 .qr-actions {
   display: flex;
+  gap: 10px;
   margin-top: 15px;
   width: 100%;
 }
@@ -50,12 +52,24 @@
   gap: 8px;
   transition: all 0.3s ease;
   font-size: 14px;
+}
+
+.share-with-qr {
   background: #2196F3;
   color: white;
 }
 
-.share-btn:hover {
+.share-with-qr:hover {
   background: #0b7dda;
+}
+
+.share-link-only {
+  background: #4CAF50;
+  color: white;
+}
+
+.share-link-only:hover {
+  background: #388E3C;
 }
 
 @media (max-width: 768px) {
@@ -78,5 +92,10 @@
   .qr-code {
     width: 180px;
     height: 180px;
+  }
+  
+  .share-btn {
+    padding: 10px;
+    font-size: 13px;
   }
 }
