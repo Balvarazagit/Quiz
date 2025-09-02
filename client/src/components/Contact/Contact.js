@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle } from 'react-icons/fi';
 import { FaTwitter, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Navbar from '../Layout/Navbar/Navbar';
-import Footer from '../Layout/Footer/Footer';
 import '../Contact/Contact.css';
 
 const ContactPage = () => {
@@ -214,9 +213,9 @@ const ContactPage = () => {
               <div className="social-section">
                 <h3>Follow Us</h3>
                 <div className="social-links">
-                  <a href="#" aria-label="Twitter"><FaTwitter /></a>
+                  <a href="https://x.com" aria-label="Twitter"><FaTwitter /></a>
                   <a href="https://github.com/Balvarazagit/Quiz/" aria-label="Facebook"><FaGithub  /></a>
-                  <a href="#" aria-label="Instagram"><FaInstagram /></a>
+                  <a href="https://instagram.com" aria-label="Instagram"><FaInstagram /></a>
                   <a href="https://www.linkedin.com/in/aliraza-balva-10b872229/" aria-label="LinkedIn"><FaLinkedin /></a>
                 </div>
               </div>

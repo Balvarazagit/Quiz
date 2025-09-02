@@ -12,7 +12,7 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-section footer-about">
           <div className="footer-logo">
-            <img className='logo-footer' src={logo} />
+            <img className='logo-footer' src={logo} alt="logo-footer"/>
             <span>QuizMaster</span>
           </div>
           <p className="footer-description">
@@ -20,8 +20,8 @@ const Footer = () => {
           </p>
           <div className="footer-social">
             <a href="https://github.com/Balvarazagit/Quiz/" aria-label="Facebook" className="social-icon"><FaGithub  /></a>
-            <a href="#" aria-label="Twitter" className="social-icon"><FaTwitter /></a>
-            <a href="#" aria-label="Instagram" className="social-icon"><FaInstagram /></a>
+            <a href="https://x.com" aria-label="Twitter" className="social-icon"><FaTwitter /></a>
+            <a href="https://instagram.com" aria-label="Instagram" className="social-icon"><FaInstagram /></a>
             <a href="https://www.linkedin.com/in/aliraza-balva-10b872229/" aria-label="LinkedIn" className="social-icon"><FaLinkedin /></a>
           </div>
         </div>

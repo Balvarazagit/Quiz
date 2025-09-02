@@ -7,7 +7,6 @@ import {
   FaStar, FaTools, FaLinkedin, FaEnvelope, FaComment
 } from 'react-icons/fa';
 import Navbar from '../Layout/Navbar/Navbar';
-import Footer from '../Layout/Footer/Footer';
 import '../AboutUs/AboutUs.css';
 
 const AboutPage = () => {
