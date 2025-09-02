@@ -1,0 +1,153 @@
+/* Quiz Card Component Styles */
+.quiz-card {
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.quiz-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #48bb78, #9ae6b4);
+}
+
+.card-header {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.quiz-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.quiz-title {
+  font-size: 1.2rem;
+  color: #2d3748;
+  margin: 0;
+  font-weight: 600;
+}
+
+.quiz-id-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.id-label {
+  color: #718096;
+}
+
+.quiz-id {
+  font-family: 'Courier New', monospace;
+  color: #4a5568;
+  word-break: break-all;
+}
+
+/* Card Body */
+.card-body {
+  margin-bottom: 1.5rem;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 0.75rem;
+}
+
+.info-label {
+  min-width: 70px;
+  color: #718096;
+  font-size: 0.85rem;
+}
+
+.host-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.host-name {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.host-email {
+  font-size: 0.8rem;
+  color: #718096;
+}
+
+.date-info {
+  display: flex;
+  gap: 0.75rem;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.create-date {
+  font-weight: 500;
+}
+
+.create-time {
+  color: #718096;
+  font-size: 0.85rem;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+  }
+  
+  .quiz-card {
+    margin: 0px 15px;
+    padding: 1rem;
+  }
+  
+  .quiz-title {
+    font-size: 1.1rem;
+  }
+  
+  .quiz-id {
+    font-size: 0.7rem;
+    word-break: break-all;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .host-info, .date-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .host-email, .create-time {
+    font-size: 0.8rem;
+  }
+}

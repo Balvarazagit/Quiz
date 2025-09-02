@@ -1,0 +1,36 @@
+/* Messages Tab Styles */
+.messages-tab {
+  padding: 20px;
+}
+
+.messages-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.messages-header h2 {
+  font-size: 2rem;
+  color: #2E7D32;
+  margin-bottom: 10px;
+}
+
+.messages-header p {
+  color: #4CAF50;
+  font-size: 1rem;
+}
+
+.header-icon {
+  margin-right: 10px;
+}
+
+.messages-list {
+  display: grid;
+  gap: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .messages-header h2 {
+    font-size: 1.5rem;
+  }
+}

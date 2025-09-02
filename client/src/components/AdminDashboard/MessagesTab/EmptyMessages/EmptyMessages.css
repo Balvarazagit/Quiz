@@ -1,0 +1,21 @@
+/* EmptyMessages.css */
+.empty-messages {
+  text-align: center;
+  padding: 3rem 0;
+  color: #718096;
+}
+
+.empty-messages-illustration {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1.5rem;
+}
+
+.empty-messages h3 {
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.empty-messages p {
+  margin-bottom: 1.5rem;
+}

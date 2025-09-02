@@ -1,0 +1,60 @@
+/* Quizzes Tab Container */
+.quizzes-tab {
+  padding: 2rem;
+}
+
+/* Header Section */
+.quizzes-header {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header-content {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: #22543d;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.title-icon {
+  font-size: 1.8rem;
+  background: linear-gradient(135deg, #48bb78, #9ae6b4);
+}
+
+.section-subtitle {
+  color: #718096;
+  font-size: 1rem;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.quiz-cards-container {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .quizzes-header {
+    padding: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .quiz-cards-container {
+    grid-template-columns: 1fr;
+  }
+}

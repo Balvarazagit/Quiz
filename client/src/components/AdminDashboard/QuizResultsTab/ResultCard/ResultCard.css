@@ -1,0 +1,176 @@
+/* Result Card Component Styles */
+.result-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: #e8f5e9;
+  border-bottom: 1px solid #c8e6c9;
+}
+
+.quiz-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.quiz-pin, .quiz-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #2e7d32;
+}
+
+.quiz-pin {
+  font-weight: 600;
+}
+
+.icon-sm {
+  font-size: 0.9rem;
+}
+
+/* Leaderboard */
+.player-leaderboard {
+  padding: 0.75rem;
+}
+
+.leaderboard-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 80px;
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  color: #2e7d32;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 0.5rem;
+}
+
+.leaderboard-body {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.player-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 80px;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background: #f5f5f5;
+  transition: background 0.2s ease;
+}
+
+.player-row:hover {
+  background: #eeeeee;
+}
+
+/* Podium Styles */
+.player-row.podium-1 {
+  background: #fff8e1;
+  border-left: 3px solid #ffc107;
+}
+
+.player-row.podium-2 {
+  background: #f5f5f5;
+  border-left: 3px solid #9e9e9e;
+}
+
+.player-row.podium-3 {
+  background: #fff3e0;
+  border-left: 3px solid #8d6e63;
+}
+
+.player-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.gold { color: #ffc107; }
+.silver { color: #9e9e9e; }
+.bronze { color: #8d6e63; }
+
+.player-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+.name-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-id {
+  font-size: 0.75rem;
+  color: #757575;
+  margin-left: 0.25rem;
+}
+
+.podium-badge {
+  background: #4caf50;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.player-score-admin {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  font-weight: 500;
+  color: #2e7d32;
+}
+
+.score-icon {
+  color: #ffc107;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .leaderboard-header, .player-row {
+    grid-template-columns: 50px 1fr 70px;
+  }
+  
+  .quiz-meta {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    padding: 0.75rem;
+  }
+  
+  .player-name {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .podium-badge {
+    align-self: flex-end;
+  }
+}

@@ -1,0 +1,54 @@
+/* Delete Button Common Component Styles */
+.delete-btn {
+  padding: 0.5rem 1rem;
+  background: #fff5f5;
+  color: #e53e3e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+  transform: translateY(-2px);
+}
+
+.delete-btn:active {
+  transform: scale(0.95);
+}
+
+.btn-icon {
+  font-size: 1rem;
+}
+
+.btn-text {
+  font-weight: 500;
+}
+
+/* Icon only variant */
+.delete-btn.icon-only {
+  padding: 0.25rem;
+  background: transparent;
+}
+
+.delete-btn.icon-only:hover {
+  background: rgba(211, 47, 47, 0.1);
+  transform: scale(1.1);
+}
+
+/* Slide hover effect */
+.slide-hover:hover {
+  background-position: right center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .delete-btn {
+    padding: 0.6rem 1rem;
+  }
+}

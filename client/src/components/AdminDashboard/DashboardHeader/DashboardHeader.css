@@ -1,0 +1,46 @@
+.dashboard-header {
+  padding: 1.5rem 2rem;
+  position: relative;
+  border-bottom: 1px solid #e2f3e8;
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  color: #2f855a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.header-icon {
+  font-size: 2rem;
+}
+
+.header-accent {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 150px;
+  height: 3px;
+  background: linear-gradient(90deg, #48bb78, #9ae6b4);
+  border-radius: 0 3px 3px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 1rem;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header h1 {
+    font-size: 1.3rem;
+  }
+}

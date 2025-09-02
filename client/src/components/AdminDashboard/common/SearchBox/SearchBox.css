@@ -1,0 +1,20 @@
+/* SearchBox.css */
+.search-box {
+  margin-bottom: 1.5rem;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #c6f6d5;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #f0fff4;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #48bb78;
+  box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.2);
+}
