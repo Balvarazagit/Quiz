@@ -192,47 +192,36 @@ function HostPage() {
           <div className="host-game">
             <PinDisplay pin={pin} />
             
-            <div className="qr-section-host">
-              <h3>📲 Scan to Join</h3>
-              <div className="qr-container">
-                <QRCodeSVG
-                  value={`${window.location.origin}/join?pin=${pin}`}
-                  size={isMobile ? 120 : 150}
-                  level="H"
-                  includeMargin={true}
-                  className="qr-code"
-                />
+              <div className="qr-section-host">
+                <h3>📲 Scan to Join</h3>
+                <div className="qr-container">
+                  <QRCodeSVG
+                    value={`${window.location.origin}/join?pin=${pin}`}
+                    size={isMobile ? 120 : 150}
+                    level="H"
+                    includeMargin={true}
+                    className="qr-code"
+                  />
+                </div>
+                <div className="qr-actions">
+                  {navigator.share && (
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="share-btn"
+                      onClick={() =>
+                        navigator.share({
+                          title: "Join my Quiz!",
+                          text: `Join the quiz with PIN: ${pin}`,
+                          url: `${window.location.origin}/join?pin=${pin}`,
+                        })
+                      }
+                    >
+                      🔗 Share
+                    </motion.button>
+                  )}
+                </div>
               </div>
-              <div className="qr-actions">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="copy-link-btn"
-                  onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.origin}/join?pin=${pin}`);
-                    toast.success("Join link copied!");
-                  }}
-                >
-                  📋 Copy Join Link
-                </motion.button>
-                {navigator.share && (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="share-btn"
-                    onClick={() =>
-                      navigator.share({
-                        title: "Join my Quiz!",
-                        text: `Join the quiz with PIN: ${pin}`,
-                        url: `${window.location.origin}/join?pin=${pin}`,
-                      })
-                    }
-                  >
-                    🔗 Share
-                  </motion.button>
-                )}
-              </div>
-            </div>
 
             <div className="host-content-grid">
               <div className="players-section">
