@@ -16,6 +16,14 @@ const UserSchema = new mongoose.Schema({
   },
   resetToken: String,
   resetTokenExpiration: Date,
+
+  otp: {
+    type: String,
+  },
+  otpExpires: {
+    type: Date,
+  },
+
   createdAt: { type: Date, default: Date.now }
 });
 
