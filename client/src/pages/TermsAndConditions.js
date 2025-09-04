@@ -1,28 +1,32 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import './styles/TermsAndConditions.css';
+import Navbar from '../components/Layout/Navbar/Navbar';
+import Footer from '../components/Layout/Footer/Footer';
 
 const TermsAndConditions = () => {
-  const navigate = useNavigate();
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  
   const currentDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
 
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
+
   return (
+   <>
+   <Navbar />
     <div className="terms-page">
       <div className="terms-card">
-        <button 
-          onClick={() => navigate(-1)}
-          className="back-button"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 18L9 12L15 6" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          Back to Home
-        </button>
-        
+
         <header className="terms-header">
           <div className="terms-icon">📜</div>
           <h1>Terms and Conditions</h1>
@@ -117,7 +121,7 @@ const TermsAndConditions = () => {
             <article className="contact-info-terms">
               <h2>Contact Us</h2>
               <p>
-                Questions? Reach out at <a href="mailto:balvaraza2@gmail.com">balvaraza2@gmail.com</a> 
+                Questions? Reach out at <a href="mailto:balvaraza2@gmail.com">balvaraza2@gmail.com </a> 
                 or visit our <a href="https://github.com/Balvarazagit">GitHub</a>.
               </p>
             </article>
@@ -125,6 +129,8 @@ const TermsAndConditions = () => {
         </div>
       </div>
     </div>
+    <Footer />
+   </>
   );
 };
 

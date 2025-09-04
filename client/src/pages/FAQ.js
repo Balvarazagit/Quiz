@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/FAQ.css';
+import Footer from '../components/Layout/Footer/Footer';
+import Navbar from '../components/Layout/Navbar/Navbar';
 
 const FAQ = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   const faqs = [
     {
@@ -95,7 +107,7 @@ const FAQ = () => {
     },
     {
       question: "Can I reuse questions in another quiz?",
-      answer: "Currently, there's no question bank feature. But you can copy-paste questions manually while creating a new quiz.",
+      answer: "Yes. You can reuse questions by selecting an existing quiz from the 'Manage Quizzes' section using its Quiz ID, and then host it again or duplicate it.",
       category: "host"
     },
     {
@@ -113,6 +125,51 @@ const FAQ = () => {
       answer: `Yes. Use the "Contact Us" or "Report Issue" form on the website to notify the developers.`,
       category: "general"
     },
+    {
+      question: "Can I generate quiz questions automatically?",
+      answer: "Yes. Hosts can use the AI Question Generator to create multiple-choice or true/false questions instantly based on a topic.",
+      category: "host"
+    },
+    {
+      question: "What happens when the timer ends for a question?",
+      answer: "When the timer ends, players have to wait until the host moves to the next question. At that time, the correct answer is also revealed.",
+      category: "player"
+    },
+    {
+      question: "Can players see the correct answer after each question?",
+      answer: "Yes. Once the timer ends, the correct answer is revealed to all players.",
+      category: "player"
+    },
+    {
+      question: "How does scoring work?",
+      answer: "Scores are calculated based on correct answers and response speed. Faster correct answers earn more points.",
+      category: "player"
+    },
+    {
+      question: "What is the Live Scoreboard?",
+      answer: "The Live Scoreboard shows real-time rankings after each question so players and hosts can track performance instantly.",
+      category: "player"
+    },
+    {
+      question: "Can I reset my password if I forget it?",
+      answer: "Yes. Use the 'Forgot Password' option on the login page to reset your password via email verification.",
+      category: "technical"
+    },
+    {
+      question: "Can multiple players join with the same name?",
+      answer: "Yes, but each player is assigned a unique ID to avoid confusion on the scoreboard.",
+      category: "technical"
+    },
+    {
+      question: "What happens at the end of a quiz?",
+      answer: "At the end of a quiz, players are shown the final scoreboard with the top 3 winners highlighted with animations.",
+      category: "player"
+    },
+    {
+      question: "Can I share the quiz link with others?",
+      answer: "Yes. Hosts can share a direct join link or QR code with players for quick access.",
+      category: "host"
+    }
   ];
 
   const filteredFaqs = faqs.filter(faq => {
@@ -123,18 +180,10 @@ const FAQ = () => {
   });
 
   return (
+    <>
+    <Navbar />
     <div className="faq-page">
       <div className="faq-container">
-        <button 
-          onClick={() => navigate(-1)}
-          className="back-button"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 18L9 12L15 6" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          Back to Home
-        </button>
-
         <header className="faq-header">
           <div className="faq-icon">❓</div>
           <h1>Frequently Asked Questions</h1>
@@ -221,6 +270,8 @@ const FAQ = () => {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 

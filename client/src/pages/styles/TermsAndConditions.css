@@ -16,6 +16,7 @@
   display: flex;
   justify-content: center;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  margin-top: 30px;
 }
 
 .terms-card {
@@ -26,33 +27,6 @@
   box-shadow: var(--box-shadow);
   padding: 3rem;
   position: relative;
-}
-
-.back-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  color: var(--primary-green);
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 0.5rem 0;
-  margin-bottom: 1rem;
-  transition: all 0.2s ease;
-}
-
-.back-button:hover {
-  color: var(--dark-green);
-  transform: translateX(-2px);
-}
-
-.back-button svg {
-  transition: transform 0.2s ease;
-}
-
-.back-button:hover svg {
-  transform: translateX(-4px);
 }
 
 .terms-header {
@@ -144,6 +118,7 @@
 
 .term-card li {
   margin-bottom: 0.4rem;
+  list-style: disc;
 }
 
 .terms-footer {
@@ -156,18 +131,19 @@
   background: var(--light-green);
   padding: 1.5rem;
   border-radius: var(--border-radius);
+  color: var(--text-dark);
 }
 
 .terms-footer h2 {
-  color: var(--primary-green);
+  color: var(--text-dark);
   font-size: 1.2rem;
   margin-bottom: 0.8rem;
 }
 
 .contact-info-terms a {
-  color: var(--primary-green);
+  color: var(--text-dark);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: bold;
   transition: all 0.2s ease;
 }
 
@@ -196,4 +172,75 @@
   .terms-header h1 {
     font-size: 1.8rem;
   }
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] .terms-page {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .terms-card {
+  background: #2d3748;
+}
+
+[data-theme="dark"] .terms-header h1 {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .effective-date {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .intro-section {
+  background: rgba(76, 175, 80, 0.15);
+  border-left-color: var(--primary-green);
+}
+
+[data-theme="dark"] .intro-section p {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .term-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .term-card:hover {
+  border-color: var(--primary-green);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .term-card h2 {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .term-card p,
+[data-theme="dark"] .term-card li {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .update-policy,
+[data-theme="dark"] .contact-info-terms {
+  background: rgba(76, 175, 80, 0.15);
+}
+
+[data-theme="dark"] .contact-info-terms  {
+  color: #a5d6a7;
+}
+
+[data-theme="dark"] .update-policy  {
+  color: #a5d6a7;
+}
+
+[data-theme="dark"] .terms-footer h2 {
+  color: #a5d6a7;
+}
+
+[data-theme="dark"] .contact-info-terms a {
+  color: #a5d6a7;
+}
+
+[data-theme="dark"] .contact-info-terms a:hover {
+  color: #c8e6c9;
 }
