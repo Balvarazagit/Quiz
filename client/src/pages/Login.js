@@ -114,6 +114,11 @@ function Login() {
     return () => clearInterval(timer);
   }, [cooldown]);
 
+  useEffect(() => {
+    localStorage.setItem("theme", "light");
+    document.documentElement.setAttribute("data-theme", "light");
+  }, []);
+
   return (
     <div className="quiz-login-container">
       <motion.div

@@ -1,7 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../pages/styles/Dashboard.css';
-import logo from "../assests/logo-1.png"
+import logo from "../assests/logo-1.png";
+
+// React Icons imports
+import { 
+  FiHome, 
+  FiFileText, 
+  FiPlusCircle, 
+  FiBarChart2, 
+  FiLogOut,
+  FiMenu,
+  FiX,
+  FiAward,
+  FiBook,
+  FiPieChart
+} from 'react-icons/fi';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -67,9 +81,11 @@ function Dashboard() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            <span className="hamburger-line"></span>
-            <span className="hamburger-line"></span>
-            <span className="hamburger-line"></span>
+            {isMobileMenuOpen ? (
+              <FiX size={24} className="hamburger-icon" />
+            ) : (
+              <FiMenu size={24} className="hamburger-icon" />
+            )}
           </button>
           <div className="mobile-logo"><img className='mobile-logo-dashboard' src={logo} alt="logo"/> QuizMaster</div>
           <div className="mobile-user-avatar">
@@ -99,7 +115,7 @@ function Dashboard() {
             }}
             className="nav-item active"
           >
-            <span className="nav-icon">🏠</span>
+            <span className="nav-icon"><FiHome size={20} /></span>
             <span className="nav-text">Dashboard</span>
           </button>
           <button 
@@ -109,7 +125,7 @@ function Dashboard() {
             }}
             className="nav-item"
           >
-            <span className="nav-icon">📝</span>
+            <span className="nav-icon"><FiFileText size={20} /></span>
             <span className="nav-text">My Quizzes</span>
           </button>
           <button 
@@ -119,7 +135,7 @@ function Dashboard() {
             }}
             className="nav-item"
           >
-            <span className="nav-icon">✨</span>
+            <span className="nav-icon"><FiPlusCircle size={20} /></span>
             <span className="nav-text">Create Quiz</span>
           </button>
           <button 
@@ -129,13 +145,13 @@ function Dashboard() {
             }}
             className="nav-item"
           >
-            <span className="nav-icon">📊</span>
+            <span className="nav-icon"><FiBarChart2 size={20} /></span>
             <span className="nav-text">Analytics</span>
           </button>
         </nav>
 
         <button onClick={logout} className="logout-btn">
-          <span className="logout-icon">🚪</span>
+          <span className="logout-icon"><FiLogOut size={20} /></span>
           <span className="logout-text">Logout</span>
         </button>
       </aside>
@@ -149,19 +165,19 @@ function Dashboard() {
 
         <div className="dashboard-cards">
           <div className="dashboard-card primary" onClick={() => navigate('/create-quiz')}>
-            <div className="card-icon">✨</div>
+            <div className="card-icon"><FiPlusCircle size={28} /></div>
             <h3 className="card-title">Create New Quiz</h3>
             <p className="card-description">Design a custom quiz with multiple question types</p>
           </div>
 
           <div className="dashboard-card secondary" onClick={() => navigate('/my-quizzes')}>
-            <div className="card-icon">📚</div>
+            <div className="card-icon"><FiBook size={28} /></div>
             <h3 className="card-title">Manage Quizzes</h3>
             <p className="card-description">View your existing quizzes</p>
           </div>
 
           <div className="dashboard-card accent" onClick={() => navigate('/analytics')}>
-            <div className="card-icon">📊</div>
+            <div className="card-icon"><FiPieChart size={28} /></div>
             <h3 className="card-title">View Analytics</h3>
             <p className="card-description">See performance metrics for your quizzes</p>
           </div>

@@ -20,7 +20,7 @@
 }
 
 /* Back Button */
-f-analytics {
+.back-button-analytics {
   position: absolute;
   top: 1.5rem;
   left: 1.5rem;
@@ -40,11 +40,6 @@ f-analytics {
   z-index: 10;
 }
 
-.back-button-analytics{
-  display: flex;
-  align-items: center;
-  color: #4CAF50;
-}
 .back-button-analytics:hover {
   background-color: rgba(104, 211, 145, 0.1);
   transform: translateX(-2px);
@@ -63,6 +58,19 @@ f-analytics {
   text-align: center;
   margin-bottom: 2rem;
   padding-top: 1rem;
+}
+
+.analytics-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--light-green) 0%, var(--dark-green) 100%);
+  color: white;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(56, 161, 105, 0.2);
 }
 
 .analytics-header h2 {
@@ -131,6 +139,11 @@ f-analytics {
     padding-top: 2.5rem;
   }
 
+  .analytics-icon {
+    width: 50px;
+    height: 50px;
+  }
+
   .chart-wrapper {
     height: 350px;
     padding: 0.5rem;
@@ -140,6 +153,11 @@ f-analytics {
 @media (max-width: 480px) {
   .analytics-header h2 {
     font-size: 1.3rem;
+  }
+
+  .analytics-icon {
+    width: 45px;
+    height: 45px;
   }
 
   .chart-wrapper {
