@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaEye, FaEyeSlash, FaUser, FaLock } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaUser, FaLock, FaShieldAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,6 +13,10 @@ function Login() {
   const [step, setStep] = useState(1); // 1 = email+password, 2 = OTP
   const [otp, setOtp] = useState('');
   const [tempEmail, setTempEmail] = useState('');
+  const [resendLoading, setResendLoading] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+  const [resendAttempts, setResendAttempts] = useState(3); // Max 3 resend attempts
+
   const navigate = useNavigate();
 
   const handleChange = e =>
@@ -34,6 +38,7 @@ function Login() {
         toast.info('📩 OTP sent to your email');
         setTempEmail(form.email);
         setStep(2); // switch to OTP form
+        setCooldown(30); // 30 sec cooldown after first OTP
       } else {
         toast.error(`❗ ${data.message || 'Login failed. Try again!'}`);
       }
@@ -71,6 +76,44 @@ function Login() {
     }
   };
 
+  // 🔹 Resend OTP
+  const handleResendOtp = async () => {
+    if (cooldown > 0 || resendAttempts <= 0) return;
+    
+    setResendLoading(true);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: tempEmail }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setResendAttempts(prev => prev - 1);
+        toast.info(`📩 New OTP sent to your email. ${resendAttempts - 1} attempts remaining`);
+        setCooldown(30); // reset cooldown
+      } else {
+        toast.error(`❗ ${data.message || 'Failed to resend OTP'}`);
+      }
+    } catch (err) {
+      toast.error('⚠️ Network error while resending OTP');
+    } finally {
+      setResendLoading(false);
+    }
+  };
+
+  // 🔹 Cooldown timer effect
+  useEffect(() => {
+    let timer;
+    if (cooldown > 0) {
+      timer = setInterval(() => {
+        setCooldown(prev => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
   return (
     <div className="quiz-login-container">
       <motion.div
@@ -80,9 +123,9 @@ function Login() {
         transition={{ duration: 0.5 }}
       >
         <div className="quiz-login-header">
-          <div className="quiz-login-icon">?</div>
-          <h2>Welcome to QuizMaster</h2>
-          <p>Sign in to continue your quiz journey</p>
+          <div className="quiz-login-icon">{step === 1 ? "?" : <FaShieldAlt />}</div>
+          <h2>{step === 1 ? "Welcome to QuizMaster" : "Verify Your Identity"}</h2>
+          <p>{step === 1 ? "Sign in to continue your quiz journey" : "Enter the OTP sent to your email"}</p>
         </div>
 
         <form
@@ -131,28 +174,58 @@ function Login() {
                   </button>
                 </div>
               </div>
+
+              <div className="quiz-login-options">
+                <Link to="/forgot-password" className="quiz-forgot-password">
+                  Forgot Password?
+                </Link>
+              </div>
             </>
           ) : (
-            <div className="quiz-form-group">
-              <label htmlFor="otp">Enter OTP</label>
-              <input
-                type="text"
-                id="otp"
-                name="otp"
-                placeholder="6-digit code"
-                value={otp}
-                onChange={e => setOtp(e.target.value)}
-                required
-                className="quiz-input"
-              />
-            </div>
-          )}
+            <>
+              <div className="quiz-otp-container">
+                <div className="quiz-form-group">
+                  <label htmlFor="otp">
+                    <FaShieldAlt className="login-input-icon" />
+                    <span>Verification Code</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="otp"
+                    name="otp"
+                    placeholder="Enter 6-digit code"
+                    value={otp}
+                    onChange={e => setOtp(e.target.value)}
+                    required
+                    className="quiz-input"
+                    maxLength="6"
+                  />
+                </div>
 
-          <div className="quiz-login-options">
-            <Link to="/forgot-password" className="quiz-forgot-password">
-              Forgot Password?
-            </Link>
-          </div>
+                <div className="quiz-resend-otp">
+                  <button
+                    type="button"
+                    onClick={handleResendOtp}
+                    disabled={resendLoading || cooldown > 0 || resendAttempts <= 0}
+                    className="quiz-resend-btn"
+                  >
+                    {resendLoading
+                      ? "Sending..."
+                      : cooldown > 0
+                      ? `Resend in ${cooldown}s`
+                      : resendAttempts <= 0
+                      ? "No attempts left"
+                      : "Resend OTP"}
+                  </button>
+                  {resendAttempts > 0 && (
+                    <div className="quiz-resend-attempts">
+                      {resendAttempts} attempt{resendAttempts !== 1 ? 's' : ''} remaining
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
 
           <motion.button
             type="submit"
@@ -172,10 +245,25 @@ function Login() {
 
           <div className="quiz-login-footer">
             <p>
-              New to QuizMaster?{' '}
-              <Link to="/register" className="quiz-auth-link">
-                Create account
-              </Link>
+              {step === 1 ? (
+                <>
+                  New to QuizMaster?{' '}
+                  <Link to="/register" className="quiz-auth-link">
+                    Create account
+                  </Link>
+                </>
+              ) : (
+                <>
+                  Wrong email?{' '}
+                  <button 
+                    type="button" 
+                    className="quiz-auth-link quiz-go-back"
+                    onClick={() => setStep(1)}
+                  >
+                    Go back
+                  </button>
+                </>
+              )}
             </p>
           </div>
         </form>

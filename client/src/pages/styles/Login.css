@@ -1,14 +1,17 @@
 /* Login.css */
 :root {
-  --quiz-primary: #4CAF50;
-  --quiz-primary-light: #81C784;
-  --quiz-primary-dark: #388E3C;
-  --quiz-secondary: #FFC107;
-  --quiz-background: #F5F9FC;
-  --quiz-white: #FFFFFF;
-  --quiz-text: #2D3748;
-  --quiz-border: #E2E8F0;
-  --quiz-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --quiz-primary: #68d391;
+  --quiz-primary-light: #9ae6b4;
+  --quiz-primary-dark: #48bb78;
+  --quiz-secondary: #faf089;
+  --quiz-background: #f7fafc;
+  --quiz-white: #ffffff;
+  --quiz-text: #2d3748;
+  --quiz-text-light: #718096;
+  --quiz-border: #e2e8f0;
+  --quiz-shadow: 0 10px 25px -5px rgba(104, 211, 145, 0.15);
+  --quiz-card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --quiz-error: #e53e3e;
 }
 
 .quiz-login-container {
@@ -16,24 +19,25 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: var(--quiz-background);
-  background-image: radial-gradient(circle at 10% 20%, rgba(129, 199, 132, 0.1) 0%, rgba(255, 255, 255, 1) 90%);
+  background: linear-gradient(135deg, #f7fafc 0%, #edf7f3 100%);
   padding: 20px;
 }
 
 .quiz-login-card {
   background-color: var(--quiz-white);
-  border-radius: 16px;
+  border-radius: 20px;
   box-shadow: var(--quiz-shadow);
   width: 100%;
   max-width: 450px;
-  padding: 40px;
-  border: 1px solid var(--quiz-border);
-  transition: transform 0.3s ease;
+  padding: 40px 35px;
+  border: 1px solid rgba(104, 211, 145, 0.2);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .quiz-login-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(104, 211, 145, 0.25);
 }
 
 .quiz-login-header {
@@ -45,15 +49,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  background-color: var(--quiz-primary);
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, var(--quiz-primary) 0%, var(--quiz-primary-dark) 100%);
   color: white;
   font-size: 28px;
   font-weight: bold;
   border-radius: 50%;
   margin: 0 auto;
-  box-shadow: 0 4px 6px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 6px 12px rgba(104, 211, 145, 0.3);
 }
 
 .quiz-login-header h2 {
@@ -61,11 +65,13 @@
   font-size: 28px;
   margin: 20px 0 8px;
   font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .quiz-login-header p {
-  color: #718096;
-  font-size: 15px;
+  color: var(--quiz-text-light);
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .quiz-form-group {
@@ -84,23 +90,29 @@
 
 .login-input-icon {
   color: var(--quiz-primary);
+  font-size: 16px;
 }
 
 .quiz-input {
   width: 100%;
   padding: 14px 16px 14px 42px;
   border: 1px solid var(--quiz-border);
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 15px;
   transition: all 0.3s;
-  background-color: #F8FAFC;
+  background-color: #f9fdfb;
+  color: var(--quiz-text);
 }
 
 .quiz-input:focus {
   border-color: var(--quiz-primary);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  box-shadow: 0 0 0 3px rgba(104, 211, 145, 0.2);
   background-color: var(--quiz-white);
+}
+
+.quiz-input::placeholder {
+  color: #a0aec0;
 }
 
 .quiz-password-field {
@@ -118,11 +130,14 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #A0AEC0;
+  color: #cbd5e0;
   cursor: pointer;
   padding: 5px;
   font-size: 18px;
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .quiz-eye-icon:hover {
@@ -141,6 +156,7 @@
   font-size: 14px;
   text-decoration: none;
   transition: all 0.2s;
+  font-weight: 500;
 }
 
 .quiz-forgot-password:hover {
@@ -151,10 +167,10 @@
 .quiz-login-button {
   width: 100%;
   padding: 16px;
-  background-color: var(--quiz-primary);
+  background: linear-gradient(135deg, var(--quiz-primary) 0%, var(--quiz-primary-dark) 100%);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -163,16 +179,23 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  box-shadow: 0 4px 6px rgba(104, 211, 145, 0.25);
 }
 
 .quiz-login-button:hover {
-  background-color: var(--quiz-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(104, 211, 145, 0.3);
+}
+
+.quiz-login-button:active {
+  transform: translateY(0);
 }
 
 .quiz-login-button:disabled {
-  background-color: var(--quiz-primary-light);
+  background: var(--quiz-primary-light);
   cursor: not-allowed;
-  opacity: 0.8;
+  transform: none;
+  box-shadow: none;
 }
 
 .quiz-spinner {
@@ -192,8 +215,10 @@
 .quiz-login-footer {
   text-align: center;
   margin-top: 24px;
-  color: #718096;
+  color: var(--quiz-text-light);
   font-size: 15px;
+  padding-top: 20px;
+  border-top: 1px solid var(--quiz-border);
 }
 
 .quiz-auth-link {
@@ -201,10 +226,56 @@
   text-decoration: none;
   font-weight: 600;
   transition: all 0.2s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
 }
 
 .quiz-auth-link:hover {
   color: var(--quiz-primary-dark);
+  text-decoration: underline;
+}
+
+.quiz-otp-container {
+  margin-bottom: 20px;
+}
+
+.quiz-resend-otp {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.quiz-resend-btn {
+  background: none;
+  border: none;
+  color: var(--quiz-primary);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  transition: all 0.2s;
+  padding: 5px;
+}
+
+.quiz-resend-btn:hover:not(:disabled) {
+  color: var(--quiz-primary-dark);
+}
+
+.quiz-resend-btn:disabled {
+  color: #cbd5e0;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.quiz-resend-attempts {
+  font-size: 12px;
+  color: var(--quiz-text-light);
+  margin-top: 5px;
+}
+
+.quiz-go-back {
+  font-size: 15px !important;
   text-decoration: underline;
 }
 
@@ -222,9 +293,16 @@
 @media (max-width: 480px) {
   .quiz-login-card {
     padding: 30px 20px;
+    border-radius: 16px;
   }
   
   .quiz-login-header h2 {
+    font-size: 24px;
+  }
+  
+  .quiz-login-icon {
+    width: 60px;
+    height: 60px;
     font-size: 24px;
   }
 }

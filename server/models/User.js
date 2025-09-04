@@ -20,10 +20,10 @@ const UserSchema = new mongoose.Schema({
   otp: {
     type: String,
   },
-  otpExpires: {
+  otpExpiry: {
     type: Date,
   },
-
+  otpResendCount: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now }
 });
 

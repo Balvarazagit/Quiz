@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
 });
 
 // Login
-// Login with OTP Step 1
+// ✅ Step 1: Login with Email + Password (Send OTP)
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -34,25 +34,86 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
-    // ✅ Generate 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // Reset resend count if new login
+    user.otpResendCount = 0;
 
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
     user.otp = otp;
-    user.otpExpiry = Date.now() + 5 * 60 * 1000; // valid for 5 minutes
+    user.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 min expiry
     await user.save();
 
-    // ✅ Send OTP email
     await transporter.sendMail({
-      from: `"Quiz App" <${process.env.EMAIL}>`,
+      from: `"QuizMaster" <${process.env.EMAIL}>`,
       to: email,
-      subject: "Your QuizMaster OTP Code",
-      html: `<h2>Your OTP is ${otp}</h2><p>This OTP will expire in 5 minutes.</p>`,
+      subject: "Your OTP Code",
+      html: `<p>Your OTP code is <b>${otp}</b>. It expires in 5 minutes.</p>`
     });
 
-    res.json({ otpSent: true, message: "OTP sent to your email" });
+    res.json({ otpSent: true, message: "OTP sent to email" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    console.error("Login OTP Error:", err);
+    res.status(500).json({ message: "Error sending OTP" });
+  }
+});
+
+// ✅ Step 2: Verify OTP
+router.post('/verify-otp', async (req, res) => {
+  const { email, otp } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (!user.otp || user.otpExpiry < Date.now() || user.otp !== otp) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    // Clear OTP and reset count after success
+    user.otp = null;
+    user.otpExpiry = null;
+    user.otpResendCount = 0;
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+    res.json({
+      token,
+      user: { id: user._id, name: user.name, email: user.email }
+    });
+  } catch (err) {
+    console.error("Verify OTP Error:", err);
+    res.status(500).json({ message: "Server error verifying OTP" });
+  }
+});
+
+// ✅ Step 3: Resend OTP
+router.post('/send-otp', async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Check if already exceeded resend limit
+    if (user.otpResendCount >= 3) {
+      return res.status(400).json({ message: "Resend OTP limit reached (max 3 times)." });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.otp = otp;
+    user.otpExpiry = Date.now() + 5 * 60 * 1000;
+    user.otpResendCount += 1; // increase count
+    await user.save();
+
+    await transporter.sendMail({
+      from: `"QuizMaster" <${process.env.EMAIL}>`,
+      to: email,
+      subject: "Your OTP Code (Resent)",
+      html: `<p>Your new OTP code is <b>${otp}</b>. It expires in 5 minutes.</p>`
+    });
+
+    res.json({ otpSent: true, message: `OTP resent successfully (${user.otpResendCount}/3)` });
+  } catch (err) {
+    console.error("Resend OTP Error:", err);
+    res.status(500).json({ message: "Failed to resend OTP" });
   }
 });
 
@@ -124,39 +185,6 @@ router.delete('/users/:userId', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to delete user' });
-  }
-});
-
-// Verify OTP Step 2
-router.post('/verify-otp', async (req, res) => {
-  const { email, otp } = req.body;
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    if (user.otp !== otp || Date.now() > user.otpExpiry) {
-      return res.status(400).json({ message: 'Invalid or expired OTP' });
-    }
-
-    // ✅ Clear OTP after successful login
-    user.otp = null;
-    user.otpExpiry = null;
-    await user.save();
-
-    // ✅ Generate JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-    res.json({
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      }
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
   }
 });
 
