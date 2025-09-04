@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle, FiSun, FiMoon } from 'react-icons/fi';
 import { FaTwitter, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Navbar from '../Layout/Navbar/Navbar';
 import '../Contact/Contact.css';
@@ -14,6 +14,7 @@ const ContactPage = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,35 +24,59 @@ const ContactPage = () => {
     }));
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/messages`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-    if (response.ok) {
-      setSubmitSuccess(true);
-      setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    } else {
-      console.error('Failed to send message');
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      } else {
+        console.error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error('Error:', error);
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   return (
     <>
       <Navbar />
       <main className="contact-page">
+
         {/* Hero Section */}
         <section className="contact-hero">
           <motion.div 
@@ -182,7 +207,7 @@ const ContactPage = () => {
                 <div className="info-icon">
                   <FiMapPin />
                 </div>
-                <div>
+                <div className='inner_content'>
                   <h3>Our Location</h3>
                   <p>701, Islampuravaas, Meta-Basu Rd, Basu, Meta, Gujarat 385520</p>
                 </div>
@@ -192,7 +217,7 @@ const ContactPage = () => {
                 <div className="info-icon">
                   <FiMail />
                 </div>
-                <div>
+                <div className='inner_content'>
                   <h3>Email Us</h3>
                   <p>balvaraza2@gmail.com</p>
                   <p>support@QuizMaster.com</p>
@@ -203,7 +228,7 @@ const ContactPage = () => {
                 <div className="info-icon">
                   <FiPhone />
                 </div>
-                <div>
+                <div className='inner_content'>
                   <h3>Call Us</h3>
                   <p>+91 7698528935</p>
                   <p>Mon-Fri: 9am-6pm</p>

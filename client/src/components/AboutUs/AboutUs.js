@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from "react-router-dom";
 import { 
   FaLaptopCode, FaCode, FaPalette, FaChalkboardTeacher, 
   FaChartLine, FaHandshake, FaUsers, FaClipboardList, 
-  FaStar, FaTools, FaLinkedin, FaEnvelope, FaComment
+  FaStar, FaTools, FaLinkedin, FaEnvelope, FaComment,
+  FaSun, FaMoon
 } from 'react-icons/fa';
 import Navbar from '../Layout/Navbar/Navbar';
 import '../AboutUs/AboutUs.css';
 
 const AboutPage = () => {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  
   const teamMembers = [
     { name: 'Balva Aliraza RoshanAli', role: 'Founder & CEO', icon: <FaLaptopCode />, color: '#6c5ce7' },
     { name: 'Balva Aliraza RoshanAli', role: 'Lead Developer', icon: <FaCode />, color: '#fd79a8' },
@@ -26,10 +29,34 @@ const AboutPage = () => {
     { number: '24/7', label: 'Support', icon: <FaTools /> }
   ];
 
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
+
   return (
     <>
       <Navbar />
       <main className="about-page">
+
         {/* Animated Hero Section */}
         <section className="hero-section-about">
           <div className="hero-bg-about"></div>

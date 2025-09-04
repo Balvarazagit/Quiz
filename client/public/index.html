@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#ffffff" id="theme-color-meta" />
     <meta
       name="description"
       content="Web site created using create-react-app"
@@ -20,6 +20,18 @@
 
       gtag('config', 'G-NMYVKRDWY1');
     </script>
+    
+    <script>
+      // Check for saved theme preference before the page renders
+      (function() {
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.getElementById('theme-color-meta').setAttribute('content', '#1a1a1a');
+        }
+      })();
+    </script>
+    
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -39,7 +51,7 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
   <svg viewBox="0 0 1440 320" style="position: fixed; top: 0; left: 0; width: 100%; z-index: -1;">
-  <path fill="#4CAF50" fill-opacity="0.15"
+  <path className="svg" fill="#4CAF50" fill-opacity="0.15"
     d="M0,96L60,106.7C120,117,240,139,360,144C480,149,600,139,720,144C840,149,960,171,1080,165.3C1200,160,1320,128,1380,112L1440,96L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z">
   </path>
 </svg>

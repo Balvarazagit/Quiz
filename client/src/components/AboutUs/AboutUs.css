@@ -655,3 +655,75 @@ body, html {
   margin-bottom: 1rem;
   color: #6c5ce7;
 }
+
+/* Dark Theme Styles */
+[data-theme="dark"] .about-page {
+  background-color: #1a1a1a;
+  color: var(--light);
+}
+
+[data-theme="dark"] .hero-section-about {
+  background: linear-gradient(135deg, #2d3748, #1a202c);
+}
+
+[data-theme="dark"] .subtitle-about {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .mission-section {
+  background: #2d3748;
+}
+
+[data-theme="dark"] .mission-statement {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .point-card {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .point-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .team-section {
+  background: #2d3748;
+}
+
+[data-theme="dark"] .section-header p {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .team-member {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .team-member:hover {
+  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .team-member p {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .member-links span {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .member-links span:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .vision-section {
+  background: #2d3748;
+}
+
+[data-theme="dark"] .vision-content p {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .stats-section {
+  background: #2d3748;
+}

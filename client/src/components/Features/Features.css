@@ -141,3 +141,31 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Add these styles to your existing Features.css */
+
+[data-theme="dark"] .features-section {
+  background: #1a1a1a;
+}
+
+[data-theme="dark"] .section-title {
+  color: white;
+}
+
+[data-theme="dark"] .section-subtitle {
+  color: #b0b0b0;
+}
+
+[data-theme="dark"] .feature-card {
+  background: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  color: white;
+}
+
+[data-theme="dark"] .feature-card::before {
+  background: linear-gradient(135deg, rgba(45, 45, 45, 0.9), rgba(45, 45, 45, 0.6));
+}
+
+[data-theme="dark"] .feature-description {
+  color: #b0b0b0;
+}

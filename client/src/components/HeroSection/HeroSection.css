@@ -391,3 +391,58 @@
     height: 150px;
   }
 }
+
+/* Add these styles to your existing HeroSection.css */
+
+[data-theme="dark"] .hero-section {
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+}
+
+[data-theme="dark"] .hero-title {
+  color: white;
+}
+
+[data-theme="dark"] .hero-subtitle {
+  color: #b0b0b0;
+}
+
+[data-theme="dark"] .stat-item {
+  background: #2d2d2d;
+  color: white;
+}
+
+[data-theme="dark"] .stat-label {
+  color: #b0b0b0;
+}
+
+[data-theme="dark"] .main-card {
+  background: #2d2d2d;
+  color: white;
+}
+
+[data-theme="dark"] .quiz-question {
+  color: white;
+}
+
+[data-theme="dark"] .option {
+  background: #3d3d3d;
+  color: white;
+}
+[data-theme="dark"] .correct {
+  background: #4CAF50;
+  color: white;
+}
+
+[data-theme="dark"] .option:hover {
+  background: #4d4d4d;
+}
+
+[data-theme="dark"] .secondary-button {
+  background: #2d2d2d;
+  color: var(--primary-light);
+  border: 2px solid var(--primary);
+}
+
+[data-theme="dark"] .secondary-button:hover {
+  background: rgba(76, 175, 80, 0.2);
+}

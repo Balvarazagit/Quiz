@@ -1,8 +1,8 @@
 /* index.css */
-/* index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 * {
   margin: 0;
   padding: 0;
@@ -18,15 +18,28 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background 0.3s ease;
 }     
+
+/* Dark theme styles for body */
+[data-theme="dark"] body {
+  background: linear-gradient(270deg, #1a1a1a, #2d2d2d, #1e1e1e);
+  color: #ffffff;
+}
+
 @keyframes gradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Dark theme styles for SVG background */
+[data-theme="dark"] .svg {
+  fill: #4CAF50;
+  fill-opacity: 0.05;
 }

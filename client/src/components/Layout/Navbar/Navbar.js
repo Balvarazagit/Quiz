@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
-import logo from '../../../assests/logo-1.png'
+import logo from '../../../assests/logo-1.png';
+import { FaSun, FaMoon } from 'react-icons/fa';
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -19,6 +22,40 @@ const Navbar = () => {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location.pathname]);
+
+  // Function to update meta theme color
+  const updateMetaThemeColor = (isDark) => {
+    const metaThemeColor = document.querySelector("meta[name='theme-color']");
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', isDark ? '#1a1a1a' : '#ffffff');
+    }
+  };
+
+  // Toggle theme and save preference
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+    
+    updateMetaThemeColor(newTheme);
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+      updateMetaThemeColor(true);
+    }
+  }, []);
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
@@ -35,6 +72,9 @@ const Navbar = () => {
           <Link to="/login" className="navbar-cta pulse-effect">
             Start Quizzing
           </Link>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+            {isDarkTheme ? <FaSun /> : <FaMoon />}
+          </button>
         </div>  
 
         <button 
