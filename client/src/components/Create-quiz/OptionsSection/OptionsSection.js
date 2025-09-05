@@ -1,8 +1,36 @@
+// OptionsSection.js
 import './OptionsSection.css';
+import { useState, useEffect } from 'react';
 
 function OptionsSection({ qIndex, question, handleOptionChange, handleChange }) {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('options-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('options-theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+    useEffect(() => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        setIsDarkTheme(true);
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    }, []);
+
   return (
     <>
+
       <div className="options-section">
         <label className="input-label">
           {question.type === "TrueFalse" || (question.type === "Poll" && question.pollMode === "TrueFalse")

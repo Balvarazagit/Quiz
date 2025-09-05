@@ -15,7 +15,7 @@
   font-size: 1.5rem;
 }
 
-.options-container {
+.options-container-puzzlecomponent {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
@@ -127,7 +127,7 @@
     margin: 10px;
   }
   
-  .options-container {
+  .options-container-puzzlecomponent {
     padding: 15px;
   }
   

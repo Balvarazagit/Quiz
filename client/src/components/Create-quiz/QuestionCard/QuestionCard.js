@@ -1,7 +1,9 @@
+// QuestionCard.js
 import MediaUploader from '../MediaUploader/MediaUploader';
 import OptionsSection from '../OptionsSection/OptionsSection';
 import PuzzleOrderEditor from '../PuzzleOrderEditor/PuzzleOrderEditor';
 import './QuestionCard.css';
+import { useState, useEffect } from 'react';
 
 function QuestionCard({
   qIndex,
@@ -16,25 +18,40 @@ function QuestionCard({
   extractYouTubeId,
   setQuestions
 }) {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  // Check for saved theme preference on component mount
+    useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
+
   return (
     <div className="question-card">
-      <div className="question-create-header">
-        <div className="question-number-create-container">
-          <span className="question-number-create-badge">{qIndex + 1}</span>
-          <h3 className="question-number-create">Question</h3>
+      <div className="question-card-header">
+        <div className="question-create-header">
+          <div className="question-number-create-container">
+            <span className="question-number-create-badge">{qIndex + 1}</span>
+            <h3 className="question-number-create">Question</h3>
+          </div>
+          <div className="question-card-actions">
+            <button 
+              type="button" 
+              onClick={() => handleRemoveQuestion(qIndex)}
+              className="remove-question-btn"
+              disabled={questions.length <= 1}
+              aria-label="Remove question"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <button 
-          type="button" 
-          onClick={() => handleRemoveQuestion(qIndex)}
-          className="remove-question-btn"
-          disabled={questions.length <= 1}
-          aria-label="Remove question"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
       </div>
 
       <div className="question-content">

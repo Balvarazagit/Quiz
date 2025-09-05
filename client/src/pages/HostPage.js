@@ -10,7 +10,7 @@ import QuestionDisplay from '../components/Host/QuestionDisplay/QuestionDisplay'
 import FinalScoreboard from '../components/Host/FinalScoreboard/FinalScoreboard';
 import QuizControls from '../components/Host/QuizControls/QuizControls';
 import '../pages/styles/HostPage.css';
-import { FaUserAlt, FaPlay, FaQrcode, FaLink } from 'react-icons/fa';
+import { FaUserAlt, FaPlay, FaQrcode, FaLink,FaSun, FaMoon } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { QRCodeSVG } from "qrcode.react";
 import HostQRCode from '../components/Host/HostQRCode/HostQRCode';
@@ -37,6 +37,7 @@ function HostPage() {
   const [showThought, setShowThought] = useState(false);
   const location = useLocation();
   const qrRef = useRef();
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -69,6 +70,29 @@ function HostPage() {
 
     return () => clearInterval(interval);
   }, [currentQuestion]);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+     const savedTheme = localStorage.getItem('theme');
+     if (savedTheme === 'dark') {
+       setIsDarkTheme(true);
+       document.documentElement.setAttribute('data-theme', 'dark');
+     }
+   }, []);
 
   const hostQuiz = () => {
     if (!quizId.trim()) {
@@ -233,6 +257,13 @@ function HostPage() {
             <FaUserAlt />
           </div>
           <h2>Quiz Host Dashboard</h2>
+           <button 
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            {isDarkTheme ? <FaSun /> : <FaMoon />}
+          </button>
         </div>
 
         {!pin ? (
@@ -243,20 +274,21 @@ function HostPage() {
           />
         ) : (
           <div className="host-game">
-            <PinDisplay pin={pin} />
+            <PinDisplay pin={pin}  isDarkTheme={isDarkTheme}  />
             
-            <HostQRCode pin={pin} isMobile={isMobile} />
+            <HostQRCode pin={pin} isMobile={isMobile} isDarkTheme={isDarkTheme}/>
 
             <div className="host-content-grid">
               <div className="players-section">
                 <PlayerList 
                   players={players} 
-                  handleKick={handleKick} 
+                  handleKick={handleKick}
+                  isDarkTheme={isDarkTheme}
                 />
               </div>
               
               <div className="scoreboard-section">
-                <LiveScoreboard scoreboard={scoreboard} />
+                <LiveScoreboard scoreboard={scoreboard}  isDarkTheme={isDarkTheme}/>
               </div>
             </div>
             
@@ -285,6 +317,7 @@ function HostPage() {
                       showCorrectAnswer={showCorrectAnswer}
                       thought={thought}
                       showThought={showThought}
+                       isDarkTheme={isDarkTheme}
                     />
                     
                     <QuizControls 

@@ -3,7 +3,7 @@ import { FaPlay } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import './HostForm.css'
 
-const HostForm = ({ quizId, setQuizId, hostQuiz }) => {
+const HostForm = ({ quizId, setQuizId, hostQuiz, isDarkTheme }) => {
   return (
     <div className="host-form">
       <div>
@@ -13,13 +13,14 @@ const HostForm = ({ quizId, setQuizId, hostQuiz }) => {
           placeholder="Enter your quiz ID"
           value={quizId}
           onChange={(e) => setQuizId(e.target.value)}
+          className={isDarkTheme ? 'dark-theme' : ''}
         />
       </div>
       <motion.button
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         onClick={hostQuiz}
-        className="host-button"
+        className={`host-button ${isDarkTheme ? 'dark-theme' : ''}`}
       >
         <FaPlay className="icon" /> Host Quiz
       </motion.button>

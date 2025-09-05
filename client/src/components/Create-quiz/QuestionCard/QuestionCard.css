@@ -1,3 +1,4 @@
+/* QuestionCard.css - Updated with dark theme */
 /* Question Cards */
 .question-card {
   background: var(--white);
@@ -26,11 +27,21 @@
   background: linear-gradient(to bottom, var(--primary-color), var(--primary-light));
 }
 
+.question-card-header {
+  margin-bottom: 1rem;
+}
+
 .question-create-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+}
+
+.question-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .question-number-create-container {
@@ -109,7 +120,6 @@
   color: var(--text-medium);
   appearance: none;
   background-color: var(--white);
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 1rem;
@@ -120,6 +130,11 @@
   border-color: var(--primary-color);
   outline: none;
   box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.2);
+}
+
+.question-type-select option {
+  background-color: var(--white); /* Light theme options background */
+  color: var(--text-dark); /* Light theme options text color */
 }
 
 .question-textarea-container {
@@ -137,6 +152,7 @@
   line-height: 1.5;
   transition: all 0.25s ease;
   background-color: var(--white);
+  color: var(--text-color);
 }
 
 .question-textarea:focus {
@@ -167,6 +183,8 @@
   min-height: 80px;
   resize: vertical;
   transition: all 0.25s ease;
+  background-color: var(--white);
+  color: var(--text-color);
 }
 
 .thought-textarea:focus {
@@ -194,4 +212,95 @@
     width: 32px;
     height: 32px;
   }
+  
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] .question-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .question-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  border-color: rgba(72, 187, 120, 0.3);
+}
+
+[data-theme="dark"] .question-number-create {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .question-type-select {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+}
+
+/* Dark theme dropdown options */
+[data-theme="dark"] .question-type-select option {
+  background-color: #2d3748; /* Dark background for options */
+  color: #e2e8f0; /* Light text for options */
+}
+
+/* Focus styles for better accessibility */
+.question-type-select:focus option:checked {
+  background-color: var(--primary-light);
+  color: var(--white);
+}
+
+[data-theme="dark"] .question-type-select:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .question-textarea {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .question-textarea:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .question-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="dark"] .thought-textarea {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .thought-textarea:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .thought-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="dark"] .input-label {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .remove-question-btn {
+  background: rgba(254, 215, 215, 0.1);
+  color: #fc8181;
+}
+
+[data-theme="dark"] .remove-question-btn:hover:not(:disabled) {
+  background: rgba(254, 215, 215, 0.2);
+}
+
+[data-theme="dark"] .remove-question-btn:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
 }

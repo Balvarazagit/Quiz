@@ -601,3 +601,286 @@
     flex-direction: row;
   }
 }
+
+/* Add to Myquizzes.css */
+
+/* Theme Toggle Button */
+.theme-toggle-myquizzes {
+  position: fixed;
+  top: 5px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 110;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.theme-toggle-myquizzes:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] {
+  --text-color: #e0e0e0;
+  --text-light: #a0a0a0;
+  --bg-color: #1a1a1a;
+  --card-bg: #2d2d2d;
+  --border-color: #404040;
+  --correct-color: #2d4a2d;
+  --correct-text: #81c784;
+  --danger-color: #e57373;
+}
+
+[data-theme="dark"] .my-quizzes-page {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .quizzes-header {
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .empty-state-myquizzes,
+[data-theme="dark"] .empty-filter-state {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .empty-state-myquizzes h2,
+[data-theme="dark"] .empty-filter-state p {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .empty-state-myquizzes p {
+  color: var(--text-light);
+}
+
+[data-theme="dark"] .back-button-myquizzes {
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .back-button-myquizzes path {
+  stroke: var(--primary-color);
+}
+
+[data-theme="dark"] .page-title {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .page-subtitle {
+  color: var(--text-light);
+}
+
+[data-theme="dark"] .tabs {
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .tab-btn {
+  color: var(--text-light);
+  background: transparent;
+}
+
+[data-theme="dark"] .tab-btn:hover {
+  color: var(--primary-color);
+  background: rgba(76, 175, 80, 0.1);
+}
+
+[data-theme="dark"] .tab-btn.active {
+  color: var(--primary-color);
+  background: rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .host-quiz-btn {
+  background-color: var(--card-bg);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .host-quiz-btn:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+[data-theme="dark"] .create-quiz-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+[data-theme="dark"] .create-quiz-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+[data-theme="dark"] .quiz-card-myquizzes {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .quiz-title {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .quiz-id-myquizzes {
+  color: var(--text-light) !important;
+}
+
+[data-theme="dark"] .quiz-status-badge.published {
+  background: var(--correct-color);
+  color: var(--correct-text);
+}
+
+[data-theme="dark"] .quiz-status-badge.draft {
+  background: rgba(2, 136, 209, 0.2);
+  color: #4fc3f7;
+}
+
+[data-theme="dark"] .question-count {
+  background: var(--bg-color);
+  color: var(--text-light);
+}
+
+[data-theme="dark"] .meta-item {
+  color: var(--text-light);
+}
+
+[data-theme="dark"] .meta-icon path {
+  stroke: var(--primary-color);
+}
+
+[data-theme="dark"] .quiz-details {
+  background: var(--bg-color);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .questions-title {
+  color: var(--text-light);
+}
+
+[data-theme="dark"] .question-block {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .question-text {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .question-number-myquizzes {
+  background: var(--primary-color);
+  color: white;
+}
+
+[data-theme="dark"] .options-list-myquizzes {
+  background: transparent;
+}
+
+[data-theme="dark"] .option-item-myquizzes {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .option-item-myquizzes.correct {
+  background: var(--correct-color);
+  color: var(--correct-text);
+  border-color: var(--correct-text);
+}
+
+[data-theme="dark"] .correct-badge-myquizzes {
+  background: var(--correct-text);
+  color: white;
+}
+
+[data-theme="dark"] .puzzle-correct-answer-myquizzes {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .quiz-footer-actions {
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .action-btn.publish-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+[data-theme="dark"] .action-btn.share-btn-myquizzes {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+[data-theme="dark"] .action-btn.delete-btn-myquizzes {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+[data-theme="dark"] .theme-toggle-myquizzes {
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .theme-toggle-myquizzes:hover {
+  background: rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .loading-container p {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top: 4px solid var(--primary-color);
+}
+
+/* Fix for SVG icons in dark mode */
+[data-theme="dark"] .meta-icon path {
+  stroke: var(--primary-color);
+}
+
+[data-theme="dark"] .back-button-myquizzes path {
+  stroke: var(--primary-color);
+}
+
+/* Responsive adjustments for dark theme */
+@media (max-width: 600px) {
+  [data-theme="dark"] .theme-toggle-myquizzes {
+    top: 5px;
+    padding: 0.4rem;
+  }
+}
+
+/* Animation for theme toggle */
+@keyframes themeSwitch {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.theme-toggle-myquizzes:active {
+  animation: themeSwitch 0.3s ease;
+}
+
+/* Fix for any remaining light backgrounds */
+[data-theme="dark"] .quiz-summary,
+[data-theme="dark"] .quiz-header,
+[data-theme="dark"] .quiz-meta,
+[data-theme="dark"] .quiz-actions {
+  background: transparent;
+}

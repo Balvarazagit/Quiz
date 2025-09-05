@@ -241,3 +241,131 @@
 .quiz-icon {
   animation: float 3s ease-in-out infinite;
 }
+
+/* Add to Register.css */
+
+/* Theme Toggle Button */
+.theme-toggle-register {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--quiz-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.theme-toggle-register:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] .quiz-register-container {
+  background-color: #1a202c;
+  background-image: radial-gradient(circle at 10% 20%, rgba(76, 175, 80, 0.15) 0%, rgba(26, 32, 44, 1) 90%);
+}
+
+[data-theme="dark"] .quiz-register-card {
+  background-color: #2d3748;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .quiz-register-header h2 {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .quiz-register-header p {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .quiz-form-group label {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .quiz-form-group input {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .quiz-form-group input:focus {
+  border-color: var(--quiz-primary);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .quiz-form-group input::placeholder {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .register-input-icon {
+  color: var(--quiz-primary);
+}
+
+[data-theme="dark"] .quiz-toggle-password {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .quiz-toggle-password:hover {
+  color: var(--quiz-primary);
+}
+
+[data-theme="dark"] .password-error {
+  color: #fc8181;
+}
+
+[data-theme="dark"] .strength-bar {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .strength-bar.active {
+  background-color: #fc8181;
+}
+
+[data-theme="dark"] .strength-bar.strong {
+  background-color: var(--quiz-primary);
+}
+
+[data-theme="dark"] .password-strength span {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .quiz-login-redirect {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .quiz-login-redirect a {
+  color: var(--quiz-primary-light);
+}
+
+[data-theme="dark"] .quiz-login-redirect a:hover {
+  color: var(--quiz-primary);
+}
+
+[data-theme="dark"] .theme-toggle-register {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .theme-toggle-register:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Animation for quiz icon */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.quiz-icon {
+  animation: float 3s ease-in-out infinite;
+}

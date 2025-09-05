@@ -7,6 +7,7 @@
   justify-content: center;
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background 0.3s ease;
 }
 
 .quiz-app-join {
@@ -16,6 +17,7 @@
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .app-header-join {
@@ -25,6 +27,7 @@
   padding: 20px;
   background-color: #4CAF50;
   color: white;
+  transition: background-color 0.3s ease;
 }
 
 .branding {
@@ -41,6 +44,7 @@
   justify-content: center;
   background: white;
   border-radius: 50%;
+  transition: background 0.3s ease;
 }
 
 .logo-icon-join {
@@ -52,6 +56,13 @@
   font-size: 22px;
   font-weight: 700;
   margin: 0;
+  transition: color 0.3s ease;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .live-stats {
@@ -67,6 +78,7 @@
   padding: 8px 12px;
   border-radius: 20px;
   min-width: 60px;
+  transition: background 0.3s ease;
 }
 
 .stat-label {
@@ -84,12 +96,29 @@
   background: rgba(255, 193, 7, 0.3);
 }
 
-/* .behind {
-  background: rgba(244, 67, 54, 0.3);
-} */
+.theme-toggle {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
 
 .app-content-join {
   padding: 30px;
+  transition: background 0.3s ease;
 }
 
 /* Responsive Design */
@@ -102,6 +131,12 @@
     flex-direction: column;
     gap: 15px;
     text-align: center;
+  }
+  
+  .header-controls {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   
   .live-stats {
@@ -126,4 +161,128 @@
   .question-text {
     font-size: 18px;
   }
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] .quiz-app-join-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d3748 100%);
+}
+
+[data-theme="dark"] .quiz-app-join {
+  background: #2d3748;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .app-header-join {
+  background-color: #2E7D32;
+}
+
+[data-theme="dark"] .app-logo {
+  background: #4a5568;
+}
+
+[data-theme="dark"] .app-title {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .stat-pill {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .theme-toggle {
+  background: rgba(255, 255, 255, 0.2);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .app-content-join {
+  background: #2d3748;
+  color: #e2e8f0;
+}
+
+/* Additional dark theme styles for form elements */
+[data-theme="dark"] .form-input {
+  background-color: #4a5568;
+  color: #e2e8f0;
+  border-color: #4a5568;
+}
+
+[data-theme="dark"] .form-input::placeholder {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .form-input:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .btn-primary {
+  background-color: #4CAF50;
+  color: white;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background-color: #3d8b40;
+}
+
+/* Dark theme for waiting room */
+[data-theme="dark"] .waiting-room {
+  background: #2d3748;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .player-list {
+  background: #4a5568;
+}
+
+[data-theme="dark"] .player-item {
+  border-bottom-color: #4a5568;
+}
+
+/* Dark theme for quiz interface */
+[data-theme="dark"] .question-container {
+  background: #4a5568;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .option-button {
+  background: #4a5568;
+  color: #e2e8f0;
+  border-color: #4a5568;
+}
+
+[data-theme="dark"] .option-button:hover {
+  background: #4CAF50;
+  border-color: #4CAF50;
+}
+
+[data-theme="dark"] .option-button.correct {
+  background: #4CAF50;
+  border-color: #4CAF50;
+}
+
+[data-theme="dark"] .option-button.incorrect {
+  background: #f44336;
+  border-color: #f44336;
+}
+
+/* Dark theme for results screen */
+[data-theme="dark"] .results-container {
+  background: #2d3748;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .scoreboard {
+  background: #4a5568;
+}
+
+[data-theme="dark"] .scoreboard-item {
+  border-bottom-color: #4a5568;
+}
+
+[data-theme="dark"] .scoreboard-item.highlight {
+  background: rgba(76, 175, 80, 0.2);
 }

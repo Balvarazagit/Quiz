@@ -8,7 +8,8 @@ const QuizControls = ({
   nextQuestion,
   isQuizOver,
   isMobile,
-  showCorrectAnswer
+  showCorrectAnswer,
+  isDarkTheme
 }) => {
   return (
     <div className="host-control-buttons">
@@ -17,7 +18,7 @@ const QuizControls = ({
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={revealAnswer}
-          className="reveal-button"
+          className={`reveal-button ${isDarkTheme ? 'dark-theme' : ''}`}
         >
           Reveal Answer
         </motion.button>
@@ -27,7 +28,7 @@ const QuizControls = ({
         whileTap={!isQuizOver ? { scale: 0.98 } : {}}
         onClick={nextQuestion}
         disabled={isQuizOver}
-        className={`next-button ${isQuizOver ? 'disabled' : ''}`}
+        className={`next-button ${isDarkTheme ? 'dark-theme' : ''} ${isQuizOver ? 'disabled' : ''}`}
       >
         <FaStepForward className="icon" />
         {isMobile ? (isQuizOver ? "Completed" : "Next") : (isQuizOver ? "Quiz Completed" : "Next Question")}

@@ -14,7 +14,9 @@ import {
   FiX,
   FiAward,
   FiBook,
-  FiPieChart
+  FiPieChart,
+  FiSun,
+  FiMoon
 } from 'react-icons/fi';
 
 function Dashboard() {
@@ -23,6 +25,30 @@ function Dashboard() {
   const [quizzes, setQuizzes] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Theme state
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -73,6 +99,15 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle theme-toggle-dashboard" 
+        onClick={toggleTheme} 
+        aria-label="Toggle theme"
+      >
+        {isDarkTheme ? <FiSun size={20} /> : <FiMoon size={20} />}
+      </button>
+      
       {/* Mobile Header */}
       {windowWidth <= 768 && (
         <div className="mobile-header">

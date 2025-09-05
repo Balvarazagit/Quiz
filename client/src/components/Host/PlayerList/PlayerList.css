@@ -24,6 +24,7 @@
   border-bottom: 2px solid var(--gray-light);
   flex-wrap: wrap;
   gap: 0.5rem;
+  transition: all 0.3s ease;
 }
 
 .player-icon {
@@ -38,6 +39,7 @@
   justify-content: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
 .players-list {
@@ -54,11 +56,13 @@
 .players-list::-webkit-scrollbar-track {
   background: var(--bg-light);
   border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .players-list::-webkit-scrollbar-thumb {
   background: var(--primary-light);
   border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .player-item {
@@ -115,6 +119,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  transition: color 0.3s ease;
 }
 
 .player-id {
@@ -125,6 +130,7 @@
   border-radius: 10px;
   font-family: 'Courier New', monospace;
   white-space: nowrap;
+  transition: all 0.3s ease;
 }
 
 .player-item button {
@@ -158,12 +164,77 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .empty-players::before {
   content: "👤";
   font-size: 2rem;
   opacity: 0.5;
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] .players-container {
+  background-color: #2D3748;
+  border-color: #4A5568;
+}
+
+[data-theme="dark"] .players-container:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .players-container h4 {
+  color: #e2e8f0;
+  border-bottom-color: #4A5568;
+}
+
+[data-theme="dark"] .player-icon {
+  background-color: #4A5568;
+  color: #81E6D9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .players-list::-webkit-scrollbar-track {
+  background: #4A5568;
+}
+
+[data-theme="dark"] .players-list::-webkit-scrollbar-thumb {
+  background: #2C7A7B;
+}
+
+[data-theme="dark"] .player-item {
+  background-color: #4A5568;
+  border: 1px solid #718096;
+}
+
+[data-theme="dark"] .player-item::before {
+  background: linear-gradient(to bottom, #2C7A7B, #319795);
+}
+
+[data-theme="dark"] .player-item:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .player-name {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .player-id {
+  color: #a0aec0;
+  background-color: rgba(129, 230, 217, 0.1);
+}
+
+[data-theme="dark"] .player-item button {
+  color: #FC8181;
+}
+
+[data-theme="dark"] .player-item button:hover {
+  color: #FEB2B2;
+  background-color: rgba(252, 129, 129, 0.15);
+}
+
+[data-theme="dark"] .empty-players {
+  color: #a0aec0;
 }
 
 /* Responsive Design Improvements */

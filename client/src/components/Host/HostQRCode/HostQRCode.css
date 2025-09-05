@@ -25,6 +25,7 @@
   align-items: center;
   box-sizing: border-box;
   width: 100%;
+  transition: all 0.3s ease;
 }
 
 .qr-section-host h3 {
@@ -32,6 +33,7 @@
   margin: 0 0 1rem 0;
   font-size: 1.25rem;
   width: 100%;
+  transition: color 0.3s ease;
 }
 
 .qr-container {
@@ -43,6 +45,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .qr-code {
@@ -109,6 +112,43 @@
   background: var(--primary-light);
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] .qr-section-host {
+  background: #2D3748;
+  border-color: #4A5568;
+}
+
+[data-theme="dark"] .qr-section-host h3 {
+  color: #81E6D9;
+}
+
+[data-theme="dark"] .qr-container {
+  background: #4A5568;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .copy-link-btn {
+  background: #2C7A7B;
+  color: #E6FFFA;
+  border-color: #2C7A7B;
+}
+
+[data-theme="dark"] .copy-link-btn:hover {
+  background: #319795;
+  color: white;
+}
+
+[data-theme="dark"] .download-btn-host {
+  background: #4A5568;
+  color: #E6FFFA;
+  border-color: #2C7A7B;
+}
+
+[data-theme="dark"] .download-btn-host:hover {
+  background: #2C7A7B;
+  color: white;
 }
 
 /* Responsive adjustments for QR section */

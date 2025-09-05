@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaEnvelope, FaArrowRight, FaKey } from "react-icons/fa";
+import { FaEnvelope, FaArrowRight, FaKey, FaSun, FaMoon } from "react-icons/fa";
 import { motion } from "framer-motion";
 import "../pages/styles/ForgotPassword.css";
 
@@ -9,6 +9,30 @@ function ForgotPassword() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Theme state
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +64,15 @@ function ForgotPassword() {
 
   return (
     <div className="quiz-forgot-container">
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle theme-toggle-forgot" 
+        onClick={toggleTheme} 
+        aria-label="Toggle theme"
+      >
+        {isDarkTheme ? <FaSun /> : <FaMoon />}
+      </button>
+      
       <motion.div 
         className="quiz-forgot-card"
         initial={{ opacity: 0, y: 20 }}
@@ -59,7 +92,7 @@ function ForgotPassword() {
         <form onSubmit={handleSubmit}>
           <div className="quiz-input-group">
             <label htmlFor="email">
-              <FaEnvelope className="forgot-.input-icon-forgot" />
+              <FaEnvelope className="input-icon-forgot" />
               <span>Email Address</span>
             </label>
             <input

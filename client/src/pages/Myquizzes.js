@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../pages/styles/Myquizzes.css';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 function Myquizzes() {
   const [quizzes, setQuizzes] = useState([]);
@@ -9,7 +10,31 @@ function Myquizzes() {
   const [loading, setLoading] = useState(true);
   const [expandedQuiz, setExpandedQuiz] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Theme state
   const navigate = useNavigate();
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -145,6 +170,15 @@ function Myquizzes() {
 
   return (
     <div className="my-quizzes-page">
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle theme-toggle-myquizzes" 
+        onClick={toggleTheme} 
+        aria-label="Toggle theme"
+      >
+        {isDarkTheme ? <FaSun size={16} /> : <FaMoon size={16} />}
+      </button>
+      
       <button onClick={handleGoBack} className="back-button-myquizzes">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15 18L9 12L15 6" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -6,6 +6,7 @@ import '../pages/styles/CreateQuiz.css';
 import QuizHeader from '../components/Create-quiz/QuizHeader/QuizHeader';
 import QuestionCard from '../components/Create-quiz/QuestionCard/QuestionCard';
 import ActionButtons from '../components/Create-quiz/ActionButtons/ActionButtons';
+import { FiSun, FiMoon } from 'react-icons/fi';
 
 function Createquiz() {
   const [quizTitle, setQuizTitle] = useState('');
@@ -27,6 +28,29 @@ function Createquiz() {
   const navigate = useNavigate();
   const [topic, setTopic] = useState("");
   const [count, setCount] = useState(5);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   const handleAddQuestion = () => {
     setQuestions([
@@ -252,6 +276,7 @@ function Createquiz() {
   return (
     <div className="quiz-creator-container">
       <div className="quiz-creator-card">
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem'}}>
         <button 
           onClick={handleGoBack}
           className="back-button-createquiz"
@@ -263,6 +288,29 @@ function Createquiz() {
           Back
         </button>
         
+        <button 
+            onClick={toggleTheme}
+            className="theme-toggle-btn"
+            style={{
+              background: 'var(--primary-lighter)',
+              border: '1px solid var(--primary-light)',
+              color: 'var(--primary-dark)',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              marginBottom: '1rem',
+            }}
+            aria-label="Toggle theme"
+          >
+            {isDarkTheme ? <FiSun size={18} /> : <FiMoon size={18} />}
+          </button>
+          </div>
+
         <QuizHeader />
 
         <div className="quiz-title-section">

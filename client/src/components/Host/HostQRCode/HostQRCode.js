@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import './HostQRCode.css';
 
-function HostQRCode({ pin, isMobile }) {
+function HostQRCode({ pin, isMobile, isDarkTheme }) {
   const qrRef = useRef();
 
   const downloadQRCode = () => {
@@ -48,22 +48,24 @@ function HostQRCode({ pin, isMobile }) {
   };
 
   return (
-    <div className="qr-section-host">
+    <div className={`qr-section-host ${isDarkTheme ? 'dark-theme' : ''}`}>
       <h3>📲 Scan to Join</h3>
-      <div className="qr-container" ref={qrRef}>
+      <div className={`qr-container ${isDarkTheme ? 'dark-theme' : ''}`} ref={qrRef}>
         <QRCodeSVG
           value={`${window.location.origin}/join?pin=${pin}`}
           size={isMobile ? 120 : 150}
           level="H"
           includeMargin={true}
           className="qr-code"
+          fgColor={isDarkTheme ? '#ffffff' : '#000000'} // White text for dark mode, black for light
+          bgColor={isDarkTheme ? 'transparent' : '#ffffff'} // Transparent background for dark mode
         />
       </div>
       <div className="qr-actions">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="copy-link-btn"
+          className={`copy-link-btn ${isDarkTheme ? 'dark-theme' : ''}`}
           onClick={copyJoinLink}
         >
           <FaLink /> Copy Join Link
@@ -72,7 +74,7 @@ function HostQRCode({ pin, isMobile }) {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="download-btn-host"
+          className={`download-btn-host ${isDarkTheme ? 'dark-theme' : ''}`}
           onClick={downloadQRCode}
         >
           <FaDownload /> Download QR

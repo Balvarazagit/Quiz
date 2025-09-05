@@ -20,6 +20,8 @@
   font-size: 1rem;
   transition: all 0.3s;
   box-sizing: border-box;
+  background: var(--white);
+  color: var(--text);
 }
 
 .host-form input:focus {
@@ -54,4 +56,33 @@
 
 .host-button .icon {
   margin: 0;
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] .host-form label {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .host-form input {
+  background: #4A5568;
+  border-color: #718096;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .host-form input:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 4px rgba(129, 199, 132, 0.3);
+}
+
+[data-theme="dark"] .host-form input::placeholder {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .host-button {
+  background: var(--primary);
+  color: white;
+}
+
+[data-theme="dark"] .host-button:hover {
+  background: var(--primary-dark);
 }

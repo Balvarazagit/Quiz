@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaEye, FaEyeSlash, FaUser, FaLock, FaShieldAlt } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaUser, FaLock, FaShieldAlt, FaSun, FaMoon } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,8 +16,32 @@ function Login() {
   const [resendLoading, setResendLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
   const [resendAttempts, setResendAttempts] = useState(3); // Max 3 resend attempts
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Theme state
 
   const navigate = useNavigate();
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -114,13 +138,17 @@ function Login() {
     return () => clearInterval(timer);
   }, [cooldown]);
 
-  useEffect(() => {
-    localStorage.setItem("theme", "light");
-    document.documentElement.setAttribute("data-theme", "light");
-  }, []);
-
   return (
     <div className="quiz-login-container">
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle theme-toggle-login" 
+        onClick={toggleTheme} 
+        aria-label="Toggle theme"
+      >
+        {isDarkTheme ? <FaSun /> : <FaMoon />}
+      </button>
+      
       <motion.div
         className="quiz-login-card"
         initial={{ opacity: 0, y: 20 }}

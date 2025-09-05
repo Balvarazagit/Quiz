@@ -1,22 +1,35 @@
+/* FinalScoreboard.css */
 .final-scoreboard {
   background: white;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: 2px solid var(--gray-light);
+  border: 2px solid #e5e7eb;
   margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .final-scoreboard{
+  background: #2D3748;
+  border-color: #4A5568;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .scoreboard-title {
   font-size: 1.75rem;
   font-weight: 800;
-  color: var(--primary-dark);
+  color: #2E7D32;
   text-align: center;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .scoreboard-title {
+  color: #4FD1C5;
 }
 
 .trophy-icon {
@@ -28,11 +41,17 @@
   grid-template-columns: 80px 1fr 100px;
   padding: 1rem;
   font-weight: 700;
-  color: var(--text);
+  color: #333;
   font-size: 1rem;
-  background-color: var(--bg-light);
+  background-color: #f8fafc;
   border-radius: 10px;
   margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .final-scoreboard .scoreboard-header {
+  background-color: #4A5568;
+  color: #E2E8F0;
 }
 
 .final-scoreboard .scoreboard-list {
@@ -48,14 +67,23 @@
   background: white;
   padding: 1.25rem;
   border-radius: 12px;
-  border: 1px solid var(--gray-light);
+  border: 1px solid #e5e7eb;
   transition: all 0.3s;
   position: relative;
 }
 
+[data-theme="dark"] .final-scoreboard .scoreboard-item {
+  background: #4A5568;
+  border-color: #718096;
+}
+
 .final-scoreboard .scoreboard-item:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .final-scoreboard .scoreboard-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .final-scoreboard .scoreboard-item.top-1 {
@@ -63,9 +91,19 @@
   border-color: #FFD600;
 }
 
+[data-theme="dark"] .final-scoreboard .scoreboard-item.top-1 {
+  background: linear-gradient(135deg, #6B46C1, #805AD5);
+  border-color: #9F7AEA;
+}
+
 .final-scoreboard .scoreboard-item.top-2 {
   background: linear-gradient(135deg, #F5F5F5, #EEEEEE);
   border-color: #9E9E9E;
+}
+
+[data-theme="dark"] .final-scoreboard .scoreboard-item.top-2 {
+  background: linear-gradient(135deg, #4A5568, #2D3748);
+  border-color: #718096;
 }
 
 .final-scoreboard .scoreboard-item.top-3 {
@@ -73,10 +111,20 @@
   border-color: #FF5722;
 }
 
+[data-theme="dark"] .final-scoreboard .scoreboard-item.top-3 {
+  background: linear-gradient(135deg, #2C5282, #2B6CB0);
+  border-color: #4299E1;
+}
+
 .final-scoreboard .player-rank {
   font-weight: 700;
-  color: var(--primary-dark);
+  color: #2E7D32;
   font-size: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .final-scoreboard .player-rank {
+  color: #4FD1C5;
 }
 
 .final-scoreboard .player-name {
@@ -86,36 +134,67 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .final-scoreboard .player-name {
+  color: #E2E8F0;
 }
 
 .final-scoreboard .player-score-finalscoreboard {
   font-weight: 700;
-  color: var(--primary-dark);
+  color: #2E7D32;
   text-align: right;
   font-size: 1.25rem;
   display: flex;
   align-items: baseline;
   justify-content: flex-end;
   gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .final-scoreboard .player-score-finalscoreboard {
+  color: #4FD1C5;
 }
 
 .score-value {
   font-size: 1.5rem;
+  transition: all 0.3s ease;
 }
 
 .score-label {
   font-size: 0.9rem;
-  color: var(--text-light);
+  color: #6b7280;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .final-scoreboard .score-label {
+  color: #A0AEC0;
 }
 
 .winner-badge {
-  background: var(--primary-light);
-  color: var(--white);
+  background: #4CAF50;
+  color: white;
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
   border-radius: 12px;
   margin-left: 0.5rem;
   font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .final-scoreboard .winner-badge {
+  background: #319795;
+}
+
+/* User ID styling */
+.player-name span[style*="font-size: 12px"] {
+  color: #999 !important;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .final-scoreboard .player-name span[style*="font-size: 12px"] {
+  color: #A0AEC0 !important;
 }
 
 /* Responsive Design */
@@ -146,4 +225,9 @@
   .winner-badge {
     margin-left: 0;
   }
+}
+
+/* Smooth transitions for all elements */
+.final-scoreboard * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }

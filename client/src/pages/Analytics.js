@@ -2,14 +2,38 @@ import { Bar } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiBarChart2 } from 'react-icons/fi';
+import { FiArrowLeft, FiBarChart2, FiSun, FiMoon } from 'react-icons/fi';
 import '../pages/styles/Analytics.css';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 function Analytics() {
   const [chartData, setChartData] = useState(null);
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Theme state
   const navigate = useNavigate();
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -32,8 +56,8 @@ function Analytics() {
           datasets: [{
             label: 'Number of Plays',
             data: values,
-            backgroundColor: '#68D391',
-            borderColor: '#38A169',
+            backgroundColor: isDarkTheme ? '#4CAF50' : '#68D391',
+            borderColor: isDarkTheme ? '#388E3C' : '#38A169',
             borderWidth: 1,
             borderRadius: 4,
           }],
@@ -42,7 +66,7 @@ function Analytics() {
       .catch(err => {
         console.error("❌ Fetch failed:", err);
       });
-  }, []);
+  }, [isDarkTheme]);
 
   const handleGoBack = () => navigate(-1);
 
@@ -54,6 +78,15 @@ function Analytics() {
 
   return (
     <div className="analytics-container">
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle theme-toggle-analytics" 
+        onClick={toggleTheme} 
+        aria-label="Toggle theme"
+      >
+        {isDarkTheme ? <FiSun size={18} /> : <FiMoon size={18} />}
+      </button>
+      
       <button 
         onClick={handleGoBack}
         className="back-button-analytics"
@@ -84,27 +117,30 @@ function Analytics() {
                   font: { 
                     size: 14,
                     family: "'Inter', sans-serif" 
-                  } 
+                  },
+                  color: isDarkTheme ? '#e0e0e0' : '#4A5568'
                 }
               },
               tooltip: {
-                backgroundColor: '#2D3748',
+                backgroundColor: isDarkTheme ? '#2D3748' : '#2D3748',
                 titleFont: { size: 16 },
                 bodyFont: { size: 14 },
                 padding: 12,
-                cornerRadius: 8
+                cornerRadius: 8,
+                titleColor: isDarkTheme ? '#e0e0e0' : '#ffffff',
+                bodyColor: isDarkTheme ? '#e0e0e0' : '#ffffff',
               }
             },
             scales: {
               y: {
                 beginAtZero: true,
                 grid: { 
-                  color: '#E2E8F0',
+                  color: isDarkTheme ? '#404040' : '#E2E8F0',
                   drawBorder: false
                 },
                 ticks: { 
                   stepSize: 1, 
-                  color: '#4A5568',
+                  color: isDarkTheme ? '#a0a0a0' : '#4A5568',
                   font: {
                     family: "'Inter', sans-serif"
                   }
@@ -113,7 +149,7 @@ function Analytics() {
               x: {
                 grid: { display: false },
                 ticks: { 
-                  color: '#4A5568',
+                  color: isDarkTheme ? '#a0a0a0' : '#4A5568',
                   font: {
                     family: "'Inter', sans-serif",
                     size: window.innerWidth < 768 ? 10 : 12

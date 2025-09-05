@@ -2,10 +2,10 @@
 import { motion } from 'framer-motion';
 import './FinalScoreboard.css';
 
-const FinalScoreboard = ({ finalResults }) => {
+const FinalScoreboard = ({ finalResults, isDarkTheme }) => {
   return (
-    <div className="final-scoreboard">
-      <h2 className="scoreboard-title">
+    <div className={`final-scoreboard ${isDarkTheme ? 'dark-theme' : ''}`}>
+      <h2 className={`scoreboard-title ${isDarkTheme ? 'dark-theme' : ''}`}>
         <span className="trophy-icon">🏆</span>
         Final Results
         <span className="trophy-icon">🏆</span>

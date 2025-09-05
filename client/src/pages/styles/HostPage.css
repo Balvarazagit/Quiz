@@ -187,3 +187,68 @@
     padding: 0.75rem;
   }
 }
+
+/* Add to HostPage.css */
+.theme-toggle-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: var(--bg-light);
+  border: 1px solid var(--gray-light);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--primary-light);
+  color: var(--white);
+  transform: rotate(15deg);
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .host-container {
+  background: linear-gradient(135deg, #1a1a1a, #2d3748);
+}
+
+[data-theme="dark"] .host-card {
+  background: #2d3748;
+  border-color: #4A5568;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .host-header h2 {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .host-icon {
+  background-color: #4A5568;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .theme-toggle-btn {
+  background: #4A5568;
+  border-color: #718096;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .players-section {
+  background: #4A5568;
+  border-color: #718096;
+}
+
+[data-theme="dark"] .scoreboard-section {
+  background: #4A5568;
+  border-color: #718096;
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover {
+  background: var(--primary);
+}

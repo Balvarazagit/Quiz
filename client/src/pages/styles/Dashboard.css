@@ -516,3 +516,151 @@ body {
 .dashboard-card:nth-child(3) .card-icon {
   animation-delay: 4s;
 }
+
+/* Add to Dashboard.css */
+
+/* Theme Toggle Button */
+.theme-toggle-dashboard {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 110;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+}
+
+.theme-toggle-dashboard:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+/* Dark Theme Styles */
+[data-theme="dark"] .dashboard-container {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+}
+
+[data-theme="dark"] .dashboard-container::before {
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(56, 161, 105, 0.1) 0%, transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(56, 161, 105, 0.1) 0%, transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(56, 161, 105, 0.05) 0%, transparent 25%);
+}
+
+[data-theme="dark"] .mobile-header {
+  background: rgba(26, 32, 44, 0.95);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .hamburger-icon {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .mobile-logo {
+  color: var(--primary-light);
+}
+
+[data-theme="dark"] .mobile-user-avatar {
+  background: var(--primary-dark);
+  color: var(--primary-light);
+}
+
+[data-theme="dark"] .sidebar {
+  background: rgba(26, 32, 44, 0.95);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .logo {
+  color: var(--primary-light);
+}
+
+[data-theme="dark"] .user-name {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .user-email {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .nav-item {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .nav-item:hover {
+  background: rgba(56, 161, 105, 0.2);
+  color: var(--primary-light);
+}
+
+[data-theme="dark"] .nav-item.active {
+  background: rgba(56, 161, 105, 0.3);
+  color: var(--primary-light);
+  box-shadow: 0 4px 12px rgba(56, 161, 105, 0.2);
+}
+
+[data-theme="dark"] .dashboard-header {
+  background: rgba(26, 32, 44, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .dashboard-title {
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="dark"] .dashboard-subtitle {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .dashboard-card {
+  background: rgba(26, 32, 44, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .card-title {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .card-description {
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .theme-toggle-dashboard {
+  color: #e2e8f0;
+  background: rgba(26, 32, 44, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .theme-toggle-dashboard:hover {
+  background: rgba(56, 161, 105, 0.3);
+}
+
+/* Responsive adjustments for dark theme */
+@media (max-width: 768px) {
+  [data-theme="dark"] .sidebar {
+    background: rgba(26, 32, 44, 0.98);
+  }
+}
+
+/* Animation for theme toggle */
+@keyframes themeSwitch {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.theme-toggle-dashboard:active {
+  animation: themeSwitch 0.3s ease;
+}

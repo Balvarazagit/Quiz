@@ -4,7 +4,7 @@ import { FaClipboard, FaClipboardCheck } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import './PinDisplay.css';
 
-const PinDisplay = ({ pin }) => {
+const PinDisplay = ({ pin, isDarkTheme }) => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -15,11 +15,15 @@ const PinDisplay = ({ pin }) => {
   };
 
   return (
-    <div className="pin-container">
+    <div className={`pin-container ${isDarkTheme ? 'dark-theme' : ''}`}>
       <h3>Game PIN</h3>
       <div className="pin-display">
-        <code>{pin}</code>
-        <button onClick={copyToClipboard} aria-label="Copy PIN">
+        <code className={isDarkTheme ? 'dark-theme' : ''}>{pin}</code>
+        <button 
+          onClick={copyToClipboard} 
+          aria-label="Copy PIN"
+          className={isDarkTheme ? 'dark-theme' : ''}
+        >
           {copied ? <FaClipboardCheck className="copied" /> : <FaClipboard />}
         </button>
       </div>

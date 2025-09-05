@@ -1,3 +1,4 @@
+/* QuizControls.css */
 .host-control-buttons {
   display: flex;
   gap: 1.25rem;
@@ -19,19 +20,28 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .reveal-button {
+  background: linear-gradient(135deg, #D69E2E, #B7791F);
+  color: #E2E8F0;
 }
 
 .reveal-button:hover {
   background: linear-gradient(135deg, #FFA000, #FF8F00);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .reveal-button:hover {
+  background: linear-gradient(135deg, #B7791F, #975A16);
 }
 
 .next-button {
   flex: 1;
   padding: 1.25rem;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
   color: white;
   border: none;
   border-radius: 12px;
@@ -43,13 +53,21 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .next-button{
+  background: linear-gradient(135deg, #319795, #2C7A7B);
 }
 
 .next-button:hover {
-  background: linear-gradient(135deg, var(--primary-dark), #2E7D32);
+  background: linear-gradient(135deg, #388E3C, #2E7D32);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .next-button:hover {
+  background: linear-gradient(135deg, #2C7A7B, #285E61);
 }
 
 .next-button.disabled {
@@ -59,12 +77,17 @@
   box-shadow: none;
 }
 
+[data-theme="dark"] .next-button.disabled {
+  background: #4A5568;
+  color: #A0AEC0;
+}
+
 /* Start Button */
 .start-button {
   width: 100%;
   padding: 1.25rem;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: var(--white);
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
+  color: white;
   font-weight: 700;
   border: none;
   border-radius: 12px;
@@ -75,13 +98,21 @@
   justify-content: center;
   transition: all 0.3s;
   gap: 0.75rem;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .start-button{
+  background: linear-gradient(135deg, #319795, #2C7A7B);
 }
 
 .start-button:hover {
-  background: linear-gradient(135deg, var(--primary-dark), #2E7D32);
-  box-shadow: var(--shadow-hover);
+  background: linear-gradient(135deg, #388E3C, #2E7D32);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
+}
+
+[data-theme="dark"] .start-button:hover {
+  background: linear-gradient(135deg, #2C7A7B, #285E61);
 }
 
 .start-button:disabled {
@@ -91,9 +122,19 @@
   box-shadow: none;
 }
 
+[data-theme="dark"] .start-button:disabled {
+  background: #4A5568;
+  color: #A0AEC0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .host-control-buttons {
     flex-direction: column;
   }
+}
+
+/* Smooth transitions for all elements */
+.host-control-buttons * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }

@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../pages/styles/Register.css';
-import { FaEye, FaEyeSlash, FaUser, FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaUser, FaEnvelope, FaLock, FaSignInAlt, FaSun, FaMoon } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 
@@ -11,6 +11,30 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [passwordError, setPasswordError] = useState('');
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Theme state
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,10 +59,10 @@ function Register() {
     e.preventDefault();
     setLoading(true);
     if (!validatePassword(form.password)) {
-  toast.error('❌ Password must be at least 8 characters, include 1 uppercase and 1 special character.');
-  setLoading(false);
-  return;
-}
+      toast.error('❌ Password must be at least 8 characters, include 1 uppercase and 1 special character.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
@@ -64,6 +88,15 @@ function Register() {
 
   return (
     <div className="quiz-register-container">
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle theme-toggle-register" 
+        onClick={toggleTheme} 
+        aria-label="Toggle theme"
+      >
+        {isDarkTheme ? <FaSun /> : <FaMoon />}
+      </button>
+      
       <motion.div 
         className="quiz-register-card"
         initial={{ opacity: 0, y: 20 }}

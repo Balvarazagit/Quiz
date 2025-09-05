@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FaEye, FaEyeSlash, FaLock, FaCheck, FaArrowLeft } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaLock, FaCheck, FaArrowLeft, FaSun, FaMoon } from 'react-icons/fa';
 import { motion } from "framer-motion";
 import "../pages/styles/ResetPassword.css";
 
@@ -16,6 +16,30 @@ function ResetPassword() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [passwordError, setPasswordError] = useState('');
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // Theme state
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   const validatePassword = (password) => {
     const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -72,6 +96,15 @@ function ResetPassword() {
 
   return (
     <div className="quiz-reset-container">
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle theme-toggle-reset" 
+        onClick={toggleTheme} 
+        aria-label="Toggle theme"
+      >
+        {isDarkTheme ? <FaSun /> : <FaMoon />}
+      </button>
+      
       <motion.div 
         className="quiz-reset-card"
         initial={{ opacity: 0, y: 20 }}

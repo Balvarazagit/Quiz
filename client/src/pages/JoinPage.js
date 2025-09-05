@@ -11,6 +11,7 @@ import WaitingRoom from '../components/Join/WaitingRoom/WaitingRoom';
 import QuizInterface from '../components/Join/QuizInterface/QuizInterface';
 import ResultsScreen from '../components/Join/ResultsScreen/ResultsScreen';
 import { useLocation } from "react-router-dom";
+import { FiSun, FiMoon } from 'react-icons/fi';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`, {
   transports: ['websocket'],
@@ -45,6 +46,30 @@ function JoinPage() {
   const [puzzleResult, setPuzzleResult] = useState(null);
   const [playersList, setPlayersList] = useState([]);
   const location = useLocation();
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   const joinQuiz = () => {
     if (!name.trim()) {
@@ -214,32 +239,42 @@ function JoinPage() {
           <div className="branding">
             <div className="app-logo">
               <svg className="logo-icon-join" viewBox="0 0 24 24">
-                <path fill="#4CAF50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 极速赛车开奖结果 极速赛车开奖直播 极速赛车开奖记录 极速赛车开奖网 极速赛车开奖官网 极速赛车开奖号码 极速赛车开奖查询 极速赛车开奖公告 极速赛车开奖历史 极速赛车开奖视频 极速赛车开奖结果查询 极速赛车开奖结果官网 极速赛车开奖结果历史 极速赛车开奖结果记录 极速赛车开奖结果直播 极速赛车开奖结果公告 极速赛车开奖结果查询官网 极速赛车开奖结果查询历史 极速赛车开奖结果查询记录 极速赛车开奖结果查询直播 极速赛车开奖结果查询公告 极速赛车开奖结果查询网 极速赛车开奖结果查询网站 极速赛车开奖结果查询网址 极速赛车开奖结果查询官网入口 极速赛车开奖结果查询官网下载 极速赛车开奖结果查询官网地址 极速赛车开奖结果查询官网链接 极速赛车开奖结果查询官网首页 极速赛车开奖结果查询官网平台 极速赛车开奖结果查询官网登录 极速赛车开奖结果查询官网注册 极速赛车开奖结果查询官网app 极速赛车开奖结果查询官网手机版 极速赛车开奖结果查询官网电脑版 极速赛车开奖结果查询官网在线 极速赛车开奖结果查询官网入口 极速赛车开奖结果查询官网下载 极速赛车开奖结果查询官网地址 极速赛车开奖结果查询官网链接 极速赛车开奖结果查询官网首页 极速赛车开奖结果查询官网平台 极速赛车开奖结果查询官网登录 极速赛车开奖结果查询官网注册 极速赛车开奖结果查询官网app 极速赛车开奖结果查询官网手机版 极速赛车开奖结果查询官网电脑版 极速赛车开奖结果查询官网在线"/>
+                <path fill="#4CAF50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 3.55-2.07 6.59-5 7.41z"/>
               </svg>
             </div>
             <h1 className="app-title">QuizMaster Pro</h1>
           </div>
           
-          {joined && quizStarted && !quizEnded && (
-            <div className="live-stats">
-              <div className="stat-pill">
-                <span className="stat-label">Score</span>
-                <span className="stat-value">{myScore}</span>
+          <div className="header-controls">
+            {joined && quizStarted && !quizEnded && (
+              <div className="live-stats">
+                <div className="stat-pill">
+                  <span className="stat-label">Score</span>
+                  <span className="stat-value">{myScore}</span>
+                </div>
+                {myStreak > 0 && (
+                  <div className="stat-pill streak">
+                    <span className="stat-label">Streak</span>
+                    <span className="stat-value">{myStreak}x</span>
+                  </div>
+                )}
+                {!timeLeft && userBehind && (
+                  <div className="stat-pill behind">
+                    <span className="stat-label">Next: {userBehind.name}</span>
+                    <span className="stat-value">{userBehind.score - myScore}</span>
+                  </div>
+                )}
               </div>
-              {myStreak > 0 && (
-                <div className="stat-pill streak">
-                  <span className="stat-label">Streak</span>
-                  <span className="stat-value">{myStreak}x</span>
-                </div>
-              )}
-              {!timeLeft && userBehind && (
-                <div className="stat-pill behind">
-                  <span className="stat-label">Next: {userBehind.name}</span>
-                  <span className="stat-value">{userBehind.score - myScore}</span>
-                </div>
-              )}
-            </div>
-          )}
+            )}
+            
+            <button 
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+            >
+              {isDarkTheme ? <FiSun /> : <FiMoon />}
+            </button>
+          </div>
         </header>
 
         <main className="app-content-join">

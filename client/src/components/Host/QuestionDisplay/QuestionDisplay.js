@@ -10,7 +10,8 @@ const QuestionDisplay = ({
   players,
   showCorrectAnswer,
   thought,
-  showThought
+  showThought,
+  isDarkTheme
 }) => {
   const extractYouTubeId = (url) => {
     const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
@@ -27,14 +28,20 @@ const QuestionDisplay = ({
 
   return (
     <div className="quiz-controls">
-      <div className="question-display-container">
+      <div className={`question-display-container ${isDarkTheme ? 'dark-theme' : ''}`}>
         <div className="question-display">
-          <div className="question-host-header">
+          <div className={`question-host-header ${isDarkTheme ? 'dark-theme' : ''}`}>
             {timeLeft !== null && (
-              <div className="question-timer">⏳ {timeLeft}s remaining</div>
+              <div className={`question-timer ${isDarkTheme ? 'dark-theme' : ''}`}>
+                ⏳ {timeLeft}s remaining
+              </div>
             )}
-            <span className="question-number-host">Question {questionNumber}</span>
-            <h3 className="question-text">{currentQuestion.question}</h3>
+            <span className={`question-number-host ${isDarkTheme ? 'dark-theme' : ''}`}>
+              Question {questionNumber}
+            </span>
+            <h3 className={`question-text ${isDarkTheme ? 'dark-theme' : ''}`}>
+              {currentQuestion.question}
+            </h3>
             <div className="media-display-host">
               {currentQuestion.mediaType === "image" && (
                 <img src={currentQuestion.mediaUrl} alt="question" className="media-preview" />
@@ -71,16 +78,20 @@ const QuestionDisplay = ({
               );
 
               return (
-                <div key={index} className="option-stat-wrapper">
+                <div key={index} className={`option-stat-wrapper ${isDarkTheme ? 'dark-theme' : ''}`}>
                   <div className="option-stat">
                     <div className="option-label">
-                      <span className="option-letter">{String.fromCharCode(65 + index)}</span>
-                      <span className="option-text">{option}</span>
+                      <span className={`option-letter ${isDarkTheme ? 'dark-theme' : ''}`}>
+                        {String.fromCharCode(65 + index)}
+                      </span>
+                      <span className={`option-text ${isDarkTheme ? 'dark-theme' : ''}`}>
+                        {option}
+                      </span>
                       {isCorrect && <span className="correct-indicator">✓</span>}
                     </div>
 
                     <div className="stat-visualization">
-                      <div className="stat-bar-container">
+                      <div className={`stat-bar-container ${isDarkTheme ? 'dark-theme' : ''}`}>
                         <div
                           className="stat-bar"
                           style={{
@@ -91,8 +102,12 @@ const QuestionDisplay = ({
                       </div>
 
                       <div className="stat-numbers">
-                        <span className="stat-percentage">{percentage}%</span>
-                        <span className="stat-count">({answerStats[option] || 0})</span>
+                        <span className={`stat-percentage ${isDarkTheme ? 'dark-theme' : ''}`}>
+                          {percentage}%
+                        </span>
+                        <span className={`stat-count ${isDarkTheme ? 'dark-theme' : ''}`}>
+                          ({answerStats[option] || 0})
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -102,9 +117,9 @@ const QuestionDisplay = ({
           </div>
 
           {showCorrectAnswer && currentQuestion.type === "Puzzle" && (
-            <div className="puzzle-answer-box">
+            <div className={`puzzle-answer-box ${isDarkTheme ? 'dark-theme' : ''}`}>
               <h4>🧩 Correct Answer:</h4>
-              <p className="puzzle-answer-text">
+              <p className={`puzzle-answer-text ${isDarkTheme ? 'dark-theme' : ''}`}>
                 {Array.isArray(currentQuestion.correct)
                   ? currentQuestion.correct.join(", ")
                   : currentQuestion.correct}
@@ -112,18 +127,24 @@ const QuestionDisplay = ({
             </div>
           )}
 
-          <div className="participation-metrics">
+          <div className={`participation-metrics ${isDarkTheme ? 'dark-theme' : ''}`}>
             <div className="total-responses">
-              <span className="metric-value">{answerStats.totalAnswers || 0}</span>
-              <span className="metric-label">Responses</span>
+              <span className={`metric-value ${isDarkTheme ? 'dark-theme' : ''}`}>
+                {answerStats.totalAnswers || 0}
+              </span>
+              <span className={`metric-label ${isDarkTheme ? 'dark-theme' : ''}`}>
+                Responses
+              </span>
             </div>
             <div className="response-rate">
-              <span className="metric-value">
+              <span className={`metric-value ${isDarkTheme ? 'dark-theme' : ''}`}>
                 {players.length > 0
                   ? Math.round((answerStats.totalAnswers || 0) / players.length * 100)
                   : 0}%
               </span>
-              <span className="metric-label">Participation</span>
+              <span className={`metric-label ${isDarkTheme ? 'dark-theme' : ''}`}>
+                Participation
+              </span>
             </div>
           </div>
         </div>
@@ -136,7 +157,7 @@ const QuestionDisplay = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.5 }}
-            className="host-thought-box"
+            className={`host-thought-box ${isDarkTheme ? 'dark-theme' : ''}`}
           >
             💡 <strong>Host Thought:</strong> {thought}
           </motion.div>

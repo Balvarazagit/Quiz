@@ -69,7 +69,7 @@ const PuzzleComponent = ({ options: initialOptions = [], correctAnswer = [], onA
       <div className="puzzle-container">
         <h2 className="puzzle-title">Arrange the Options</h2>
         
-        <div className="options-container">
+        <div className="options-container-puzzlecomponent">
           {options.length > 0 ? (
             options.map((option, index) => (
               <Option
