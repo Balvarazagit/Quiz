@@ -161,7 +161,7 @@ function Myquizzes() {
         <div className="empty-icon">📝</div>
         <h2>No quizzes created yet</h2>
         <p>Get started by creating your first quiz!</p>
-        <button onClick={() => navigate('/create-quiz')} className="create-quiz-btn pulse">
+        <button onClick={() => navigate('/create-quiz')} className="create-quiz-btn pulse-myquizzes">
           Create New Quiz
         </button>
       </div>
@@ -217,7 +217,7 @@ function Myquizzes() {
           <button onClick={() => navigate('/host')} className="host-quiz-btn">
             <span className="host-icon-quizzes">🎮</span> Host Quiz
           </button>
-          <button onClick={() => navigate('/create-quiz')} className="create-quiz-btn pulse">
+          <button onClick={() => navigate('/create-quiz')} className="create-quiz-btn pulse-myquizzes">
             <span className="plus-icon">+</span> New Quiz
           </button>
         </div>
