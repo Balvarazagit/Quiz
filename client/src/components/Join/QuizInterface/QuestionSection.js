@@ -1,6 +1,6 @@
 import './QuestionSection.css';
 
-const QuestionSection = ({ currentQuestion, questionIndex, totalQuestions, timeLeft }) => {
+const QuestionSection = ({ currentQuestion, questionIndex, totalQuestions, timeLeft, isDarkTheme }) => {
   const extractYouTubeId = (url) => {
     const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
     const match = url.match(regExp);
@@ -13,8 +13,8 @@ const QuestionSection = ({ currentQuestion, questionIndex, totalQuestions, timeL
         <span className="question-tag">Question {questionIndex} of {totalQuestions}</span>
         <div className="time-remaining">
           <svg className="timer-icon" viewBox="0 0 24 24">
-            <path fill="#4CAF50" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
-            <path fill="#4CAF50" d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+            <path fill={isDarkTheme ? "#81C784" : "#4CAF50"} d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+            <path fill={isDarkTheme ? "#81C784" : "#4CAF50"} d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
           </svg>
           <span>{timeLeft}s</span>
         </div>
@@ -48,7 +48,7 @@ const QuestionSection = ({ currentQuestion, questionIndex, totalQuestions, timeL
       
       <div className="progress-track">
         <div 
-          className="progress-bar" 
+          className="progress-bar-questionsection" 
           style={{ width: `${(timeLeft / 30) * 100}%` }}
         ></div>
       </div>

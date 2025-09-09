@@ -59,3 +59,19 @@
     font-size: 0.85rem;
   }
 }
+
+[data-theme="dark"] .dashboard-tabs {
+  border-bottom: 1px solid #4a5568;
+}
+
+[data-theme="dark"] .tab-btn {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .tab-btn:hover {
+  color: #68d391;
+}
+
+[data-theme="dark"] .tab-btn.active {
+  color: #68d391;
+}

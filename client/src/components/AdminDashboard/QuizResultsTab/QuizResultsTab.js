@@ -19,12 +19,13 @@ const QuizResultsTab = ({
   searchPIN, 
   setSearchPIN,
   filter,
-  setFilter 
+  setFilter,
+  isDarkTheme
 }) => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   return (
-    <div className="results-tab">
+    <div className="results-tab" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="results-header">
         <ResultsFilter
           searchPIN={searchPIN}
@@ -35,12 +36,13 @@ const QuizResultsTab = ({
           mobileFilterOpen={mobileFilterOpen}
           setMobileFilterOpen={setMobileFilterOpen}
           filterOptions={FILTER_OPTIONS}
+          isDarkTheme={isDarkTheme}
         />
-        <ResultsStats results={results} />
+        <ResultsStats results={results} isDarkTheme={isDarkTheme} />
       </div>
 
       {results.length === 0 ? (
-        <EmptyResults />
+        <EmptyResults isDarkTheme={isDarkTheme} />
       ) : (
         <div className="results-grid">
           {results.map((result) => (
@@ -48,6 +50,7 @@ const QuizResultsTab = ({
               key={result._id}
               result={result}
               onDelete={onDeleteResults}
+              isDarkTheme={isDarkTheme}
             />
           ))}
         </div>

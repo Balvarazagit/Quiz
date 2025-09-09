@@ -3,7 +3,7 @@ import { FaDownload, FaLink } from "react-icons/fa";
 import { QRCodeSVG } from "qrcode.react";
 import './QRCodeSection.css';
 
-const QRCodeSection = ({ joinUrl }) => {
+const QRCodeSection = ({ joinUrl, copyLink, isDarkTheme }) => {
   const qrRef = useRef();
 
   const handleDownload = () => {
@@ -40,18 +40,8 @@ const QRCodeSection = ({ joinUrl }) => {
     }
   };
 
-  const copyLink = () => {
-    navigator.clipboard.writeText(joinUrl)
-      .then(() => {
-        alert('Join link copied to clipboard!');
-      })
-      .catch(err => {
-        console.error('Failed to copy: ', err);
-      });
-  };
-
   return (
-    <div className="qr-section">
+    <div className={`qr-section ${isDarkTheme ? 'dark-theme' : ''}`}>
       <div className="qr-container" ref={qrRef}>
         <h3>Scan to Join</h3>
         <QRCodeSVG
@@ -60,6 +50,8 @@ const QRCodeSection = ({ joinUrl }) => {
           level="H"
           includeMargin={true}
           className="qr-code"
+          fgColor={isDarkTheme ? '#ffffff' : '#000000'}
+          bgColor={isDarkTheme ? 'transparent' : '#ffffff'}
         />
         <div className="qr-actions">
           <button

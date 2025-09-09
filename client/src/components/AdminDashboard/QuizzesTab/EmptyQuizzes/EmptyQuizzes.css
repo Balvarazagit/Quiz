@@ -71,3 +71,16 @@
 .neon-hover:hover {
   box-shadow: 0 0 10px rgba(72, 187, 120, 0.7);
 }
+
+[data-theme="dark"] .empty-state-emptyquizzes {
+  background: rgba(45, 55, 72, 0.7);
+  border: 1px solid rgba(74, 85, 104, 0.2);
+}
+
+[data-theme="dark"] .empty-state-emptyquizzes h3 {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .empty-state-emptyquizzes p {
+  color: #a0aec0;
+}

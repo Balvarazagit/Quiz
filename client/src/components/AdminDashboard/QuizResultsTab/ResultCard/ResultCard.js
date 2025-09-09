@@ -3,9 +3,9 @@ import { FiCalendar, FiAward, FiStar, FiChevronDown } from 'react-icons/fi';
 import DeleteButton from '../../common/DeleteButton/DeleteButton';
 import './ResultCard.css'
 
-const ResultCard = ({ result, onDelete }) => {
+const ResultCard = ({ result, onDelete, isDarkTheme }) => {
   return (
-    <div className="result-card">
+    <div className="result-card" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="card-header">
         <div className="quiz-meta">
           <span className="quiz-pin">
@@ -24,6 +24,7 @@ const ResultCard = ({ result, onDelete }) => {
           onDelete={() => onDelete(result._id)}
           confirmMessage="Delete this quiz result?"
           iconOnly={true}
+          isDarkTheme={isDarkTheme}
         />
       </div>
 

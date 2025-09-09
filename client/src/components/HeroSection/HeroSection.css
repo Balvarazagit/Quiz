@@ -220,7 +220,7 @@
   gap: 0.5rem;
 }
 
-.progress-bar {
+.progress-bar-herosection {
   height: 6px;
   background: var(--primary);
   border-radius: 3px;

@@ -3,6 +3,7 @@
   text-align: center;
   padding: 3rem 0;
   color: #718096;
+  transition: all 0.3s ease;
 }
 
 .empty-messages-illustration {
@@ -14,8 +15,23 @@
 .empty-messages h3 {
   color: #2d3748;
   margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
 .empty-messages p {
   margin-bottom: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .empty-messages {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .empty-messages h3 {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .empty-messages p {
+  color: #a0aec0;
 }

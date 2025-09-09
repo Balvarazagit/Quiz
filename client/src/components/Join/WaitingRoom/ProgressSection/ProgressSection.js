@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import './ProgressSection.css'
 
-const ProgressSection = () => {
+const ProgressSection = ({ isDarkTheme }) => {
   return (
-    <div className="progress-container">
+    <div className={`progress-container ${isDarkTheme ? 'dark-theme' : ''}`}>
       <div className="progress-bar">
         <motion.div 
           className="progress-fill"

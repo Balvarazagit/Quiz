@@ -20,6 +20,30 @@ function AdminDashboard() {
   const [searchPIN, setSearchPIN] = useState('');
   const [filter, setFilter] = useState('all');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    
+    if (newTheme) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  // Check for saved theme preference on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkTheme(true);
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,8 +98,6 @@ function AdminDashboard() {
   }, [loggedIn]);
 
   const handleDeleteResults = async (id) => {
-    // if (!window.confirm('Delete this quiz result?')) return;
-
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/results/${id}`, {
         method: 'DELETE',
@@ -90,9 +112,6 @@ function AdminDashboard() {
   };
 
   const handleDeleteQuiz = async (quizId) => {
-    // const confirm = window.confirm("Are you sure you want to delete this quiz?");
-    // if (!confirm) return;
-
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/quiz/${quizId}`, {
         method: 'DELETE',
@@ -107,9 +126,6 @@ function AdminDashboard() {
   };
 
   const handleDeleteUser = async (userId) => {
-    // const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-    // if (!confirmDelete) return;
-
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/users/${userId}`, {
         method: 'DELETE',
@@ -129,9 +145,6 @@ function AdminDashboard() {
   };
 
   const handleDeleteMessage = async (messageId) => {
-    // const confirmDelete = window.confirm("Are you sure you want to delete this message?");
-    // if (!confirmDelete) return;
-
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/messages/${messageId}`, {
         method: 'DELETE',
@@ -153,19 +166,20 @@ function AdminDashboard() {
     }
   };
 
-  if (!loggedIn) return <AdminLogin onLogin={() => setLoggedIn(true)} />;
+  if (!loggedIn) return <AdminLogin onLogin={() => setLoggedIn(true)} isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />;
 
   return (
     <div className="admin-dashboard">
       <div className="dashboard-glass">
-        <DashboardHeader />
-        <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+        <DashboardHeader isDarkTheme={isDarkTheme} toggleTheme={toggleTheme} />
+        <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} isDarkTheme={isDarkTheme} />
         
         {activeTab === 'Users' && (
           <UsersTab 
             users={users} 
             onDeleteUser={handleDeleteUser}
             isMobile={isMobile}
+            isDarkTheme={isDarkTheme}
           />
         )}
         
@@ -178,6 +192,7 @@ function AdminDashboard() {
             setSearchPIN={setSearchPIN}
             filter={filter}
             setFilter={setFilter}
+            isDarkTheme={isDarkTheme}
           />
         )}
         
@@ -186,6 +201,7 @@ function AdminDashboard() {
             quizzes={quizzes}
             onDeleteQuiz={handleDeleteQuiz}
             isMobile={isMobile}
+            isDarkTheme={isDarkTheme}
           />
         )}
         
@@ -193,6 +209,7 @@ function AdminDashboard() {
           <MessagesTab
             messages={messages}
             onDeleteMessage={handleDeleteMessage}
+            isDarkTheme={isDarkTheme}
           />
         )}
       </div>

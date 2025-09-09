@@ -18,7 +18,8 @@ const OptionsGrid = ({
   setPuzzleResult,
   questionStartTime,
   setMyScore,
-  setMyStreak
+  setMyStreak,
+  isDarkTheme
 }) => {
   return (
     <div className="options-grid-join">
@@ -32,9 +33,9 @@ const OptionsGrid = ({
           timeLeft={timeLeft}
           name={name}
           onAnswer={(isCorrect, arrangedOptions) => {
-            setPuzzleResult(isCorrect); // ← store result in state
+            setPuzzleResult(isCorrect);
             const now = Date.now();
-            const timeTaken = (now - questionStartTime) / 1000; // seconds
+            const timeTaken = (now - questionStartTime) / 1000;
             const maxTime = 30;
             const baseScore = 1000;
             const earned = isCorrect ? Math.max(0, Math.round(baseScore * ((maxTime - timeTaken) / maxTime))) : 0;
@@ -50,6 +51,7 @@ const OptionsGrid = ({
             setMyScore(prev => prev + earned);
             setMyStreak(prev => isCorrect ? prev + 1 : 0);
           }}
+          isDarkTheme={isDarkTheme}
         />
       ) : (
         currentQuestion.options.map((opt, idx) => (

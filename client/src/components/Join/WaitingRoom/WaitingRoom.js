@@ -8,7 +8,7 @@ import QRCodeSection from "../WaitingRoom/QRCodeSection/QRCodeSection";
 import ProgressSection from "../WaitingRoom/ProgressSection/ProgressSection";
 import ShareModal from "../WaitingRoom/ShareModal/ShareModal";
 
-const WaitingRoom = ({ pin, name, userId, players = 12 }) => {
+const WaitingRoom = ({ pin, name, userId, players = 12, isDarkTheme }) => {
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -65,28 +65,29 @@ const WaitingRoom = ({ pin, name, userId, players = 12 }) => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="waiting-room"
+      className={`waiting-room ${isDarkTheme ? 'dark-theme' : ''}`}
     >
       <div className="waiting-content">
-        <WaitingHeader players={players} />
+        <WaitingHeader players={players} isDarkTheme={isDarkTheme}/>
         
-        <WaitingAnimation />
+        <WaitingAnimation isDarkTheme={isDarkTheme} />
         
         <h3 className="waiting-title">Waiting for Host</h3>
         <p className="waiting-message">The quiz will begin shortly</p>
         
         <div className="session-info-container">
-          <SessionInfo pin={pin} name={name} userId={userId} />
+          <SessionInfo pin={pin} name={name} userId={userId} isDarkTheme={isDarkTheme} />
           
           <QRCodeSection 
             joinUrl={joinUrl} 
             copyLink={copyLink} 
             handleShare={handleShare} 
             copied={copied} 
+            isDarkTheme={isDarkTheme}
           />
         </div>
         
-        <ProgressSection />
+        <ProgressSection isDarkTheme={isDarkTheme} />
       </div>
 
       <ShareModal 
@@ -95,6 +96,7 @@ const WaitingRoom = ({ pin, name, userId, players = 12 }) => {
         copyLink={copyLink}
         shareOnSocialMedia={shareOnSocialMedia}
         copied={copied}
+        isDarkTheme={isDarkTheme}
       />
     </motion.div>
   );

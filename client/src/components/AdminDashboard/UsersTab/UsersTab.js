@@ -4,7 +4,7 @@ import UserSearch from './UserSearch/UserSearch';
 import EmptyState from '../common/EmptyState/EmptyState';
 import './UsersTab.css'
 
-const UsersTab = ({ users, onDeleteUser, isMobile }) => {
+const UsersTab = ({ users, onDeleteUser, isMobile, isDarkTheme }) => {
   console.log("usertab", users)
   const [userSearch, setUserSearch] = useState('');
 
@@ -19,14 +19,22 @@ const UsersTab = ({ users, onDeleteUser, isMobile }) => {
   const emptyUsersSvgDataUrl = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2QxZDVkYiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xNyAyMXYtMmE0IDQgMCAwIDAtNC00SDUuMDAyYTQgNCAwIDAgMC00IDR2MiI+PC9wYXRoPjxjaXJjbGUgY3g9IjkiIGN5PSI3IiByPSI0Ij48L2NpcmNsZT48cGF0aCBkPSJNMjMgMjF2LTJhNCA0IDAgMCAwLTMtMy44NyI+PC9wYXRoPjxwYXRoIGQ9Ik0xNiAzLjEzYTQgNCAwIDAgMSAwIDcuNzUiPjwvcGF0aD48L3N2Zz4=";
 
   return (
-    <div className="tab-content">
-      <UserSearch value={userSearch} onChange={setUserSearch} />
+    <div 
+      className="tab-content"
+      data-theme={isDarkTheme ? "dark" : "light"}
+    >
+      <UserSearch 
+        value={userSearch} 
+        onChange={setUserSearch}
+        isDarkTheme={isDarkTheme}
+      />
       
       {filteredUsers.length === 0 ? (
         <EmptyState 
           imageSrc={emptyUsersSvgDataUrl}
           title="No users found"
           description="Try adjusting your search query"
+          isDarkTheme={isDarkTheme}
         />
       ) : (
         <div className="user-cards">
@@ -36,6 +44,7 @@ const UsersTab = ({ users, onDeleteUser, isMobile }) => {
               user={user} 
               onDelete={onDeleteUser}
               isMobile={isMobile}
+              isDarkTheme={isDarkTheme}
             />
           ))}
         </div>

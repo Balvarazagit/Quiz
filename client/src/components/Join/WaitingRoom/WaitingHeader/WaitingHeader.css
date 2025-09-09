@@ -5,6 +5,7 @@
   margin-bottom: 30px;
   padding-bottom: 15px;
   border-bottom: 1px solid #e8f5e9;
+  transition: all 0.3s ease;
 }
 
 .waiting-header h2 {
@@ -12,6 +13,7 @@
   margin: 0;
   font-weight: 700;
   font-size: 24px;
+  transition: color 0.3s ease;
 }
 
 .player-count {
@@ -24,10 +26,25 @@
   color: #2E7D32;
   font-weight: 600;
   font-size: 14px;
+  transition: all 0.3s ease;
 }
 
 .count-icon {
   font-size: 16px;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .waiting-header {
+  border-bottom-color: #4a5568;
+}
+
+[data-theme="dark"] .waiting-header h2 {
+  color: #4CAF50;
+}
+
+[data-theme="dark"] .waiting-header .player-count {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
 }
 
 @media (max-width: 768px) {

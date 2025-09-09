@@ -3,9 +3,12 @@ import './TabNavigation.css'
 
 const TABS = ['Users', 'Quiz Results', 'Quizzes', 'Messages'];
 
-const TabNavigation = ({ activeTab, setActiveTab }) => {
+const TabNavigation = ({ activeTab, setActiveTab, isDarkTheme }) => {
   return (
-    <div className="dashboard-tabs">
+    <div 
+      className="dashboard-tabs"
+      data-theme={isDarkTheme ? "dark" : "light"}
+    >
       {TABS.map((tab) => (
         <button
           key={tab}

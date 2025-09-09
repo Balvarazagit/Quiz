@@ -10,10 +10,11 @@ const ResultsFilter = ({
   isMobile,
   mobileFilterOpen,
   setMobileFilterOpen,
-  filterOptions
+  filterOptions,
+  isDarkTheme
 }) => {
   return (
-    <div className="search-filter">
+    <div className="search-filter" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="search-bar">
         <FiSearch className="search-icon" />
         <input

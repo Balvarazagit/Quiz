@@ -5,6 +5,7 @@
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   border-left: 4px solid #4CAF50;
+  transition: all 0.3s ease;
 }
 
 .message-header {
@@ -24,11 +25,13 @@
   font-weight: 600;
   color: #2E7D32;
   font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .sender-email {
   color: #81C784;
   font-size: 0.9rem;
+  transition: color 0.3s ease;
 }
 
 .message-actions {
@@ -40,11 +43,13 @@
 .message-date {
   color: #9E9E9E;
   font-size: 0.85rem;
+  transition: color 0.3s ease;
 }
 
 .message-content {
   color: #424242;
   line-height: 1.6;
+  transition: color 0.3s ease;
 }
 
 /* Message Card Delete Button */
@@ -65,6 +70,36 @@
 
 .message-card .delete-btn:active {
   transform: scale(0.95);
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .message-card {
+  background: #4a5568;
+  border-left-color: #81C784;
+}
+
+[data-theme="dark"] .sender-name {
+  color: #81C784;
+}
+
+[data-theme="dark"] .sender-email {
+  color: #A5D6A7;
+}
+
+[data-theme="dark"] .message-date {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .message-content {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .message-card .delete-btn {
+  color: #FC8181;
+}
+
+[data-theme="dark"] .message-card .delete-btn:hover {
+  background: rgba(252, 129, 129, 0.2);
 }
 
 /* Responsive adjustments for message cards */

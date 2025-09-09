@@ -6,10 +6,11 @@ const QuizSearchSort = ({
   setQuizSearch,
   quizSortBy,
   setQuizSortBy,
-  isMobile
+  isMobile,
+  isDarkTheme
 }) => {
   return (
-    <div className="controls">
+    <div className="controls" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="search-container glassmorphism">
         <div className="search-icon">🔍</div>
         <input

@@ -3,6 +3,7 @@
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 20px;
+  transition: all 0.3s ease;
 }
 
 .feedback-panel.positive {
@@ -33,6 +34,7 @@
 .feedback-details h4 {
   margin: 0 0 8px 0;
   font-size: 18px;
+  transition: color 0.3s ease;
 }
 
 .positive .feedback-details h4 {
@@ -47,4 +49,28 @@
   font-weight: 700;
   color: #4CAF50;
   margin-bottom: 8px;
+  transition: color 0.3s ease;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .feedback-panel.positive {
+  background: rgba(76, 175, 80, 0.2);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+[data-theme="dark"] .feedback-panel.negative {
+  background: rgba(244, 67, 54, 0.2);
+  border-color: rgba(244, 67, 54, 0.3);
+}
+
+[data-theme="dark"] .positive .feedback-details h4 {
+  color: #81C784;
+}
+
+[data-theme="dark"] .negative .feedback-details h4 {
+  color: #EF5350;
+}
+
+[data-theme="dark"] .points-earned {
+  color: #81C784;
 }

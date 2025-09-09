@@ -268,7 +268,7 @@ function JoinPage() {
             )}
             
             <button 
-              className="theme-toggle"
+              className="theme-toggle-joinpage"
               onClick={toggleTheme}
               aria-label="Toggle theme"
             >
@@ -295,6 +295,7 @@ function JoinPage() {
               name={name}
               userId={userId}
               players={playersList.length}
+              isDarkTheme={isDarkTheme}
             />
           )}
 
@@ -321,6 +322,7 @@ function JoinPage() {
               socket={socket}
               setMyStreak={setMyStreak}
               setMyScore={setMyScore}
+              isDarkTheme={isDarkTheme}
             />
           )}
 
@@ -331,6 +333,7 @@ function JoinPage() {
               name={name}
               userId={userId}
               navigate={navigate}
+              isDarkTheme={isDarkTheme}
             />
           )}
         </main>

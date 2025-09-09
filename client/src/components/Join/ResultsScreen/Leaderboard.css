@@ -4,6 +4,7 @@
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 30px;
+  transition: all 0.3s ease;
 }
 
 .leaderboard-header {
@@ -17,6 +18,7 @@
 .leaderboard-icon {
   width: 24px;
   height: 24px;
+  transition: fill 0.3s ease;
 }
 
 .leaderboard-title {
@@ -24,6 +26,7 @@
   font-weight: 700;
   color: #2E7D32;
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .leaderboard-list {
@@ -39,6 +42,7 @@
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
 }
 
 .leaderboard-item-join.current-player {
@@ -62,6 +66,7 @@
   font-weight: 700;
   margin-right: 15px;
   flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
 .podium .player-rank {
@@ -82,6 +87,7 @@
   font-weight: 600;
   color: #424242;
   margin-bottom: 4px;
+  transition: color 0.3s ease;
 }
 
 .player-score-leaderboard-container {
@@ -94,9 +100,49 @@
   font-size: 18px;
   font-weight: 700;
   color: #4CAF50;
+  transition: color 0.3s ease;
 }
 
 .score-label {
   font-size: 12px;
   color: #757575;
+  transition: color 0.3s ease;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .leaderboard-container {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+[data-theme="dark"] .leaderboard-title {
+  color: #81C784;
+}
+
+[data-theme="dark"] .leaderboard-icon path {
+  fill: #81C784;
+}
+
+[data-theme="dark"] .leaderboard-item-join {
+  background: #4a5568;
+}
+
+[data-theme="dark"] .leaderboard-item-join.current-player {
+  border-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.2);
+}
+
+[data-theme="dark"] .leaderboard-item-join.podium {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 236, 179, 0.2) 100%);
+}
+
+[data-theme="dark"] .player-name {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .player-score-leaderboard {
+  color: #81C784;
+}
+
+[data-theme="dark"] .score-label {
+  color: #a0aec0;
 }

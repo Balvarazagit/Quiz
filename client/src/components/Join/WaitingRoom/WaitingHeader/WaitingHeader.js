@@ -1,9 +1,9 @@
 import { FaUsers } from "react-icons/fa";
 import './WaitingHeader.css'
 
-const WaitingHeader = ({ players }) => {
+const WaitingHeader = ({ players, isDarkTheme }) => {
   return (
-    <div className="waiting-header">
+    <div className={`waiting-header ${isDarkTheme ? 'dark-theme' : ''}`}>
       <h2>Quiz Session</h2>
       <div className="player-count">
         <FaUsers className="count-icon" />

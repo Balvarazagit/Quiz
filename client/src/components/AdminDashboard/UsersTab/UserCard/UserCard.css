@@ -68,3 +68,20 @@
     margin-top: 0.5rem;
   }
 }
+
+[data-theme="dark"] .user-card {
+  background: #2d3748;
+  border: 1px solid #4a5568;
+}
+
+[data-theme="dark"] .user-details h3 {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .user-details p {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .user-id {
+  color: #718096;
+}

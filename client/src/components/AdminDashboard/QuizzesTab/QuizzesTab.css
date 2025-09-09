@@ -1,6 +1,11 @@
 /* Quizzes Tab Container */
 .quizzes-tab {
   padding: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+[data-theme="dark"] .quizzes-tab {
+  background: #2d3748;
 }
 
 /* Header Section */
@@ -10,6 +15,12 @@
   border-radius: 16px;
   background: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .quizzes-header {
+  background: #2d3748;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .header-content {
@@ -25,11 +36,15 @@
   margin-bottom: 0.75rem;
   font-weight: 700;
   letter-spacing: -0.5px;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .section-title {
+  color: #9ae6b4;
 }
 
 .title-icon {
   font-size: 1.8rem;
-  background: linear-gradient(135deg, #48bb78, #9ae6b4);
 }
 
 .section-subtitle {
@@ -37,6 +52,11 @@
   font-size: 1rem;
   max-width: 600px;
   line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .section-subtitle {
+  color: #a0aec0;
 }
 
 .quiz-cards-container {

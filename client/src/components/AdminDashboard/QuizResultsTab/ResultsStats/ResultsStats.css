@@ -6,6 +6,12 @@
   padding: 1rem 1.5rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] .stats-card {
+  background: #2d3748;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .stat-item {
@@ -18,11 +24,21 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #2f855a;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .stat-value {
+  color: #68d391;
 }
 
 .stat-label {
   font-size: 0.8rem;
   color: #718096;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .stat-label {
+  color: #a0aec0;
 }
 
 /* Responsive */

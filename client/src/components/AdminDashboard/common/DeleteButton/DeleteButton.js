@@ -8,7 +8,8 @@ const DeleteButton = ({
   isMobile = false,
   label = "Delete",
   iconOnly = false,
-  icon = <FiTrash2 />
+  icon = <FiTrash2 />,
+  isDarkTheme = false
 }) => {
   const handleClick = () => {
     if (window.confirm(confirmMessage)) {
@@ -21,7 +22,7 @@ const DeleteButton = ({
     return (
       <button 
         onClick={handleClick}
-        className={`delete-btn ${isMobile ? "delete-btn-mobile" : ""}`}
+        className={`delete-btn ${isMobile ? "delete-btn-mobile" : ""} ${isDarkTheme ? "dark-theme" : ""}`}
         title={label}
       >
         {icon}
@@ -33,7 +34,7 @@ const DeleteButton = ({
   return (
     <button 
       onClick={handleClick}
-      className={`delete-btn ${isMobile ? "delete-btn-mobile" : ""}`}
+      className={`delete-btn ${isMobile ? "delete-btn-mobile" : ""} ${isDarkTheme ? "dark-theme" : ""}`}
     >
       {icon}
       {!isMobile && <span className="delete-label">{label}</span>}

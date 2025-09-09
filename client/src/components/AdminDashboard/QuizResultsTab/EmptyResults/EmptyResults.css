@@ -2,6 +2,11 @@
   text-align: center;
   padding: 3rem 1rem;
   color: #64748b;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .empty-results {
+  color: #a0aec0;
 }
 
 .empty-state-emptyresults {
@@ -13,6 +18,11 @@
   margin: 0;
   font-size: 1.1rem;
   color: #94a3b8;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .empty-results p {
+  color: #718096;
 }
 
 @media (max-width: 768px) {

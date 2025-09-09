@@ -1,6 +1,7 @@
 /* Messages Tab Styles */
 .messages-tab {
   padding: 20px;
+  transition: all 0.3s ease;
 }
 
 .messages-header {
@@ -12,11 +13,13 @@
   font-size: 2rem;
   color: #2E7D32;
   margin-bottom: 10px;
+  transition: color 0.3s ease;
 }
 
 .messages-header p {
   color: #4CAF50;
   font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
 .header-icon {
@@ -26,6 +29,19 @@
 .messages-list {
   display: grid;
   gap: 20px;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .messages-tab {
+  background: #2d3748;
+}
+
+[data-theme="dark"] .messages-header h2 {
+  color: #81C784;
+}
+
+[data-theme="dark"] .messages-header p {
+  color: #A5D6A7;
 }
 
 /* Responsive adjustments */

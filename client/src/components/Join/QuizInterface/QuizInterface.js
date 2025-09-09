@@ -25,7 +25,8 @@ const QuizInterface = ({
   name,
   socket,
   setMyStreak,
-  setMyScore
+  setMyScore,
+  isDarkTheme
 }) => {
   return (
     <AnimatePresence mode="wait">
@@ -43,26 +44,28 @@ const QuizInterface = ({
             questionIndex={questionIndex}
             totalQuestions={totalQuestions}
             timeLeft={timeLeft}
+            isDarkTheme={isDarkTheme}
           />
           
-                  <OptionsGrid
-                      currentQuestion={currentQuestion}
-                      selectedAnswer={selectedAnswer}
-                      showAnswer={showAnswer}
-                      correctAnswer={correctAnswer}
-                      pollAnswer={pollAnswer}
-                      answerQuestion={answerQuestion}
-                      timeLeft={timeLeft}
-                      pin={pin}
-                      userId={userId}
-                      name={name}
-                      socket={socket}
-                      puzzleResult={puzzleResult}
-                      setPuzzleResult={setPuzzleResult}
-                      questionStartTime={questionStartTime}
-                      setMyScore={setMyScore}
-                      setMyStreak={setMyStreak}
-                  />
+          <OptionsGrid
+            currentQuestion={currentQuestion}
+            selectedAnswer={selectedAnswer}
+            showAnswer={showAnswer}
+            correctAnswer={correctAnswer}
+            pollAnswer={pollAnswer}
+            answerQuestion={answerQuestion}
+            timeLeft={timeLeft}
+            pin={pin}
+            userId={userId}
+            name={name}
+            socket={socket}
+            puzzleResult={puzzleResult}
+            setPuzzleResult={setPuzzleResult}
+            questionStartTime={questionStartTime}
+            setMyScore={setMyScore}
+            setMyStreak={setMyStreak}
+            isDarkTheme={isDarkTheme}
+          />
           
           {showAnswer && (
             <FeedbackPanel
@@ -72,6 +75,7 @@ const QuizInterface = ({
               questionStartTime={questionStartTime}
               answerTime={answerTime}
               puzzleResult={puzzleResult}
+              isDarkTheme={isDarkTheme}
             />
           )}
           

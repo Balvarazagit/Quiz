@@ -1,5 +1,10 @@
 .results-tab {
   padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .results-tab {
+  background: #2d3748;
 }
 
 .results-header {
@@ -16,6 +21,7 @@
   gap: 1.5rem;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .results-tab {
     padding: 1rem;

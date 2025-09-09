@@ -6,6 +6,7 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
   flex: 1;
   min-width: 300px;
+  transition: all 0.3s ease;
 }
 
 .info-list {
@@ -42,6 +43,7 @@
   color: #2E7D32;
   flex-shrink: 0;
   box-shadow: 0 4px 8px rgba(76, 175, 80, 0.15);
+  transition: all 0.3s ease;
 }
 
 .info-content {
@@ -57,12 +59,37 @@
   color: #689F38;
   font-weight: 500;
   margin-bottom: 4px;
+  transition: color 0.3s ease;
 }
 
 .info-value {
   font-size: 18px;
   font-weight: 700;
   color: #33691E;
+  transition: color 0.3s ease;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .session-info-card {
+  background: rgba(76, 175, 80, 0.1);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+[data-theme="dark"] .session-info-card .info-item {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .session-info-card .info-icon {
+  background: rgba(76, 175, 80, 0.2);
+  color: #81C784;
+}
+
+[data-theme="dark"] .session-info-card .info-label {
+  color: #A5D6A7;
+}
+
+[data-theme="dark"] .session-info-card .info-value {
+  color: #E8F5E9;
 }
 
 @media (max-width: 768px) {

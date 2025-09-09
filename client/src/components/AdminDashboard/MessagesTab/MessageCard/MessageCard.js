@@ -3,7 +3,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import DeleteButton from '../../common/DeleteButton/DeleteButton';
 import './MessageCard.css'
 
-const MessageCard = ({ message, onDelete }) => {
+const MessageCard = ({ message, onDelete, isDarkTheme }) => {
   return (
     <div key={message._id} className="message-card">
       <div className="message-header">
@@ -20,6 +20,7 @@ const MessageCard = ({ message, onDelete }) => {
             confirmMessage="Are you sure you want to delete this message?"
             iconOnly={true}
             icon={<FiTrash2 />}
+            isDarkTheme={isDarkTheme}
           />
         </div>
       </div>

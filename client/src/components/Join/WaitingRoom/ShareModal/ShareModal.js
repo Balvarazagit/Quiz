@@ -7,7 +7,8 @@ const ShareModal = ({
   setShowShareOptions, 
   copyLink, 
   shareOnSocialMedia, 
-  copied 
+  copied,
+  isDarkTheme 
 }) => {
   if (!showShareOptions) return null;
 
@@ -19,7 +20,7 @@ const ShareModal = ({
       onClick={() => setShowShareOptions(false)}
     >
       <motion.div 
-        className="share-modal"
+        className={`share-modal ${isDarkTheme ? 'dark-theme' : ''}`}
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         onClick={(e) => e.stopPropagation()}

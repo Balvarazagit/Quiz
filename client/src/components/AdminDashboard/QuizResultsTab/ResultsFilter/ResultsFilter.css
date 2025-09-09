@@ -18,6 +18,11 @@
   top: 50%;
   transform: translateY(-50%);
   color: #64748b;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .search-icon {
+  color: #a0aec0;
 }
 
 .search-bar input {
@@ -30,10 +35,21 @@
   transition: all 0.2s ease;
 }
 
+[data-theme="dark"] .search-bar input {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
 .search-bar input:focus {
   outline: none;
   border-color: #10b981;
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+[data-theme="dark"] .search-bar input:focus {
+  border-color: #68d391;
+  box-shadow: 0 0 0 3px rgba(104, 211, 145, 0.2);
 }
 
 .time-filter {
@@ -46,9 +62,19 @@
   transition: all 0.2s ease;
 }
 
+[data-theme="dark"] .time-filter {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
 .time-filter:focus {
   outline: none;
   border-color: #10b981;
+}
+
+[data-theme="dark"] .time-filter:focus {
+  border-color: #68d391;
 }
 
 .mobile-filter-btn {
@@ -64,9 +90,20 @@
   transition: all 0.2s ease;
 }
 
+[data-theme="dark"] .mobile-filter-btn {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #a0aec0;
+}
+
 .mobile-filter-btn:hover {
   border-color: #10b981;
   color: #10b981;
+}
+
+[data-theme="dark"] .mobile-filter-btn:hover {
+  border-color: #68d391;
+  color: #68d391;
 }
 
 .mobile-filter-dropdown {
@@ -82,6 +119,11 @@
   margin-top: 0.5rem;
 }
 
+[data-theme="dark"] .mobile-filter-dropdown {
+  background: #2d3748;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
 .filter-header {
   display: flex;
   justify-content: space-between;
@@ -91,10 +133,18 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
+[data-theme="dark"] .filter-header {
+  border-bottom-color: #4a5568;
+}
+
 .filter-header h4 {
   margin: 0;
   color: #1e293b;
   font-size: 0.9rem;
+}
+
+[data-theme="dark"] .filter-header h4 {
+  color: #e2e8f0;
 }
 
 .filter-header button {
@@ -103,6 +153,11 @@
   cursor: pointer;
   color: #64748b;
   font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .filter-header button {
+  color: #a0aec0;
 }
 
 .filter-option {
@@ -119,10 +174,20 @@
   transition: all 0.2s ease;
 }
 
+[data-theme="dark"] .filter-option {
+  color: #a0aec0;
+}
+
 .filter-option:hover,
 .filter-option.active {
   background: #f1f5f9;
   color: #10b981;
+}
+
+[data-theme="dark"] .filter-option:hover,
+[data-theme="dark"] .filter-option.active {
+  background: #4a5568;
+  color: #68d391;
 }
 
 @media (max-width: 768px) {

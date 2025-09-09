@@ -1,9 +1,9 @@
 import React from 'react';
 import './SearchBox.css'
 
-const SearchBox = ({ placeholder, value, onChange, icon = "🔍" }) => {
+const SearchBox = ({ placeholder, value, onChange, icon = "🔍", isDarkTheme }) => {
   return (
-    <div className="search-box">
+    <div className={`search-box ${isDarkTheme ? 'dark-theme' : ''}`}>
       <input
         type="text"
         placeholder={placeholder}

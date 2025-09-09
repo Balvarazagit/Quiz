@@ -46,6 +46,24 @@
   background-position: right center;
 }
 
+/* Dark theme styles */
+[data-theme="dark"] .delete-btn{
+  background: rgba(245, 101, 101, 0.2);
+  color: #FC8181;
+}
+
+[data-theme="dark"] .delete-btn:hover {
+  background: rgba(245, 101, 101, 0.3);
+}
+
+[data-theme="dark"] .delete-btn.icon-only {
+  background: transparent;
+}
+
+[data-theme="dark"] .delete-btn.icon-only:hover {
+  background: rgba(245, 101, 101, 0.2);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .delete-btn {

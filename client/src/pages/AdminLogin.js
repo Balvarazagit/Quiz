@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../pages/styles/AdminLogin.css'
+import { FiSun, FiMoon } from 'react-icons/fi';
 
-function AdminLogin({ onLogin }) {
+function AdminLogin({ onLogin, isDarkTheme, toggleTheme }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,19 @@ function AdminLogin({ onLogin }) {
   };
 
   return (
-    <div className="admin-login-container">
+    <div 
+      className="admin-login-container"
+      data-theme={isDarkTheme ? "dark" : "light"}
+    >
+      {/* Theme Toggle Button */}
+      <button 
+        className="theme-toggle-btn"
+        onClick={toggleTheme}
+        aria-label="Toggle theme"
+      >
+        {isDarkTheme ? <FiSun /> : <FiMoon />}
+      </button>
+      
       <div className="admin-login-card">
         <div className="login-header">
           <div className="login-icon">

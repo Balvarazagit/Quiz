@@ -14,6 +14,7 @@
   border-radius: 50%;
   background: rgba(232, 245, 233, 0.6);
   animation: pulse 2s infinite;
+  transition: all 0.3s ease;
 }
 
 @keyframes pulse {
@@ -44,6 +45,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: color 0.3s ease;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .waiting-animation .pulse-circle {
+  background: rgba(76, 175, 80, 0.3);
+  animation: pulseDark 2s infinite;
+}
+
+@keyframes pulseDark {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+    box-shadow: 0 0 0 0 rgba(129, 199, 132, 0.4);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+    box-shadow: 0 0 0 20px rgba(129, 199, 132, 0);
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+    box-shadow: 0 0 0 0 rgba(129, 199, 132, 0);
+  }
+}
+
+[data-theme="dark"] .waiting-animation .clock-icon {
+  color: #81C784;
 }
 
 @media (max-width: 576px) {

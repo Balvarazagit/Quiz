@@ -151,3 +151,32 @@
     font-size: 0.8rem;
   }
 }
+
+[data-theme="dark"] .quiz-card {
+  background: rgba(45, 55, 72, 0.7);
+  border: 1px solid rgba(74, 85, 104, 0.2);
+}
+
+[data-theme="dark"] .quiz-title {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .id-label,
+[data-theme="dark"] .quiz-id {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .card-header {
+  border-bottom: 1px dashed #4a5568;
+}
+
+[data-theme="dark"] .info-label,
+[data-theme="dark"] .host-email,
+[data-theme="dark"] .create-time {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .host-name,
+[data-theme="dark"] .create-date {
+  color: #e2e8f0;
+}

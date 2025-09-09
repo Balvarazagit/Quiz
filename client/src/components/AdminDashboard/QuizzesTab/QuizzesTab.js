@@ -4,7 +4,7 @@ import QuizCard from './QuizCard/QuizCard';
 import EmptyQuizzes from './EmptyQuizzes/EmptyQuizzes';
 import './QuizzesTab.css'
 
-const QuizzesTab = ({ quizzes, onDeleteQuiz, isMobile }) => {
+const QuizzesTab = ({ quizzes, onDeleteQuiz, isMobile, isDarkTheme }) => {
   const [quizSearch, setQuizSearch] = useState('');
   const [quizSortBy, setQuizSortBy] = useState('date');
 
@@ -28,7 +28,7 @@ const QuizzesTab = ({ quizzes, onDeleteQuiz, isMobile }) => {
     });
 
   return (
-    <div className="quizzes-tab">
+    <div className="quizzes-tab" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="quizzes-header">
         <div className="header-content">
           <h2 className="section-title">
@@ -44,12 +44,14 @@ const QuizzesTab = ({ quizzes, onDeleteQuiz, isMobile }) => {
           quizSortBy={quizSortBy}
           setQuizSortBy={setQuizSortBy}
           isMobile={isMobile}
+          isDarkTheme={isDarkTheme}
         />
       </div>
 
       {filteredQuizzes.length === 0 ? (
         <EmptyQuizzes 
           onReset={() => { setQuizSearch(''); setQuizSortBy('date'); }}
+          isDarkTheme={isDarkTheme}
         />
       ) : (
         <div className="quiz-cards-container">
@@ -59,6 +61,7 @@ const QuizzesTab = ({ quizzes, onDeleteQuiz, isMobile }) => {
               quiz={quiz}
               onDelete={onDeleteQuiz}
               isMobile={isMobile}
+              isDarkTheme={isDarkTheme}
             />
           ))}
         </div>

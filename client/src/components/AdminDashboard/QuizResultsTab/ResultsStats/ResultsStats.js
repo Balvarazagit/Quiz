@@ -1,9 +1,9 @@
 import React from 'react';
 import './ResultsStats.css'
 
-const ResultsStats = ({ results }) => {
+const ResultsStats = ({ results, isDarkTheme }) => {
   return (
-    <div className="stats-card">
+    <div className="stats-card" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="stat-item">
         <span className="stat-value">{results.length}</span>
         <span className="stat-label">Results</span>

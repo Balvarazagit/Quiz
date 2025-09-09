@@ -2,9 +2,9 @@ import React from 'react';
 import DeleteButton from '../../common/DeleteButton/DeleteButton';
 import './QuizCard.css'
 
-const QuizCard = ({ quiz, onDelete, isMobile }) => {
+const QuizCard = ({ quiz, onDelete, isMobile,isDarkTheme  }) => {
   return (
-    <div key={quiz._id} className="quiz-card glassmorphism">
+    <div key={quiz._id} className="quiz-card glassmorphism" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="card-header">
         <div className="quiz-title-wrapper">
           <h3 className="quiz-title">{quiz.title}</h3>

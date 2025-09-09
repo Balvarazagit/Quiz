@@ -1,9 +1,9 @@
 import { FaHashtag, FaUser, FaIdCard } from "react-icons/fa";
 import './SessionInfo.css'
 
-const SessionInfo = ({ pin, name, userId }) => {
+const SessionInfo = ({ pin, name, userId, isDarkTheme }) => {
   return (
-    <div className="session-info-card">
+    <div className={`session-info-card ${isDarkTheme ? 'dark-theme' : ''}`}>
       <div className="info-list">
         <div className="info-item">
           <div className="info-icon">

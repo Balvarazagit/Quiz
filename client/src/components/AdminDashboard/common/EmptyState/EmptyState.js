@@ -6,10 +6,11 @@ const EmptyState = ({
   title, 
   description, 
   illustration,
-  action 
+  action,
+  isDarkTheme
 }) => {
   return (
-    <div className="empty-state">
+    <div className={`empty-state ${isDarkTheme ? 'dark-theme' : ''}`}>
       {imageSrc && <img src={imageSrc} alt={title} />}
       {illustration && <div className="empty-illustration">{illustration}</div>}
       <h3>{title}</h3>

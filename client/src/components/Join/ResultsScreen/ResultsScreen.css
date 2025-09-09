@@ -14,6 +14,7 @@
 .results-icon {
   width: 60px;
   height: 60px;
+  transition: fill 0.3s ease;
 }
 
 .results-title {
@@ -21,6 +22,7 @@
   font-weight: 700;
   color: #2E7D32;
   margin: 0 0 20px 0;
+  transition: color 0.3s ease;
 }
 
 .final-score-container {
@@ -28,12 +30,14 @@
   border-radius: 12px;
   padding: 20px;
   display: inline-block;
+  transition: all 0.3s ease;
 }
 
 .final-score-label {
   font-size: 14px;
   color: #757575;
   margin: 0 0 8px 0;
+  transition: color 0.3s ease;
 }
 
 .final-score {
@@ -41,6 +45,7 @@
   font-weight: 800;
   color: #4CAF50;
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .results-actions {
@@ -78,4 +83,25 @@
 
 .new-session:hover {
   background: #388E3C;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .results-title {
+  color: #81C784;
+}
+
+[data-theme="dark"] .results-icon path {
+  fill: #FFC107;
+}
+
+[data-theme="dark"] .final-score-container {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+[data-theme="dark"] .final-score-label {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .final-score {
+  color: #81C784;
 }

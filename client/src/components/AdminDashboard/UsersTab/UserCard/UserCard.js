@@ -2,9 +2,12 @@ import React from 'react';
 import DeleteButton from '../../common/DeleteButton/DeleteButton';
 import './UserCard.css'
 
-const UserCard = ({ user, onDelete, isMobile }) => {
+const UserCard = ({ user, onDelete, isMobile, isDarkTheme }) => {
   return (
-    <div className="user-card">
+    <div 
+      className="user-card"
+      data-theme={isDarkTheme ? "dark" : "light"}
+    >
       <div className="user-avatar">
         {user.name.charAt(0).toUpperCase()}
       </div>
@@ -18,6 +21,7 @@ const UserCard = ({ user, onDelete, isMobile }) => {
         confirmMessage="Are you sure you want to delete this user?"
         isMobile={isMobile}
         label="Delete"
+        isDarkTheme={isDarkTheme}
       />
     </div>
   );

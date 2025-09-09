@@ -1,9 +1,9 @@
 import React from 'react';
 import './EmptyQuizzes.css'
 
-const EmptyQuizzes = ({ onReset }) => {
+const EmptyQuizzes = ({ onReset,isDarkTheme  }) => {
   return (
-    <div className="empty-state-emptyquizzes glassmorphism">
+    <div className="empty-state-emptyquizzes glassmorphism" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="empty-illustration">
         <div className="puzzle-piece">🧩</div>
         <div className="magnifying-glass">🔍</div>

@@ -326,6 +326,7 @@ function HostPage() {
                       isQuizOver={isQuizOver}
                       isMobile={isMobile}
                       showCorrectAnswer={showCorrectAnswer}
+                      isDarkTheme={isDarkTheme}
                     />
                   </>
                 )}

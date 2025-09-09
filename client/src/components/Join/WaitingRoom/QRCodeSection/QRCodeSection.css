@@ -9,6 +9,7 @@
   align-items: center;
   flex: 1;
   min-width: 300px;
+  transition: all 0.3s ease;
 }
 
 .qr-container {
@@ -24,6 +25,7 @@
   margin: 0;
   font-weight: 600;
   font-size: 18px;
+  transition: color 0.3s ease;
 }
 
 .qr-code {
@@ -72,6 +74,16 @@
 
 .share-link-only:hover {
   background: #388E3C;
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .qr-section {
+  background: rgba(76, 175, 80, 0.1);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+[data-theme="dark"] .qr-section .qr-container h3 {
+  color: #81C784;
 }
 
 @media (max-width: 768px) {

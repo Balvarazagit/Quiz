@@ -77,7 +77,7 @@ const HeroSection = () => {
                 <div className="option">Madrid</div>
               </div>
               <div className="quiz-progress">
-                <div className="progress-bar" style={{ width: '65%' }}></div>
+                <div className="progress-bar-herosection" style={{ width: '65%' }}></div>
                 <span>Question 5/8</span>
               </div>
             </div>

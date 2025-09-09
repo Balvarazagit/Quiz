@@ -1,9 +1,9 @@
 import React from 'react';
 import './EmptyResults.css'
 
-const EmptyResults = () => {
+const EmptyResults = ({ isDarkTheme }) => {
   return (
-    <div className="empty-results">
+    <div className="empty-results" data-theme={isDarkTheme ? "dark" : "light"}>
       <div className="empty-state-emptyresults">
         <svg
           viewBox="0 0 400 300"
@@ -55,14 +55,14 @@ const EmptyResults = () => {
           </style>
 
           {/* Background */}
-          <rect width="400" height="300" fill="#f8f9fa" rx="10" />
+          <rect width="400" height="300" fill={isDarkTheme ? "#2d3748" : "#f8f9fa"} rx="10" />
 
           {/* Magnifier with animation */}
           <g className="magnifier" transform="translate(150, 80)">
-            <circle className="glass" cx="50" cy="50" r="40" fill="none" stroke="#6c757d" strokeWidth="4" strokeDasharray="5,5" />
-            <path d="M90 90 L120 120" stroke="#6c757d" strokeWidth="4" strokeLinecap="round" className="search-line" />
-            <circle cx="50" cy="50" r="30" fill="none" stroke="#6c757d" strokeWidth="2" />
-            <path d="M50 30 A20 20 0 0 1 50 70 A20 20 0 0 1 50 30 Z" fill="#e9ecef" />
+            <circle className="glass" cx="50" cy="50" r="40" fill="none" stroke={isDarkTheme ? "#a0aec0" : "#6c757d"} strokeWidth="4" strokeDasharray="5,5" />
+            <path d="M90 90 L120 120" stroke={isDarkTheme ? "#a0aec0" : "#6c757d"} strokeWidth="4" strokeLinecap="round" className="search-line" />
+            <circle cx="50" cy="50" r="30" fill="none" stroke={isDarkTheme ? "#a0aec0" : "#6c757d"} strokeWidth="2" />
+            <path d="M50 30 A20 20 0 0 1 50 70 A20 20 0 0 1 50 30 Z" fill={isDarkTheme ? "#4a5568" : "#e9ecef"} />
           </g>
 
           {/* Confetti animation */}
@@ -73,7 +73,7 @@ const EmptyResults = () => {
           <rect className="confetti" x="300" y="-20" width="15" height="15" fill="#b2f2bb" rx="3" transform="rotate(60)" />
 
           {/* Text */}
-          <text x="200" y="180" fontFamily="Arial, sans-serif" fontSize="24" fontWeight="bold" textAnchor="middle" fill="#495057">
+          <text x="200" y="180" fontFamily="Arial, sans-serif" fontSize="24" fontWeight="bold" textAnchor="middle" fill={isDarkTheme ? "#e2e8f0" : "#495057"}>
             No Results Found
           </text>
 
